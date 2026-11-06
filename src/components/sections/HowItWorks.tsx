@@ -20,29 +20,34 @@ export function HowItWorks() {
       aria-labelledby="how-title"
       className="border-y-2 border-border bg-surface"
     >
-      <div className="mx-auto max-w-[1120px] px-6 py-[72px]">
+      <div className="mx-auto max-w-[1120px] px-4 py-14 sm:px-6 md:py-[72px]">
         <h2
           id="how-title"
-          className="mb-2 text-center font-heading text-4xl font-medium leading-tight"
+          className="mb-2 text-center font-heading text-3xl font-medium leading-tight md:text-4xl"
         >
           How it works
         </h2>
-        <p className="mx-auto mb-10 max-w-[520px] text-center text-text-muted">
+        <p className="mx-auto mb-8 max-w-[520px] text-center text-text-muted md:mb-10">
           Three small steps. No account, no setup.
         </p>
-        <ol className="grid list-none grid-cols-[repeat(auto-fit,minmax(260px,1fr))] gap-5 p-0">
+        <ol className="grid list-none grid-cols-1 gap-3 p-0 md:grid-cols-3 md:gap-5">
           {STEPS.map((s, i) => (
-            <li key={s.title} className="rounded-lg border-2 border-border bg-bg p-6">
+            <li
+              key={s.title}
+              className="flex items-start gap-4 rounded-lg border-2 border-border bg-bg p-5 md:block md:p-6"
+            >
               <div
                 aria-hidden="true"
-                className="flex h-11 w-11 items-center justify-center rounded-full bg-primary font-heading text-xl font-medium text-on-primary"
+                className="flex h-11 w-11 flex-none items-center justify-center rounded-full bg-primary font-heading text-xl font-medium text-on-primary"
               >
                 {i + 1}
               </div>
-              <h3 className="mb-2 mt-4 font-heading text-[22px] font-medium leading-snug">
-                {s.title}
-              </h3>
-              <p className="m-0 text-text-muted">{s.text}</p>
+              <div>
+                <h3 className="mb-1 mt-0 font-heading text-xl font-medium leading-snug md:mb-2 md:mt-4 md:text-[22px]">
+                  {s.title}
+                </h3>
+                <p className="m-0 text-text-muted">{s.text}</p>
+              </div>
             </li>
           ))}
         </ol>

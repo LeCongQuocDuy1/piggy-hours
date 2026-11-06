@@ -17,29 +17,30 @@ export function Moods() {
       aria-labelledby="moods-title"
       className="border-y-2 border-border bg-surface"
     >
-      <div className="mx-auto max-w-[1120px] px-6 py-[72px]">
+      <div className="mx-auto max-w-[1120px] px-4 py-14 sm:px-6 md:py-[72px]">
         <h2
           id="moods-title"
-          className="mb-2 text-center font-heading text-4xl font-medium leading-tight"
+          className="mb-2 text-center font-heading text-3xl font-medium leading-tight md:text-4xl"
         >
           Your pig changes as it fills
         </h2>
         <p className="mx-auto mb-10 max-w-[520px] text-center text-text-muted">
           From sleepy to overjoyed. Every hour you drop in makes it a little happier.
         </p>
-        <ul className="grid list-none grid-cols-[repeat(auto-fit,minmax(170px,1fr))] gap-4 p-0">
+        <ul className="grid list-none grid-cols-2 gap-3 p-0 sm:grid-cols-3 md:grid-cols-5 md:gap-4">
           {MOODS.map(({ mood, range }) => (
             <li
               key={mood}
               className={cn(
                 'rounded-lg border-2 bg-bg px-2 py-4 text-center',
+                mood === 'overjoyed' && 'col-span-2 sm:col-span-1',
                 mood === 'overjoyed' ? 'border-coin' : 'border-border',
               )}
             >
               <PigIllustration
                 mood={mood}
                 decorative
-                className="mx-auto w-[120px] max-w-full"
+                className="mx-auto w-[110px] max-w-full md:w-[120px]"
               />
               <div className="mt-2 font-heading text-lg font-medium">
                 {MOOD_LABEL[mood]}

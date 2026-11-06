@@ -6,13 +6,13 @@ export function YourPigs() {
     <section
       id="pigs"
       aria-labelledby="pigs-title"
-      className="mx-auto max-w-[1120px] px-6 py-[72px]"
+      className="mx-auto max-w-[1120px] px-4 py-14 sm:px-6 md:py-[72px]"
     >
       <div className="mb-7 flex flex-wrap items-end justify-between gap-3">
         <div>
           <h2
             id="pigs-title"
-            className="mb-1 font-heading text-4xl font-medium leading-tight"
+            className="mb-1 font-heading text-3xl font-medium leading-tight md:text-4xl"
           >
             Your pigs
           </h2>
@@ -24,7 +24,7 @@ export function YourPigs() {
           0 / 2 slots
         </span>
       </div>
-      <div className="flex flex-col items-center rounded-lg border-2 border-border bg-surface px-6 py-12 text-center shadow-card">
+      <div className="flex flex-col items-center rounded-lg border-2 border-border bg-surface px-5 py-10 text-center shadow-card sm:px-6 sm:py-12">
         <PigIllustration
           mood="sleepy"
           label="A sleepy pig waiting for its first hours"

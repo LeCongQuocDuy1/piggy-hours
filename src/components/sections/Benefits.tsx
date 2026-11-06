@@ -19,11 +19,11 @@ export function Benefits() {
   return (
     <section
       aria-labelledby="why-title"
-      className="mx-auto max-w-[1120px] px-6 py-[72px]"
+      className="mx-auto max-w-[1120px] px-4 py-14 sm:px-6 md:py-[72px]"
     >
       <h2
         id="why-title"
-        className="mb-10 text-center font-heading text-4xl font-medium leading-tight"
+        className="mb-10 text-center font-heading text-3xl font-medium leading-tight md:text-4xl"
       >
         Made to feel good
       </h2>

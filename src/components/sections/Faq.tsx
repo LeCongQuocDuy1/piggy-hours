@@ -25,11 +25,11 @@ export function Faq() {
     <section
       id="faq"
       aria-labelledby="faq-title"
-      className="mx-auto max-w-[760px] px-6 py-[72px]"
+      className="mx-auto max-w-[760px] px-4 py-14 sm:px-6 md:py-[72px]"
     >
       <h2
         id="faq-title"
-        className="mb-6 text-center font-heading text-4xl font-medium leading-tight"
+        className="mb-6 text-center font-heading text-3xl font-medium leading-tight md:text-4xl"
       >
         Questions, answered quickly
       </h2>
