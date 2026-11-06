@@ -1,3 +1,4 @@
+import { useCreatePig } from '../modals/CreatePigProvider'
 import { buttonStyles } from '../ui/buttonStyles'
 
 const ITEMS = [
@@ -16,6 +17,7 @@ const ITEMS = [
 ]
 
 export function Benefits() {
+  const { canCreate, open } = useCreatePig()
   return (
     <section
       aria-labelledby="why-title"
@@ -38,7 +40,16 @@ export function Benefits() {
         ))}
       </div>
       <div className="mt-12 flex justify-center">
-        <a href="#pigs" className={buttonStyles({ size: 'lg', className: 'px-9' })}>
+        <a
+          href="#pigs"
+          onClick={(e) => {
+            if (canCreate) {
+              e.preventDefault()
+              open()
+            }
+          }}
+          className={buttonStyles({ size: 'lg', className: 'px-9' })}
+        >
           Start your first pig
         </a>
       </div>

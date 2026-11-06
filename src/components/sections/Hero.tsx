@@ -1,7 +1,9 @@
 import { PigIllustration } from '../pig/PigIllustration'
+import { useCreatePig } from '../modals/CreatePigProvider'
 import { buttonStyles } from '../ui/buttonStyles'
 
 export function Hero() {
+  const { canCreate, open } = useCreatePig()
   return (
     <section
       aria-labelledby="hero-title"
@@ -51,6 +53,13 @@ export function Hero() {
         <div className="flex w-full flex-col items-center gap-2 sm:w-auto sm:flex-row sm:gap-4">
           <a
             href="#pigs"
+            onClick={(e) => {
+              // With a free slot the button opens the form; otherwise it scrolls to the pigs.
+              if (canCreate) {
+                e.preventDefault()
+                open()
+              }
+            }}
             className={buttonStyles({ size: 'lg', className: 'w-full sm:w-auto' })}
           >
             Create your first pig

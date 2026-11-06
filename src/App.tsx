@@ -8,7 +8,10 @@ import { Hero } from './components/sections/Hero'
 import { HowItWorks } from './components/sections/HowItWorks'
 import { Moods } from './components/sections/Moods'
 import { YourPigs } from './components/sections/YourPigs'
+import { CreatePigProvider } from './components/modals/CreatePigProvider'
+import { StorageBanner } from './components/StorageBanner'
 import { ToastProvider } from './components/ui/Toast'
+import { AppProvider } from './state/AppProvider'
 
 const PREVIEW_HASH = '#design-system'
 
@@ -25,23 +28,28 @@ export default function App() {
 
   return (
     <ToastProvider>
-      <div id="top" />
-      {showPreview ? (
-        <DesignPreview />
-      ) : (
-        <>
-          <Header />
-          <main>
-            <Hero />
-            <HowItWorks />
-            <YourPigs />
-            <Moods />
-            <Benefits />
-            <Faq />
-          </main>
-          <Footer />
-        </>
-      )}
+      <AppProvider>
+        <CreatePigProvider>
+          <div id="top" />
+          <StorageBanner />
+          {showPreview ? (
+            <DesignPreview />
+          ) : (
+            <>
+              <Header />
+              <main>
+                <Hero />
+                <HowItWorks />
+                <YourPigs />
+                <Moods />
+                <Benefits />
+                <Faq />
+              </main>
+              <Footer />
+            </>
+          )}
+        </CreatePigProvider>
+      </AppProvider>
     </ToastProvider>
   )
 }

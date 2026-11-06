@@ -1,7 +1,19 @@
+import { Plus } from 'lucide-react'
+import { slotLimit, usedSlots } from '../../domain/slots'
+import { useApp } from '../../state/AppProvider'
+import { useCreatePig } from '../modals/CreatePigProvider'
+import { PigCard } from '../pig/PigCard'
 import { PigIllustration } from '../pig/PigIllustration'
+import { Button } from '../ui/Button'
 
-/** Placeholder for the app area. Creating and filling pigs arrives in milestones M2 and M3. */
+/** The app area: the user's pigs, the slot counter and the New pig button (US-01, US-03). */
 export function YourPigs() {
+  const { data } = useApp()
+  const { canCreate, open } = useCreatePig()
+  const pigs = data.pigs.filter((p) => !p.completedAt)
+  const used = usedSlots(data)
+  const limit = slotLimit(data.achievements.completedPigsCount)
+
   return (
     <section
       id="pigs"
@@ -17,27 +29,62 @@ export function YourPigs() {
             Your pigs
           </h2>
           <p className="m-0 text-text-muted">
-            This is where you save your hours. Two pig slots to start.
+            This is where you save your hours. {limit === 2 ? 'Two' : limit} pig slots to
+            start.
           </p>
         </div>
-        <span className="rounded-full bg-track px-3.5 py-1.5 text-sm font-bold tabular-nums">
-          0 / 2 slots
+        <span
+          aria-label={`${used} of ${limit} pig slots used`}
+          className="rounded-full bg-track px-3.5 py-1.5 text-sm font-bold tabular-nums"
+        >
+          {used} / {limit} slots
         </span>
       </div>
-      <div className="flex flex-col items-center rounded-lg border-2 border-border bg-surface px-5 py-10 text-center shadow-card sm:px-6 sm:py-12">
-        <PigIllustration
-          mood="sleepy"
-          label="A sleepy pig waiting for its first hours"
-          className="w-48"
-        />
-        <h3 className="mb-2 mt-4 font-heading text-[28px] font-medium leading-tight">
-          Your piggy bank is empty
-        </h3>
-        <p className="m-0 max-w-md text-text-muted">
-          Creating pigs and dropping in time is coming in the next milestones. This page
-          is being built in the open, so check back soon.
-        </p>
-      </div>
+
+      {pigs.length === 0 ? (
+        <div className="flex flex-col items-center rounded-lg border-2 border-border bg-surface px-5 py-10 text-center shadow-card sm:px-6 sm:py-12">
+          <PigIllustration
+            mood="sleepy"
+            label="A sleepy pig waiting for its first hours"
+            className="w-48"
+          />
+          <h3 className="mb-2 mt-4 font-heading text-[28px] font-medium leading-tight">
+            Your piggy bank is empty
+          </h3>
+          <p className="mb-6 mt-0 max-w-md text-text-muted">
+            Create your first pig, pick a goal in hours, and start dropping time into it.
+          </p>
+          <Button size="lg" onClick={open}>
+            Create your first pig
+          </Button>
+        </div>
+      ) : (
+        <>
+          <ul className="m-0 grid list-none grid-cols-1 gap-5 p-0 md:grid-cols-2">
+            {pigs.map((pig) => (
+              <li key={pig.id}>
+                <PigCard pig={pig} deposits={data.deposits} />
+              </li>
+            ))}
+          </ul>
+          <div className="mt-6 flex flex-col items-center gap-2">
+            <Button
+              variant="secondary"
+              disabled={!canCreate}
+              aria-describedby="new-pig-hint"
+              onClick={open}
+            >
+              <Plus size={20} strokeWidth={2.5} aria-hidden="true" />
+              New pig
+            </Button>
+            <p id="new-pig-hint" className="m-0 text-center text-sm text-text-muted">
+              {canCreate
+                ? 'Add another goal.'
+                : 'All pig slots are in use. Complete a pig to free a slot.'}
+            </p>
+          </div>
+        </>
+      )}
     </section>
   )
 }
