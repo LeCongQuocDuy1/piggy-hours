@@ -1,18 +1,47 @@
+import { useEffect, useState } from 'react'
+import { DesignPreview } from './components/DesignPreview'
+import { Benefits } from './components/sections/Benefits'
+import { Faq } from './components/sections/Faq'
+import { Footer } from './components/sections/Footer'
+import { Header } from './components/sections/Header'
+import { Hero } from './components/sections/Hero'
+import { HowItWorks } from './components/sections/HowItWorks'
+import { Moods } from './components/sections/Moods'
+import { YourPigs } from './components/sections/YourPigs'
+import { ToastProvider } from './components/ui/Toast'
+
+const PREVIEW_HASH = '#design-system'
+
 export default function App() {
+  const [showPreview, setShowPreview] = useState(
+    () => window.location.hash === PREVIEW_HASH,
+  )
+
+  useEffect(() => {
+    const onHash = () => setShowPreview(window.location.hash === PREVIEW_HASH)
+    window.addEventListener('hashchange', onHash)
+    return () => window.removeEventListener('hashchange', onHash)
+  }, [])
+
   return (
-    <main
-      style={{
-        maxWidth: 640,
-        margin: '0 auto',
-        padding: '96px 24px',
-        textAlign: 'center',
-      }}
-    >
-      <h1>Piggy Hours</h1>
-      <p>Save your hours. Fill your pig.</p>
-      <p>
-        <small>Work in progress: milestone M0 (foundation).</small>
-      </p>
-    </main>
+    <ToastProvider>
+      <div id="top" />
+      {showPreview ? (
+        <DesignPreview />
+      ) : (
+        <>
+          <Header />
+          <main>
+            <Hero />
+            <HowItWorks />
+            <YourPigs />
+            <Moods />
+            <Benefits />
+            <Faq />
+          </main>
+          <Footer />
+        </>
+      )}
+    </ToastProvider>
   )
 }
