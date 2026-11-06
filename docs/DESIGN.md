@@ -365,16 +365,16 @@ Semantic names are used in code so a dark theme can be added later by overriding
 
 **Pig colors** (the six swatches users can pick in the *Create pig* sheet). Each has a soft tone (pig body) and a strong tone (progress bar fill):
 
-| Name | Soft | Strong (proposed) |
+| Name | Soft | Strong (tuned in M1) |
 |---|---|---|
-| Pink | `#FFC2D6` | `#E0558A` |
-| Peach | `#FFD3B8` | `#E8803F` |
-| Butter | `#FFE9A8` | `#C99100` |
-| Mint | `#BFEAD9` | `#3FAE86` |
-| Sky | `#C9E4FF` | `#4A97E0` |
-| Lavender | `#E0D4FF` | `#8E77DB` |
+| Pink | `#FFC2D6` | `#DD4F85` |
+| Peach | `#FFD3B8` | `#CF6320` |
+| Butter | `#FFE9A8` | `#A87700` |
+| Mint | `#BFEAD9` | `#2A8F6B` |
+| Sky | `#C9E4FF` | `#2F7FCF` |
+| Lavender | `#E0D4FF` | `#7A60CC` |
 
-**Contrast:** ink on cream is about 12:1, muted text on cream about 5:1, white on primary about 4.9:1 (all expected to pass WCAG AA for normal text). These are hand-calculated estimates and **must be verified with a contrast checker in Milestone M1**; the strong pig tones are proposals to be tuned so the progress fill stays clearly distinguishable from its track. The numeric label next to every bar means meaning never depends on color alone.
+**Contrast:** ink on cream is about 12:1, muted text on cream about 5:1, white on primary about 4.9:1 (all expected to pass WCAG AA for normal text). **Verified in Milestone M1 (2026-11-06)** with the WCAG formula: ink on cream 12.5:1, muted on cream 5.0:1, white on primary 4.9:1, primary links on cream 4.6:1, warning text 6.9:1, danger text 6.5:1 (all pass AA). The strong pig tones were darkened so every progress fill reaches at least 3:1 against the track (3.2 to 4.0). The gold fill of a full pig has a darker gold edge. The numeric label next to every bar means meaning never depends on color alone.
 
 ## 14. Typography
 
