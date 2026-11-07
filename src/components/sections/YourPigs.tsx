@@ -1,7 +1,12 @@
 import { Plus } from 'lucide-react'
+import { useState } from 'react'
 import { slotLimit, usedSlots } from '../../domain/slots'
+import type { Pig } from '../../domain/types'
 import { useApp } from '../../state/AppProvider'
+import { AddTimeModal } from '../modals/AddTimeModal'
+import { CompleteModal } from '../modals/CompleteModal'
 import { useCreatePig } from '../modals/CreatePigProvider'
+import { PigFullModal } from '../modals/PigFullModal'
 import { PigCard } from '../pig/PigCard'
 import { PigIllustration } from '../pig/PigIllustration'
 import { Button } from '../ui/Button'
@@ -11,6 +16,11 @@ export function YourPigs() {
   const { data } = useApp()
   const { canCreate, open } = useCreatePig()
   const pigs = data.pigs.filter((p) => !p.completedAt)
+  // The dialogs only keep a pig id; the pig itself is read from state so it is never stale.
+  const [addingId, setAddingId] = useState<string | null>(null)
+  const [fullId, setFullId] = useState<string | null>(null)
+  const [completingId, setCompletingId] = useState<string | null>(null)
+  const byId = (id: string | null): Pig | null => pigs.find((p) => p.id === id) ?? null
   const used = usedSlots(data)
   const limit = slotLimit(data.achievements.completedPigsCount)
 
@@ -63,7 +73,12 @@ export function YourPigs() {
           <ul className="m-0 grid list-none grid-cols-1 gap-5 p-0 md:grid-cols-2">
             {pigs.map((pig) => (
               <li key={pig.id}>
-                <PigCard pig={pig} deposits={data.deposits} />
+                <PigCard
+                  pig={pig}
+                  deposits={data.deposits}
+                  onAddTime={(p) => setAddingId(p.id)}
+                  onComplete={(p) => setCompletingId(p.id)}
+                />
               </li>
             ))}
           </ul>
@@ -85,6 +100,21 @@ export function YourPigs() {
           </div>
         </>
       )}
+
+      <AddTimeModal
+        pig={byId(addingId)}
+        onOpenChange={(open) => !open && setAddingId(null)}
+        onFull={setFullId}
+      />
+      <PigFullModal
+        pig={byId(fullId)}
+        onClose={() => setFullId(null)}
+        onComplete={(id) => {
+          setFullId(null)
+          setCompletingId(id)
+        }}
+      />
+      <CompleteModal pig={byId(completingId)} onClose={() => setCompletingId(null)} />
     </section>
   )
 }

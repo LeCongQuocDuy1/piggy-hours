@@ -61,7 +61,34 @@ Use these on top of the milestone-specific list.
 
 Not in M2 (arrives later): adding time (M3), completing pigs (M3), statistics (M4).
 
-### M3: deposit and complete (US-02, US-04) *(to be filled in when M3 starts)*
+### M3: add time, complete a pig, back to top (US-02, US-04)
+
+Start with a clean state (private window, or clear site data) and create `Japanese N3` with a target of **3 hours**.
+
+| # | Steps | Expected |
+|---|---|---|
+| 1 | Press **Add time** on the pig card | The *Add time to Japanese N3* modal opens; the Hours field has focus; the date is today; "Remaining in this pig" shows `3h 0m` |
+| 2 | Press **Drop into pig** with nothing entered | A red message "Enter at least 1 minute."; focus goes to Hours; nothing is saved |
+| 3 | Type `abc`, `-1`, `1.5` in hours, and `75` in minutes | An error for each (whole numbers only, no negatives, minutes 0 to 59); the typed text stays |
+| 4 | Press the quick picks **30m**, **1h**, **2h** | Hours and minutes fields are filled with that time |
+| 5 | Enter `1` hour and `30` minutes, **Drop into pig** | The modal closes, toast "Added 1h 30m to Japanese N3"; the card shows `1h 30m / 3h`, `50%`, and the pig looks happier |
+| 6 | Open **Add time**, enter `5` hours, **Drop into pig** | "Only 1h 30m left in this pig." with a **Fill the pig** button; nothing is saved |
+| 7 | Press **Fill the pig** | Fields change to `1` hour `30` minutes and the error disappears |
+| 8 | Pick a date in the future | "Choose today or an earlier date." (the date picker should not allow it either) |
+| 9 | Add `20` hours to another pig on the same day (use a bigger target) | A yellow note says that is more than 24 hours on that day; you can still save |
+| 10 | Press **Drop into pig** to fill the first pig | The *Your pig is full!* dialog with a celebrating pig; the toast says what was added |
+| 11 | Press **Later** | The dialog closes; the card shows a gold **Full** badge, `100%`, **Mark as completed**; there is no **Add time**; the counter still shows the slot as used |
+| 12 | Press **Mark as completed**, then **Cancel** | Nothing changes |
+| 13 | Press **Mark as completed**, then **Complete** | Toast "Japanese N3 completed. A slot is free."; the pig leaves the list; the counter drops by one |
+| 14 | Create a new pig again | It works (the slot was freed) |
+| 15 | Refresh the page | Deposits and the completed pig are remembered |
+| 16 | Keyboard only: open Add time, fill it, submit, press Esc in the dialogs | Everything is reachable; Esc closes; focus returns to the button that opened the dialog |
+| 17 | **Back to top:** scroll down about one screen on the landing page | A pink **Top** button appears bottom-right; it is not there near the top |
+| 18 | Press **Top** | The page scrolls smoothly to the top; focus moves to the logo; the button disappears |
+| 19 | Phone: repeat 1, 5, 6, 10 to 13 and 17 to 18 | Dialogs fit the screen with the buttons visible; the Top button is easy to hit with a thumb and does not cover important text |
+| 20 | Turn on "reduce motion" in the system settings, press **Top** | The page jumps to the top without the smooth scroll |
+
+Not in M3 (arrives later): history list and editing deposits (M5), confetti and sound (M6), statistics and heatmap (M4).
 
 ### M4: stats and heatmap, MVP release (US-13) *(to be filled in when M4 starts)*
 

@@ -4,6 +4,19 @@ All notable changes are documented here. The format follows [Keep a Changelog](h
 
 ## [Unreleased]
 
+## [0.4.0]
+
+### Added
+
+- Add time (US-02): a dialog with hours, minutes, quick picks (30m, 1h, 2h), date (today or earlier) and an optional note; the remaining time is shown; going over it shows a clear message with a **Fill the pig** shortcut; a non-blocking warning appears above 24 hours in one day
+- A celebration dialog when a pig becomes full, and **Mark as completed** with a confirmation (US-04); completing frees a slot and counts toward unlocking more slots
+- **Back to top** button on the landing page: appears after about one screen of scrolling, smooth scroll (instant with reduced motion), keyboard accessible
+- Domain functions `validateDeposit`, reducer actions `addDeposit` and `completePig`, and 136 automated tests in total
+
+### Changed
+
+- Toast messages sit higher so they do not cover the Top button
+
 ## [0.3.0]
 
 ### Added

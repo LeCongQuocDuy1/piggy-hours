@@ -10,11 +10,21 @@ import {
   type ReactNode,
 } from 'react'
 import { toLocalDate } from '../domain/time'
-import { emptyData, type Pig, type Result } from '../domain/types'
+import type { DepositInput } from '../domain/deposits'
+import { emptyData, type Deposit, type Pig, type Result } from '../domain/types'
 import type { PigInput } from '../domain/validation'
 import { createLocalStorage } from '../storage/localStorage'
 import type { Storage, StorageError } from '../storage/storage'
-import { prepareCreatePig, reducer, type CreatePigError, type Env } from './reducer'
+import {
+  prepareAddDeposit,
+  prepareCompletePig,
+  prepareCreatePig,
+  reducer,
+  type AddDepositError,
+  type CompletePigError,
+  type CreatePigError,
+  type Env,
+} from './reducer'
 
 type AppApi = {
   data: ReturnType<typeof emptyData>
@@ -22,6 +32,10 @@ type AppApi = {
   storageError: StorageError | null
   dismissStorageError: () => void
   createPig: (input: PigInput) => Result<Pig, CreatePigError>
+  addDeposit: (pigId: string, input: DepositInput) => Result<Deposit, AddDepositError>
+  completePig: (
+    pigId: string,
+  ) => Result<{ pigId: string; completedAt: string }, CompletePigError>
 }
 
 const AppContext = createContext<AppApi | null>(null)
@@ -91,14 +105,34 @@ export function AppProvider({ children, storage, env = defaultEnv }: Props) {
     [data, env],
   )
 
+  const addDeposit = useCallback(
+    (pigId: string, input: DepositInput) => {
+      const prepared = prepareAddDeposit(data, pigId, input, env)
+      if (prepared.ok) dispatch({ type: 'addDeposit', deposit: prepared.value })
+      return prepared
+    },
+    [data, env],
+  )
+
+  const completePig = useCallback(
+    (pigId: string) => {
+      const prepared = prepareCompletePig(data, pigId, env)
+      if (prepared.ok) dispatch({ type: 'completePig', ...prepared.value })
+      return prepared
+    },
+    [data, env],
+  )
+
   const api = useMemo<AppApi>(
     () => ({
       data,
       storageError,
       dismissStorageError: () => setStorageError(null),
       createPig,
+      addDeposit,
+      completePig,
     }),
-    [data, storageError, createPig],
+    [data, storageError, createPig, addDeposit, completePig],
   )
 
   return <AppContext.Provider value={api}>{children}</AppContext.Provider>

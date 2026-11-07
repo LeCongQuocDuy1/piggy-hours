@@ -1,3 +1,4 @@
+import { CheckCircle2, Plus } from 'lucide-react'
 import {
   moodForProgress,
   pigStatus,
@@ -8,6 +9,7 @@ import { formatMinutesShort } from '../../domain/time'
 import type { Deposit, Pig } from '../../domain/types'
 import { cn } from '../../lib/cn'
 import { Badge } from '../ui/Badge'
+import { Button } from '../ui/Button'
 import { ProgressBar } from '../ui/ProgressBar'
 import { PigIllustration } from './PigIllustration'
 
@@ -22,8 +24,15 @@ function formatDeadline(value: string): string {
   return dateFormat.format(new Date(y, m - 1, d))
 }
 
-/** One pig: illustration, name, progress. Actions (add time, complete) arrive in milestone M3. */
-export function PigCard({ pig, deposits }: { pig: Pig; deposits: Deposit[] }) {
+type Props = {
+  pig: Pig
+  deposits: Deposit[]
+  onAddTime: (pig: Pig) => void
+  onComplete: (pig: Pig) => void
+}
+
+/** One pig: illustration, name, progress and its action (add time while active, complete once full). */
+export function PigCard({ pig, deposits, onAddTime, onComplete }: Props) {
   const percent = progressPercent(pig, deposits)
   const status = pigStatus(pig, deposits)
   const full = status === 'full'
@@ -78,6 +87,28 @@ export function PigCard({ pig, deposits }: { pig: Pig; deposits: Deposit[] }) {
           {formatMinutesShort(saved)} / {formatMinutesShort(pig.targetMinutes)}
         </span>
         <span className="font-bold text-text">{percent}%</span>
+      </div>
+      <div className="mt-4">
+        {full ? (
+          <Button
+            className="w-full"
+            aria-label={`Mark ${pig.name} as completed`}
+            onClick={() => onComplete(pig)}
+          >
+            <CheckCircle2 size={20} strokeWidth={2.5} aria-hidden="true" />
+            Mark as completed
+          </Button>
+        ) : (
+          <Button
+            variant="secondary"
+            className="w-full"
+            aria-label={`Add time to ${pig.name}`}
+            onClick={() => onAddTime(pig)}
+          >
+            <Plus size={20} strokeWidth={2.5} aria-hidden="true" />
+            Add time
+          </Button>
+        )}
       </div>
     </article>
   )

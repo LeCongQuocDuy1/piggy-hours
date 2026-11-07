@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { BackToTop } from './components/BackToTop'
 import { DesignPreview } from './components/DesignPreview'
 import { Benefits } from './components/sections/Benefits'
 import { Faq } from './components/sections/Faq'
@@ -46,6 +47,7 @@ export default function App() {
                 <Faq />
               </main>
               <Footer />
+              <BackToTop />
             </>
           )}
         </CreatePigProvider>

@@ -4,7 +4,7 @@
 
 Piggy Hours is a small web app where you drop the time you spend studying or working into piggy banks ("pigs") and watch them fill up toward a goal you set. No timers, no accounts: you add the hours and minutes after a session, and your data stays in your browser.
 
-> **Status:** early development. Milestone M2 (create and view pigs, local data storage) is in review. See the [roadmap](docs/ROADMAP.md).
+> **Status:** early development. Milestone M3 (add time, complete a pig, back-to-top button) is in review. See the [roadmap](docs/ROADMAP.md).
 
 **Live preview:** https://piggy-hours.vercel.app
 
