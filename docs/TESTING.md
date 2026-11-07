@@ -90,7 +90,29 @@ Start with a clean state (private window, or clear site data) and create `Japane
 
 Not in M3 (arrives later): history list and editing deposits (M5), confetti and sound (M6), statistics and heatmap (M4).
 
-### M4: stats and heatmap, MVP release (US-13) *(to be filled in when M4 starts)*
+### M4: stats and heatmap, MVP release (US-13)
+
+Start with a clean state. A real device or a narrow browser window works for the phone steps.
+
+| # | Steps | Expected |
+|---|---|---|
+| 1 | Open the page for the first time and scroll to **Your stats** (also reachable from the phone menu) | Four tiles with `0m`, `0m`, `0`, `0`; a grid of pale squares; the hint "Nothing here yet..." |
+| 2 | Create a pig and add `1` hour `30` minutes for today | Right away: this week `1h 30m`, last 30 days `1h 30m`, streak `1`, active days `1`; today's square (last column) turns a medium pink |
+| 3 | Add `2` more hours to a second pig the same day | Still one active day; this week `3h 30m`; today's square is the darkest pink |
+| 4 | Hover over today's square, then over an empty one | A dark tooltip such as "Sat, Nov 7, 2026: 3h 30m" and "...: no time" |
+| 5 | Add time with the date set to **yesterday**, then the day before | Streak grows to `3`; two more squares are shaded; active days `3` |
+| 6 | Add time for a date 5 days ago | Streak stays `3` (a gap breaks it); active days `4` |
+| 7 | Add time for a date 10 weeks ago | A square far to the left is shaded; "Last 30 days" does not change; "Active days" goes up |
+| 8 | Shade levels: add 30m, 1h 30m, 2h 30m and 3h on four different days | Four different shades, lightest to darkest (under 1h, 1-2h, 2-3h, 3h or more) |
+| 9 | Keyboard: press Tab until the heatmap has focus, then use the arrow keys, Home and End | One Tab stop for the whole grid; the focus ring moves between days and the tooltip follows; arrows stop at the edges; Tab leaves the grid |
+| 10 | Screen reader (optional): focus a square | It reads the date and the total, for example "Fri, Oct 30, 2026: 1h 30m" |
+| 11 | Refresh the page | Tiles and heatmap show the same numbers |
+| 12 | Phone (360 to 390 px wide): scroll to Your stats | Tiles in a 2 by 2 grid; the heatmap shows the last 16 weeks, fits the card with **no scrollbar**, and the squares are easy to see; no horizontal scroll of the whole page; tapping a square shows its tooltip, which stays inside the card even at the edges |
+| 13 | Desktop (1280 px): look at the layout | Four tiles in one row; the heatmap shows 26 weeks, centered, with larger squares; make the window narrower than 640 px and it switches to 16 weeks |
+| 14 | Turn on "reduce motion" in the system settings | Nothing animates in the section; everything still works |
+| 15 | Use the page for a week of real data, or open it at midnight | After midnight the new day shows as the last square on the next load (the page does not need to be open at the time) |
+
+Not in M4 (arrives later): deposit history and editing (M5), backup and restore (M5), forecast and deadline guidance (M7).
 
 ## 5. Reporting a problem
 

@@ -21,6 +21,12 @@
   --color-track: #ffe3ec;
   --color-hero-disc: #ffe3ec;
   --color-coin-soft: #fff1c9;
+  /* Saving-days heatmap: none, under 1h, 1-2h, 2-3h, 3h or more (docs/DESIGN.md section 22.1). */
+  --color-heat-0: #f9dde7;
+  --color-heat-1: #f5b3ca;
+  --color-heat-2: #ec7fa6;
+  --color-heat-3: #d44a7c;
+  --color-heat-4: #9f2149;
 
   --font-heading: 'Fredoka', ui-rounded, system-ui, sans-serif;
   --font-body: 'Nunito', system-ui, sans-serif;

@@ -82,7 +82,7 @@ Acceptance criteria:
 - Hovering or focusing a square shows the date and total time.
 - Numbers and heatmap are computed from real deposits and update immediately after a deposit.
 - With no deposits, the section shows an empty state (lightest squares, zeros) with a short hint instead of sample data.
-- Accessible: text summary for screen readers; scrolls horizontally on narrow screens.
+- Accessible: text summary for screen readers. On phones the grid shows the last 16 weeks and fits the screen with no sideways scrollbar (changed 2026-11-07 after review); wider screens show 26 weeks.
 
 ### 3.2 v1.0 — Must
 

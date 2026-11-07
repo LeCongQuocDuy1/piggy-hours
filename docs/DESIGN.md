@@ -504,7 +504,7 @@ The intro stays short on purpose: visitors mostly want to try the feature, so th
 - **One square per day.** A day with no deposits is the lightest pink; days with deposits are shaded in 4 steps by total time that day: under 1h, 1–2h, 2–3h, 3h or more.
 - Month labels above the columns, "Mon / Wed / Fri" labels on the left, a "Less → More" legend below.
 - Hovering (or focusing) a square shows a tooltip: date and total time, or "no time".
-- Accessibility: the grid has a text summary (number of active days and current streak) for screen readers; shade is never the only cue, the tooltip gives exact values. On narrow screens the grid scrolls horizontally.
+- Accessibility: the grid has a text summary (number of active days and current streak) for screen readers; shade is never the only cue, the tooltip gives exact values. On phones (under 640 px) the grid shows the last 16 weeks, with squares that fill the card width and no scrollbar (changed 2026-11-07 after review; the first version scrolled sideways).
 - Data: total minutes per day, derived from deposits (no extra stored data).
 
 ### 22.2 Modals

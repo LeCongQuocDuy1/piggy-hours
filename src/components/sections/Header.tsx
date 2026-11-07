@@ -9,6 +9,7 @@ const LINKS = [
   { href: '#how', label: 'How it works' },
   { href: '#pigs', label: 'Your pigs' },
   { href: '#moods', label: 'Meet the pig' },
+  { href: '#stats', label: 'Your stats' },
   { href: '#faq', label: 'FAQ' },
 ]
 
