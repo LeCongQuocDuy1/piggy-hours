@@ -8,6 +8,7 @@ import { Header } from './components/sections/Header'
 import { Hero } from './components/sections/Hero'
 import { HowItWorks } from './components/sections/HowItWorks'
 import { Moods } from './components/sections/Moods'
+import { Stats } from './components/sections/Stats'
 import { YourPigs } from './components/sections/YourPigs'
 import { CreatePigProvider } from './components/modals/CreatePigProvider'
 import { StorageBanner } from './components/StorageBanner'
@@ -43,6 +44,7 @@ export default function App() {
                 <HowItWorks />
                 <YourPigs />
                 <Moods />
+                <Stats />
                 <Benefits />
                 <Faq />
               </main>
