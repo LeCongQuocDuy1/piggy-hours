@@ -145,3 +145,36 @@ describe('Heatmap', () => {
     ).toBeDefined()
   })
 })
+
+describe('Heatmap on narrow screens', () => {
+  const today = toLocalDate(new Date())
+
+  it('shows 16 weeks on a phone and 26 on a wide screen, in the grid and the summary', () => {
+    const original = window.matchMedia
+    window.matchMedia = ((query: string) => ({
+      matches: false,
+      media: query,
+      addEventListener() {},
+      removeEventListener() {},
+    })) as unknown as typeof window.matchMedia
+    const phone = render(<App />)
+    expect(within(stats()).getAllByRole('gridcell')).toHaveLength(16 * 7)
+    expect(
+      within(stats()).getByText(/0 active days in the last 16 weeks/),
+    ).toBeInTheDocument()
+    expect(within(stats()).getByText('Last 16 weeks')).toBeInTheDocument()
+    phone.unmount()
+    window.matchMedia = original
+
+    render(<App />)
+    expect(within(stats()).getAllByRole('gridcell')).toHaveLength(26 * 7)
+    expect(within(stats()).getByText('Last 26 weeks')).toBeInTheDocument()
+  })
+
+  it('never wraps the grid in a scroll container', () => {
+    const { container } = render(
+      <Heatmap totals={dailyTotals([])} today={today} weekCount={16} />,
+    )
+    expect(container.querySelector('.overflow-x-auto')).toBeNull()
+  })
+})

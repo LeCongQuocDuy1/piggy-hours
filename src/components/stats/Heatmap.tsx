@@ -1,20 +1,19 @@
-import { useEffect, useRef, useState, type KeyboardEvent } from 'react'
+import { useRef, useState, type KeyboardEvent } from 'react'
 import {
   parseLocalDate,
   type DailyTotals,
   type HeatCell,
   type HeatLevel,
+  HEATMAP_WEEKS,
   heatmapWeeks,
 } from '../../domain/stats'
 import { formatMinutesShort } from '../../domain/time'
 import { cn } from '../../lib/cn'
 
-// Sizes are CSS values so the squares can grow on wide screens (--cell is set on the wrapper).
-const GAP = 4
-const LABEL_W = 36
-const HEAD_H = 22
-const CELL = 'var(--cell)'
-const STEP = `calc(var(--cell) + ${GAP}px)`
+// The grid always fits its container (no sideways scroll): squares are fluid and keep a 1:1 shape. Month labels
+// are placed by percentage, using the same column step as the squares.
+const LABEL_W = 30
+const HEAD_H = 18
 
 const LEVEL_CLASS: Record<HeatLevel, string> = {
   0: 'bg-heat-0',
@@ -63,22 +62,24 @@ type Pos = { r: number; c: number }
  * GitHub-style saving-days heatmap (docs/DESIGN.md section 22.1). Columns are weeks, rows are Monday to Sunday.
  * It is one tab stop; arrow keys move between days, and the date and total show in a tooltip on hover, focus or tap.
  */
-export function Heatmap({ totals, today }: { totals: DailyTotals; today: string }) {
-  const weeks = heatmapWeeks(totals, today)
+export function Heatmap({
+  totals,
+  today,
+  weekCount = HEATMAP_WEEKS,
+}: {
+  totals: DailyTotals
+  today: string
+  /** How many weeks to show; phones show fewer so the squares stay a comfortable size without scrolling. */
+  weekCount?: number
+}) {
+  const weeks = heatmapWeeks(totals, today, weekCount)
   const gridRef = useRef<HTMLDivElement>(null)
-  const scrollRef = useRef<HTMLDivElement>(null)
 
   // Roving tabindex: start on today, the last real cell.
   const lastCol = weeks.length - 1
   const todayRow = weeks[lastCol].reduce((last, cell, r) => (cell ? r : last), 0)
   const [current, setCurrent] = useState<Pos>({ r: todayRow, c: lastCol })
   const [tip, setTip] = useState<Pos | null>(null)
-
-  // Show the most recent weeks first on narrow screens.
-  useEffect(() => {
-    const el = scrollRef.current
-    if (el) el.scrollLeft = el.scrollWidth
-  }, [])
 
   function cellAt({ r, c }: Pos): HeatCell | null {
     return weeks[c]?.[r] ?? null
@@ -109,104 +110,102 @@ export function Heatmap({ totals, today }: { totals: DailyTotals; today: string 
     move(next)
   }
 
-  const tipCell = tip ? cellAt(tip) : null
   const labels = monthLabels(weeks)
-  const width = `calc(${LABEL_W}px + ${weeks.length} * ${STEP} - ${GAP}px)`
+  const cols = weeks.length
 
   return (
-    <div>
-      <div ref={scrollRef} className="overflow-x-auto pb-2 pt-5">
+    <div className="mx-auto max-w-[760px] [--gap:3px] md:[--gap:4px]">
+      <div className="pb-1 pt-2">
         <div
-          className="relative mx-auto [--cell:16px] md:[--cell:24px]"
-          style={{ width }}
+          aria-hidden="true"
+          className="relative"
+          style={{ height: HEAD_H, marginLeft: LABEL_W }}
         >
-          <div
-            aria-hidden="true"
-            className="relative"
-            style={{ height: HEAD_H, marginLeft: LABEL_W }}
-          >
-            {labels.map((l) => (
-              <span
-                key={l.col}
-                className="absolute top-0 text-xs font-bold text-text-muted"
-                style={{ left: `calc(${l.col} * ${STEP})` }}
-              >
-                {l.text}
-              </span>
-            ))}
-          </div>
+          {labels.map((l) => (
+            <span
+              key={l.col}
+              className="absolute top-0 whitespace-nowrap text-[11px] font-bold text-text-muted md:text-xs"
+              style={{ left: `calc((100% + var(--gap)) * ${l.col} / ${cols})` }}
+            >
+              {l.text}
+            </span>
+          ))}
+        </div>
 
-          <div
-            ref={gridRef}
-            role="grid"
-            aria-label="Saving days over the last 26 weeks. Use the arrow keys to move between days."
-            onKeyDown={onKeyDown}
-            className="flex flex-col"
-            style={{ gap: GAP }}
-          >
-            {WEEKDAYS.map((weekday, r) => (
-              <div key={r} role="row" className="flex items-center" style={{ gap: GAP }}>
-                <span
-                  aria-hidden="true"
-                  className="sticky left-0 z-[1] bg-surface text-xs font-bold text-text-muted"
-                  style={{ width: LABEL_W - GAP, flex: 'none' }}
-                >
-                  {weekday}
-                </span>
-                {weeks.map((week, c) => {
-                  const cell = week[r]
-                  if (!cell) {
-                    return (
-                      <div
-                        key={c}
-                        role="gridcell"
-                        aria-disabled="true"
-                        aria-label="Not yet"
-                        style={{ width: CELL, height: CELL, flex: 'none' }}
-                      />
-                    )
-                  }
+        <div
+          ref={gridRef}
+          role="grid"
+          aria-label={`Saving days over the last ${weekCount} weeks. Use the arrow keys to move between days.`}
+          onKeyDown={onKeyDown}
+          className="flex flex-col gap-[var(--gap)]"
+        >
+          {WEEKDAYS.map((weekday, r) => (
+            <div key={r} role="row" className="flex items-center gap-[var(--gap)]">
+              <span
+                aria-hidden="true"
+                className="flex-none text-[11px] font-bold leading-none text-text-muted md:text-xs"
+                style={{ width: `calc(${LABEL_W}px - var(--gap))` }}
+              >
+                {weekday}
+              </span>
+              {weeks.map((week, c) => {
+                const cell = week[r]
+                if (!cell) {
                   return (
                     <div
                       key={c}
                       role="gridcell"
-                      data-r={r}
-                      data-c={c}
-                      data-level={cell.level}
-                      tabIndex={current.r === r && current.c === c ? 0 : -1}
-                      aria-label={describeDay(cell)}
-                      onMouseEnter={() => setTip({ r, c })}
-                      onMouseLeave={() => setTip(null)}
-                      onFocus={() => {
-                        setCurrent({ r, c })
-                        setTip({ r, c })
-                      }}
-                      onBlur={() => setTip(null)}
-                      className={cn(
-                        'cursor-default rounded-[4px]',
-                        LEVEL_CLASS[cell.level],
-                      )}
-                      style={{ width: CELL, height: CELL, flex: 'none' }}
+                      aria-disabled="true"
+                      aria-label="Not yet"
+                      className="aspect-square min-w-0 flex-1"
                     />
                   )
-                })}
-              </div>
-            ))}
-          </div>
-
-          {tip && tipCell && (
-            <div
-              aria-hidden="true"
-              className="pointer-events-none absolute z-10 whitespace-nowrap rounded-sm bg-text px-3 py-1.5 text-sm font-bold text-white shadow-card"
-              style={{
-                left: `clamp(64px, calc(${LABEL_W}px + ${tip.c} * ${STEP} + ${CELL} / 2), calc(${width} - 64px))`,
-                top: `calc(${HEAD_H}px + ${tip.r} * ${STEP} - 8px)`,
-                transform: 'translate(-50%, -100%)',
-              }}
-            >
-              {describeDay(tipCell)}
+                }
+                const showTip = tip?.r === r && tip.c === c
+                // Tooltips near the left or right edge are anchored to that edge so they never leave the card.
+                const align =
+                  c < 7
+                    ? 'left-0'
+                    : c > cols - 8
+                      ? 'right-0'
+                      : 'left-1/2 -translate-x-1/2'
+                return (
+                  <div
+                    key={c}
+                    role="gridcell"
+                    data-r={r}
+                    data-c={c}
+                    data-level={cell.level}
+                    tabIndex={current.r === r && current.c === c ? 0 : -1}
+                    aria-label={describeDay(cell)}
+                    onMouseEnter={() => setTip({ r, c })}
+                    onMouseLeave={() => setTip(null)}
+                    onFocus={() => {
+                      setCurrent({ r, c })
+                      setTip({ r, c })
+                    }}
+                    onBlur={() => setTip(null)}
+                    className={cn(
+                      'relative aspect-square min-w-0 flex-1 cursor-default rounded-[3px] md:rounded-[4px]',
+                      LEVEL_CLASS[cell.level],
+                    )}
+                  >
+                    {showTip && (
+                      <span
+                        aria-hidden="true"
+                        className={cn(
+                          'pointer-events-none absolute bottom-[calc(100%+6px)] z-10 whitespace-nowrap rounded-sm bg-text px-3 py-1.5 text-sm font-bold text-white shadow-card',
+                          align,
+                        )}
+                      >
+                        {describeDay(cell)}
+                      </span>
+                    )}
+                  </div>
+                )
+              })}
             </div>
-          )}
+          ))}
         </div>
       </div>
 
@@ -218,8 +217,7 @@ export function Heatmap({ totals, today }: { totals: DailyTotals; today: string 
         {([0, 1, 2, 3, 4] as const).map((l) => (
           <span
             key={l}
-            className={cn('inline-block rounded-[4px]', LEVEL_CLASS[l])}
-            style={{ width: 16, height: 16 }}
+            className={cn('inline-block size-3 rounded-[3px] md:size-4', LEVEL_CLASS[l])}
           />
         ))}
         More

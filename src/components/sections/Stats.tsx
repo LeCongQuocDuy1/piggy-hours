@@ -1,7 +1,9 @@
 import { useMemo } from 'react'
+import { useMediaQuery } from '../../lib/useMediaQuery'
 import {
   activeDays,
   dailyTotals,
+  HEATMAP_WEEKS,
   heatmapWeeks,
   last30Days,
   streak,
@@ -31,11 +33,14 @@ export function Stats() {
   const today = toLocalDate(new Date())
   const totals = useMemo(() => dailyTotals(data.deposits), [data.deposits])
 
+  // Phones show about four months so the squares stay readable and the grid never scrolls sideways.
+  const wide = useMediaQuery('(min-width: 640px)')
+  const weekCount = wide ? HEATMAP_WEEKS : 16
   const week = weekTotal(totals, today)
   const month = last30Days(totals, today)
   const days = streak(totals, today)
   const active = activeDays(totals)
-  const inRange = heatmapWeeks(totals, today)
+  const inRange = heatmapWeeks(totals, today, weekCount)
     .flat()
     .filter((cell) => cell && cell.minutes > 0).length
   const empty = data.deposits.length === 0
@@ -80,14 +85,14 @@ export function Stats() {
           <h3 className="m-0 font-heading text-xl font-medium">Saving days</h3>
           <p className="sr-only">
             {inRange === 1
-              ? '1 active day in the last 26 weeks.'
-              : `${inRange} active days in the last 26 weeks.`}{' '}
+              ? `1 active day in the last ${weekCount} weeks.`
+              : `${inRange} active days in the last ${weekCount} weeks.`}{' '}
             Current streak: {days === 1 ? '1 day' : `${days} days`}.
           </p>
           <p className="m-0 mt-1 text-sm text-text-muted" aria-hidden="true">
-            Last 26 weeks
+            Last {weekCount} weeks
           </p>
-          <Heatmap totals={totals} today={today} />
+          <Heatmap totals={totals} today={today} weekCount={weekCount} />
           {empty && (
             <p className="m-0 mt-3 text-center text-text-muted">
               Nothing here yet. Drop time into a pig and today’s square lights up.
