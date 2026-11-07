@@ -10,7 +10,7 @@ All notable changes are documented here. The format follows [Keep a Changelog](h
 
 - **Your stats** section (US-13) with four tiles: this week (Monday to today), last 30 days, day streak and active days, all computed from deposits and updated right after each deposit
 - **Saving-days heatmap**: one square per day for the last 26 weeks, four shades by time saved that day, month and weekday labels, "Less / More" legend, tooltip with the date and total on hover, focus or tap
-- Keyboard and screen reader support for the heatmap: one tab stop, arrow keys move between days, every square has a text label, plus a text summary; on narrow screens it scrolls sideways and starts at the latest week
+- Keyboard and screen reader support for the heatmap: one tab stop, arrow keys move between days, every square has a text label, plus a text summary; the grid always fits its card with no sideways scrollbar; phones show the last 16 weeks with larger squares, wide screens show 26
 - Empty state with zeros and a short hint when there are no deposits yet
 - Stats domain functions (`dailyTotals`, `weekTotal`, `last30Days`, `streak`, `activeDays`, `heatLevel`, `heatmapWeeks`) with 27 unit tests; 34 more tests in total for the section and heatmap
 - "Your stats" link in the mobile menu

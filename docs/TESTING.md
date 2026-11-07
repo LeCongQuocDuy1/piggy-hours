@@ -107,8 +107,8 @@ Start with a clean state. A real device or a narrow browser window works for the
 | 9 | Keyboard: press Tab until the heatmap has focus, then use the arrow keys, Home and End | One Tab stop for the whole grid; the focus ring moves between days and the tooltip follows; arrows stop at the edges; Tab leaves the grid |
 | 10 | Screen reader (optional): focus a square | It reads the date and the total, for example "Fri, Oct 30, 2026: 1h 30m" |
 | 11 | Refresh the page | Tiles and heatmap show the same numbers |
-| 12 | Phone (360 to 390 px wide): scroll to Your stats | Tiles in a 2 by 2 grid; the heatmap scrolls sideways, starts at the latest week, and the Mon / Wed / Fri labels stay in view; no horizontal scroll of the whole page; tapping a square shows its tooltip |
-| 13 | Desktop (1280 px): look at the layout | Four tiles in one row; the heatmap is centered with larger squares |
+| 12 | Phone (360 to 390 px wide): scroll to Your stats | Tiles in a 2 by 2 grid; the heatmap shows the last 16 weeks, fits the card with **no scrollbar**, and the squares are easy to see; no horizontal scroll of the whole page; tapping a square shows its tooltip, which stays inside the card even at the edges |
+| 13 | Desktop (1280 px): look at the layout | Four tiles in one row; the heatmap shows 26 weeks, centered, with larger squares; make the window narrower than 640 px and it switches to 16 weeks |
 | 14 | Turn on "reduce motion" in the system settings | Nothing animates in the section; everything still works |
 | 15 | Use the page for a week of real data, or open it at midnight | After midnight the new day shows as the last square on the next load (the page does not need to be open at the time) |
 
