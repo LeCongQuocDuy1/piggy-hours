@@ -4,6 +4,18 @@ All notable changes are documented here. The format follows [Keep a Changelog](h
 
 ## [Unreleased]
 
+## [0.3.0]
+
+### Added
+
+- Create pigs (US-01): New pig modal with name, target in whole hours, emoji, color and optional deadline; validation with clear messages; the form keeps typed values and focuses the first problem
+- Your pigs section (US-03): pig cards with mood, color, progress bar and `saved / target`; slot counter; empty state; New pig is disabled with a hint when all slots are used
+- Data is saved in the browser (one versioned JSON blob behind a `Storage` interface) and survives reloads; corrupted data is backed up and never overwritten silently; data from a newer app version is left untouched; a banner explains storage problems
+- Domain logic with tests: time parsing and formatting, validation, status, progress, mood, slot limits
+- Pages are updated across browser tabs
+- `docs/TESTING.md`: test layers, milestone acceptance process and the M2 checklist
+- 104 automated tests in total
+
 ## [0.2.0]
 
 ### Added

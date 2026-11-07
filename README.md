@@ -4,7 +4,7 @@
 
 Piggy Hours is a small web app where you drop the time you spend studying or working into piggy banks ("pigs") and watch them fill up toward a goal you set. No timers, no accounts: you add the hours and minutes after a session, and your data stays in your browser.
 
-> **Status:** early development. Milestone M1 (design system and static landing page) is in review. See the [roadmap](docs/ROADMAP.md).
+> **Status:** early development. Milestone M2 (create and view pigs, local data storage) is in review. See the [roadmap](docs/ROADMAP.md).
 
 **Live preview:** https://piggy-hours.vercel.app
 
@@ -44,6 +44,14 @@ npm run dev        # start the dev server
 | `npm run test:watch` | Run tests in watch mode             |
 | `npm run format`     | Format all files with Prettier      |
 
+## Testing
+
+Unit, component and flow tests run with Vitest and Testing Library on every push. How milestones are accepted is described in [docs/TESTING.md](docs/TESTING.md).
+
+```bash
+npm test
+```
+
 ## Documentation
 
 The project follows a lightweight software development process. All documents are in [`docs/`](docs/):
@@ -54,6 +62,7 @@ The project follows a lightweight software development process. All documents ar
 - [Design](docs/DESIGN.md)
 - [Architecture](docs/ARCHITECTURE.md)
 - [Roadmap](docs/ROADMAP.md)
+- [Testing](docs/TESTING.md)
 
 ## Contributing and workflow
 
