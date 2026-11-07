@@ -1,0 +1,52 @@
+import { formatMinutesShort } from '../../domain/time'
+import type { Pig } from '../../domain/types'
+import { PigIllustration } from '../pig/PigIllustration'
+import { Button } from '../ui/Button'
+import { Modal } from '../ui/Modal'
+
+type Props = {
+  pig: Pig | null
+  onClose: () => void
+  /** The user wants to complete the pig now (opens the confirmation). */
+  onComplete: (pigId: string) => void
+}
+
+/** Shown when a deposit fills a pig (US-02). Confetti and sound arrive in milestone M6. */
+export function PigFullModal({ pig, onClose, onComplete }: Props) {
+  return (
+    <Modal
+      open={pig !== null}
+      onOpenChange={(open) => !open && onClose()}
+      title="Your pig is full!"
+      width={440}
+      hideClose
+      centered
+      hero={
+        <div className="mx-auto mb-4 flex h-[200px] w-[200px] items-center justify-center rounded-full bg-coin-soft">
+          <PigIllustration
+            mood="overjoyed"
+            color={pig?.color}
+            label="An overjoyed pig with a gold coin and sparkles"
+            className="w-[170px]"
+          />
+        </div>
+      }
+    >
+      {pig && (
+        <div className="text-center">
+          <p className="mb-6 mt-0 text-text-muted">
+            You saved{' '}
+            <strong className="text-text">{formatMinutesShort(pig.targetMinutes)}</strong>{' '}
+            for “{pig.name}”. Mark it as completed to free up a slot for your next goal.
+          </p>
+          <div className="flex flex-col gap-2.5">
+            <Button onClick={() => onComplete(pig.id)}>Mark as completed</Button>
+            <Button variant="secondary" onClick={onClose}>
+              Later
+            </Button>
+          </div>
+        </div>
+      )}
+    </Modal>
+  )
+}

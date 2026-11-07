@@ -14,6 +14,10 @@ type Props = {
   width?: number
   /** Hide the close button (confirmation dialogs use explicit buttons). */
   hideClose?: boolean
+  /** Center the title (celebration dialogs). */
+  centered?: boolean
+  /** Illustration shown above the title (celebration dialogs). */
+  hero?: ReactNode
   className?: string
 }
 
@@ -29,6 +33,8 @@ export function Modal({
   children,
   width = 520,
   hideClose,
+  centered,
+  hero,
   className,
 }: Props) {
   // The modal is controlled from outside (no Dialog.Trigger), so remember the opener ourselves and give it focus
@@ -57,8 +63,19 @@ export function Modal({
             className,
           )}
         >
-          <div className="mb-4 flex items-start justify-between gap-3">
-            <Dialog.Title className="font-heading text-[26px] font-medium leading-tight">
+          {hero}
+          <div
+            className={cn(
+              'mb-4 flex items-start justify-between gap-3',
+              centered && 'justify-center',
+            )}
+          >
+            <Dialog.Title
+              className={cn(
+                'font-heading font-medium leading-tight',
+                centered ? 'text-center text-4xl' : 'text-[26px]',
+              )}
+            >
               {title}
             </Dialog.Title>
             {!hideClose && (
@@ -71,7 +88,9 @@ export function Modal({
             )}
           </div>
           {description ? (
-            <Dialog.Description className="mb-5 text-text-muted">
+            <Dialog.Description
+              className={cn('mb-5 text-text-muted', centered && 'text-center')}
+            >
               {description}
             </Dialog.Description>
           ) : (

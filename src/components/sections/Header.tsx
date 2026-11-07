@@ -18,6 +18,7 @@ export function Header() {
   return (
     <header className="mx-auto flex max-w-[1120px] items-center justify-between gap-3 px-4 py-3 sm:px-6 sm:py-5">
       <a
+        id="site-logo"
         href="#top"
         className="flex items-center gap-2 text-text no-underline sm:gap-2.5"
       >

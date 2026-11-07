@@ -8,28 +8,46 @@ type Props = Omit<InputHTMLAttributes<HTMLInputElement>, 'id'> & {
   hint?: string
   /** Text after the field, e.g. "hours". */
   suffix?: string
+  /** Keep the label for screen readers but hide it visually (when a group label already explains the field). */
+  hideLabel?: boolean
+  /** Mark the field invalid and point to an error shown elsewhere (id of that element). */
+  invalidBy?: string
 }
 
-export function Input({ label, error, hint, suffix, className, ...rest }: Props) {
+export function Input({
+  label,
+  error,
+  hint,
+  suffix,
+  hideLabel,
+  invalidBy,
+  className,
+  ...rest
+}: Props) {
   const id = useId()
   const hintId = `${id}-hint`
   const errorId = `${id}-error`
   const describedBy =
-    [error ? errorId : null, hint ? hintId : null].filter(Boolean).join(' ') || undefined
+    [error ? errorId : null, invalidBy ?? null, hint ? hintId : null]
+      .filter(Boolean)
+      .join(' ') || undefined
 
   return (
     <div>
-      <label htmlFor={id} className="mb-1.5 block text-sm font-bold">
+      <label
+        htmlFor={id}
+        className={cn('mb-1.5 block text-sm font-bold', hideLabel && 'sr-only')}
+      >
         {label}
       </label>
       <div className="flex items-center gap-2.5">
         <input
           id={id}
-          aria-invalid={error ? true : undefined}
+          aria-invalid={error || invalidBy ? true : undefined}
           aria-describedby={describedBy}
           className={cn(
             'h-12 w-full rounded-md border-2 bg-surface px-4 text-base text-text placeholder:text-text-muted',
-            error ? 'border-danger' : 'border-border',
+            error || invalidBy ? 'border-danger' : 'border-border',
             className,
           )}
           {...rest}
