@@ -1,3 +1,4 @@
+import { cn } from '../../lib/cn'
 import { MOOD_LABEL, MOOD_SCALE, type PigMood } from './pigMood'
 import { PIG_COLORS, type PigColorName } from './pigColors'
 
@@ -9,6 +10,8 @@ type Props = {
   /** Accessible description. Omit (or pass `decorative`) when nearby text already says it. */
   label?: string
   decorative?: boolean
+  /** Idle life for large pigs: blinking and an occasional ear wiggle (stills under reduced motion). */
+  alive?: boolean
   className?: string
 }
 
@@ -18,6 +21,7 @@ export function PigIllustration({
   color = 'pink',
   label,
   decorative = false,
+  alive = false,
   className,
 }: Props) {
   const c = PIG_COLORS[color]
@@ -35,7 +39,7 @@ export function PigIllustration({
     : { role: 'img' as const, 'aria-label': label ?? `${MOOD_LABEL[mood]} pig` }
 
   return (
-    <svg viewBox="0 0 120 100" className={className} {...aria}>
+    <svg viewBox="0 0 120 100" className={cn(alive && 'pig-alive', className)} {...aria}>
       {/* tail */}
       <path
         d={`M${tailX} 54q-11-3-8-12q3-5 8-1`}
@@ -67,6 +71,7 @@ export function PigIllustration({
       />
       {/* ears */}
       <polygon
+        className="pig-ear-l"
         points={`40,${earBase} 46,${round(earBase - 19)} 58,${round(earBase - 3)}`}
         fill={c.ear}
         stroke={c.outline}
@@ -116,8 +121,8 @@ export function PigIllustration({
       )}
       {(mood === 'curious' || mood === 'happy') && (
         <>
-          <circle cx="44" cy="52" r="3.5" fill={ink} />
-          <circle cx="76" cy="52" r="3.5" fill={ink} />
+          <circle className="pig-eye" cx="44" cy="52" r="3.5" fill={ink} />
+          <circle className="pig-eye" cx="76" cy="52" r="3.5" fill={ink} />
         </>
       )}
       {mood === 'excited' && (

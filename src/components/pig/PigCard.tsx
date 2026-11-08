@@ -46,7 +46,7 @@ export function PigCard({ pig, deposits, onAddTime, onComplete, onDetails }: Pro
   return (
     <article
       className={cn(
-        'rounded-lg border-2 bg-surface p-5 shadow-card',
+        'rounded-lg border-2 bg-surface p-5 shadow-card transition-[transform,box-shadow] duration-200 ease-[var(--ease-out)] motion-safe:hover:-translate-y-1 motion-safe:hover:shadow-[0_12px_28px_rgba(201,58,111,0.18)]',
         full ? 'border-coin shadow-card-gold' : 'border-border',
       )}
     >
