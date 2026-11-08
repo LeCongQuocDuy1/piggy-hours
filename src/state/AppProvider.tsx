@@ -9,9 +9,16 @@ import {
   useState,
   type ReactNode,
 } from 'react'
+import { mergeData, replaceData, type ImportSummary } from '../domain/backup'
 import { toLocalDate } from '../domain/time'
 import type { DepositInput } from '../domain/deposits'
-import { emptyData, type Deposit, type Pig, type Result } from '../domain/types'
+import {
+  emptyData,
+  type AppData,
+  type Deposit,
+  type Pig,
+  type Result,
+} from '../domain/types'
 import type { PigInput, ValidPig } from '../domain/validation'
 import { createLocalStorage } from '../storage/localStorage'
 import type { Storage, StorageError } from '../storage/storage'
@@ -60,6 +67,8 @@ type AppApi = {
     UpdateDepositError
   >
   deleteDeposit: (depositId: string) => Result<{ depositId: string }, DeleteDepositError>
+  /** Applies a validated backup (US-07): merge keeps what the user has, replace swaps everything. */
+  importBackup: (incoming: AppData, mode: 'merge' | 'replace') => ImportSummary
 }
 
 const AppContext = createContext<AppApi | null>(null)
@@ -183,6 +192,15 @@ export function AppProvider({ children, storage, env = defaultEnv }: Props) {
     [data],
   )
 
+  const importBackup = useCallback(
+    (incoming: AppData, mode: 'merge' | 'replace') => {
+      const result = mode === 'merge' ? mergeData(data, incoming) : replaceData(incoming)
+      dispatch({ type: 'replaceAll', data: result.data })
+      return result.summary
+    },
+    [data],
+  )
+
   const api = useMemo<AppApi>(
     () => ({
       data,
@@ -195,6 +213,7 @@ export function AppProvider({ children, storage, env = defaultEnv }: Props) {
       deletePig,
       updateDeposit,
       deleteDeposit,
+      importBackup,
     }),
     [
       data,
@@ -206,6 +225,7 @@ export function AppProvider({ children, storage, env = defaultEnv }: Props) {
       deletePig,
       updateDeposit,
       deleteDeposit,
+      importBackup,
     ],
   )
 
