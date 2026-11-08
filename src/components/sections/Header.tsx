@@ -10,6 +10,7 @@ const LINKS = [
   { href: '#pigs', label: 'Your pigs' },
   { href: '#moods', label: 'Meet the pig' },
   { href: '#stats', label: 'Your stats' },
+  { href: '#data', label: 'Your data' },
   { href: '#faq', label: 'FAQ' },
 ]
 

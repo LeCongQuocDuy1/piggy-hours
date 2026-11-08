@@ -22,3 +22,12 @@ export function usedSlots(data: Pick<AppData, 'pigs' | 'deposits'>): number {
 export function canCreatePig(data: AppData): boolean {
   return usedSlots(data) < slotLimit(data.achievements.completedPigsCount)
 }
+
+/** The next unlock step above the current count, or `null` at the maximum. */
+export function nextUnlock(
+  completedPigsCount: number,
+): { completed: number; slots: number; remaining: number } | null {
+  const count = Math.max(0, completedPigsCount)
+  const next = [...UNLOCKS].reverse().find((u) => u.completed > count)
+  return next ? { ...next, remaining: next.completed - count } : null
+}

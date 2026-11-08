@@ -2,12 +2,14 @@ import { useEffect, useState } from 'react'
 import { BackToTop } from './components/BackToTop'
 import { DesignPreview } from './components/DesignPreview'
 import { Benefits } from './components/sections/Benefits'
+import { DataSection } from './components/sections/DataSection'
 import { Faq } from './components/sections/Faq'
 import { Footer } from './components/sections/Footer'
 import { Header } from './components/sections/Header'
 import { Hero } from './components/sections/Hero'
 import { HowItWorks } from './components/sections/HowItWorks'
 import { Moods } from './components/sections/Moods'
+import { Shelf } from './components/sections/Shelf'
 import { Stats } from './components/sections/Stats'
 import { YourPigs } from './components/sections/YourPigs'
 import { CreatePigProvider } from './components/modals/CreatePigProvider'
@@ -43,9 +45,11 @@ export default function App() {
                 <Hero />
                 <HowItWorks />
                 <YourPigs />
+                <Shelf />
                 <Moods />
                 <Stats />
                 <Benefits />
+                <DataSection />
                 <Faq />
               </main>
               <Footer />
