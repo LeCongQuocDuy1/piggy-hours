@@ -33,7 +33,7 @@ export function PigFullModal({ pig, onClose, onComplete }: Props) {
           <PigIllustration
             mood="overjoyed"
             color={pig?.color}
-            label="An overjoyed pig with a gold coin and sparkles"
+            label="An overjoyed pig with a gold clock and sparkles"
             className="pig-bounce w-[170px]"
           />
         </div>

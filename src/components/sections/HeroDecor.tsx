@@ -1,7 +1,8 @@
 import type { CSSProperties } from 'react'
+import { TimeToken } from '../pig/TimeToken'
 
 type Bit = {
-  kind: 'coin' | 'star' | 'heart'
+  kind: 'clock' | 'star' | 'heart'
   x: string
   y: string
   size: number
@@ -13,22 +14,16 @@ type Bit = {
 // Positions are percentages of the hero. They sit in the right half or the top corners, away from the text; only
 // two show on phones so the copy stays calm.
 const BITS: (Bit & { phone?: boolean })[] = [
-  { kind: 'coin', x: '5%', y: '8%', size: 26, r: -12, dur: 7, delay: 0, phone: true },
+  { kind: 'clock', x: '5%', y: '8%', size: 26, r: -12, dur: 7, delay: 0, phone: true },
   { kind: 'star', x: '52%', y: '8%', size: 22, r: 10, dur: 6, delay: 1.2 },
   { kind: 'heart', x: '91%', y: '7%', size: 24, r: 8, dur: 8, delay: 0.6, phone: true },
   { kind: 'star', x: '57%', y: '58%', size: 20, r: -8, dur: 6.5, delay: 2 },
-  { kind: 'coin', x: '95%', y: '72%', size: 28, r: 14, dur: 7.5, delay: 1.5 },
+  { kind: 'clock', x: '95%', y: '72%', size: 28, r: 14, dur: 7.5, delay: 1.5 },
   { kind: 'heart', x: '53%', y: '88%', size: 20, r: -10, dur: 9, delay: 0.3 },
 ]
 
 function Shape({ kind }: { kind: Bit['kind'] }) {
-  if (kind === 'coin')
-    return (
-      <svg viewBox="0 0 24 24" className="size-full">
-        <circle cx="12" cy="12" r="9" fill="#F5B833" stroke="#C98B0B" strokeWidth="2" />
-        <path d="M12 8v8" stroke="#C98B0B" strokeWidth="2" strokeLinecap="round" />
-      </svg>
-    )
+  if (kind === 'clock') return <TimeToken className="size-full" />
   if (kind === 'star')
     return (
       <svg viewBox="0 0 24 24" className="size-full">
@@ -54,7 +49,7 @@ function Shape({ kind }: { kind: Bit['kind'] }) {
   )
 }
 
-/** Coins, stars and hearts drifting slowly behind the hero. Purely decorative and clipped to the section. */
+/** Clocks, stars and hearts drifting slowly behind the hero. Purely decorative and clipped to the section. */
 export function HeroDecor() {
   return (
     <div

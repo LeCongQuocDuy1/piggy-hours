@@ -13,6 +13,7 @@ import { Badge } from '../ui/Badge'
 import { Button } from '../ui/Button'
 import { ProgressBar } from '../ui/ProgressBar'
 import { PigIllustration } from './PigIllustration'
+import { TimeToken } from './TimeToken'
 
 const dateFormat = new Intl.DateTimeFormat('en-US', {
   month: 'short',
@@ -39,7 +40,7 @@ export function PigCard({ pig, deposits, onAddTime, onComplete, onDetails }: Pro
   const status = pigStatus(pig, deposits)
   const full = status === 'full'
   const saved = savedMinutes(pig, deposits)
-  // Every time more is saved, the coin drops and the pig squishes (the key restarts the animation).
+  // Every time more is saved, a clock drops in and the pig squishes (the key restarts the animation).
   const pulse = usePulseOnIncrease(saved)
   const valueText = `${formatMinutesShort(saved)} of ${formatMinutesShort(pig.targetMinutes)}`
 
@@ -62,11 +63,13 @@ export function PigCard({ pig, deposits, onAddTime, onComplete, onDetails }: Pro
           </div>
           {pulse > 0 && (
             <span
-              key={`coin-${pulse}`}
-              data-testid="coin-drop"
+              key={`clock-${pulse}`}
+              data-testid="time-drop"
               aria-hidden="true"
-              className="coin-drop pointer-events-none absolute left-[35px] top-[-4px] size-3.5 rounded-full border-2 border-coin-strong bg-coin"
-            />
+              className="time-drop pointer-events-none absolute left-[33px] top-[-6px] size-[18px]"
+            >
+              <TimeToken className="size-full" />
+            </span>
           )}
         </div>
         <div className="min-w-0 flex-1">

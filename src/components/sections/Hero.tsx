@@ -1,3 +1,4 @@
+import { TimeToken } from '../pig/TimeToken'
 import { Squiggle } from '../ui/Squiggle'
 import { HeroDecor } from './HeroDecor'
 import { PigIllustration } from '../pig/PigIllustration'
@@ -25,21 +26,7 @@ export function Hero() {
             label="A happy pink piggy bank"
             className="hero-pig w-[84%]"
           />
-          <svg
-            viewBox="0 0 24 24"
-            aria-hidden="true"
-            className="hero-coin absolute left-[45.5%] top-[8%] w-[9%]"
-          >
-            <circle
-              cx="12"
-              cy="12"
-              r="9"
-              fill="#F5B833"
-              stroke="#C98B0B"
-              strokeWidth="2"
-            />
-            <path d="M12 8v8" stroke="#C98B0B" strokeWidth="2" strokeLinecap="round" />
-          </svg>
+          <TimeToken className="hero-clock absolute left-[45.5%] top-[8%] w-[9%]" />
         </div>
       </div>
 

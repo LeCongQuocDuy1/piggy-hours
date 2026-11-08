@@ -142,7 +142,7 @@
     transform: scale(1, 1);
   }
 }
-@keyframes coin-drop {
+@keyframes time-drop {
   0% {
     opacity: 0;
     transform: translateY(-14px) scale(0.9);
@@ -198,8 +198,8 @@
   transform-origin: 50% 90%;
   animation: pig-squish 450ms var(--ease-spring);
 }
-.coin-drop {
-  animation: coin-drop 450ms var(--ease-out) both;
+.time-drop {
+  animation: time-drop 450ms var(--ease-out) both;
 }
 .pig-bounce {
   transform-origin: 50% 100%;
@@ -249,7 +249,7 @@
     transform: translateY(-7px);
   }
 }
-@keyframes hero-coin-drop {
+@keyframes hero-time-drop {
   0% {
     opacity: 0;
     transform: translateY(-40%);
@@ -332,8 +332,8 @@
 .hero-bob {
   animation: hero-bob 4.5s ease-in-out infinite;
 }
-.hero-coin {
-  animation: hero-coin-drop 4.5s ease-in infinite;
+.hero-clock {
+  animation: hero-time-drop 4.5s ease-in infinite;
 }
 .hero-pig {
   transform-origin: 50% 90%;
@@ -369,7 +369,7 @@
   }
   .float-bit,
   .hero-bob,
-  .hero-coin,
+  .hero-clock,
   .hero-pig,
   .hero-halo,
   .pig-alive .pig-eye,
@@ -385,7 +385,7 @@
   .pig-bounce {
     animation: soft-fade 100ms linear;
   }
-  .coin-drop {
+  .time-drop {
     display: none;
   }
   .pig-sparkle {

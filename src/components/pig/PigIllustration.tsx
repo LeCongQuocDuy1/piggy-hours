@@ -95,7 +95,7 @@ export function PigIllustration({
         stroke={c.outline}
         strokeWidth="2.5"
       />
-      {/* coin slot */}
+      {/* slot on the back (a piggy bank), where the time clocks drop in */}
       <rect x="50" y={earBase} width="20" height="4" rx="2" fill={c.nostril} />
       {/* snout */}
       <ellipse
@@ -184,7 +184,24 @@ export function PigIllustration({
             strokeWidth="2.5"
             strokeLinecap="round"
           />
-          <circle cx="60" cy="9" r="6" fill="#F5B833" stroke="#C98B0B" strokeWidth="2" />
+          <g className="pig-clock">
+            <circle
+              cx="60"
+              cy="9"
+              r="6.5"
+              fill="#F5B833"
+              stroke="#C98B0B"
+              strokeWidth="2"
+            />
+            <path
+              d="M60 5.6V9l2.4 1.5"
+              fill="none"
+              stroke="#7A4E00"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </g>
           <path
             className="pig-sparkle"
             d="M20 20v12M14 26h12M100 18v10M95 23h10"
