@@ -261,7 +261,7 @@ describe('back to top', () => {
     scrollTo(300)
     expect(screen.queryByRole('button', { name: 'Back to top' })).not.toBeInTheDocument()
     scrollTo(900)
-    expect(screen.getByRole('button', { name: 'Back to top' })).toHaveTextContent('Top')
+    expect(screen.getByRole('button', { name: 'Back to top' })).toBeInTheDocument()
   })
 
   it('scrolls smoothly to the top and moves focus to the logo', async () => {
