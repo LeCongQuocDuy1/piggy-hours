@@ -239,3 +239,66 @@ Today's date matters here. To test the forecast you need deposits on several dif
 
 After M7 is accepted: tag `v0.7.0` (GitHub Releases) and close #53.
 
+### M8: quality pass and the v1.0 release checklist
+
+Run this list on the Vercel preview first, then once more on https://piggy-hours.vercel.app after merging.
+
+**Automated (already run for this PR; re-run before any later release)**
+
+| # | Check | Expected |
+|---|---|---|
+| 1 | `npm run format:check`, `npm run lint`, `npx tsc -b`, `npm test`, `npm run build` | All pass (CI runs the same) |
+| 2 | axe-core on the page and each dialog (390 and 1280 px) | 0 violations |
+| 3 | Lighthouse on the production build, mobile and desktop | Performance, Accessibility, Best Practices and SEO all 100 (at least 90 is the target) |
+
+**Manual: first impression**
+
+| # | Steps | Expected |
+|---|---|---|
+| 4 | Open the live URL in a private window | Loads fast, hero visible at once, no console errors |
+| 5 | Paste the URL into a chat app or a social post composer | A card with the pig picture, title and description (some apps cache old previews; try the Facebook Sharing Debugger or LinkedIn Post Inspector to refresh) |
+| 6 | Look at the browser tab and a phone home-screen shortcut | Pig face icon |
+| 7 | Open `/robots.txt` | Shows `User-agent: *` and `Allow: /` |
+
+**Manual: browsers** (not available in the build environment, so please check)
+
+| # | Steps | Expected |
+|---|---|---|
+| 8 | Chrome or Edge (current): create a pig, add time, fill it, complete it, reload | Works; data kept |
+| 9 | Firefox (current): same | Works; date field, dialogs, confetti, heatmap all fine |
+| 10 | Safari on iPhone or Mac (current): same | Works; check the date field, the back-to-top button and that nothing is cut off by the bottom bar |
+| 11 | Android Chrome: same | Works |
+
+**Manual: accessibility spot checks**
+
+| # | Steps | Expected |
+|---|---|---|
+| 12 | Tab through the whole page without a mouse | Every control is reachable in a sensible order and a clear focus ring is always visible |
+| 13 | Open and close each dialog with the keyboard (Enter, Escape) | Focus goes into the dialog and returns to the button that opened it |
+| 14 | Browser zoom 200% and 400% (or a 320 px window) | No sideways scroll, nothing overlaps |
+| 15 | Windows: turn on high contrast or increase text size | Text stays readable |
+| 16 | Turn on "reduce motion" | Everything is visible and still (see M6 and M6.5) |
+
+**Manual: data safety**
+
+| # | Steps | Expected |
+|---|---|---|
+| 17 | Export a backup, clear site data, import the backup with "Replace" | Everything returns exactly |
+| 18 | Use the app in a private window | A notice explains that data will not be kept, and the app still works |
+
+**Repository**
+
+| # | Check | Expected |
+|---|---|---|
+| 19 | README shows the screenshots and the live link | Yes |
+| 20 | Settings > Branches: ruleset for `main` requiring the `check` job and a pull request | On (guide given in the M4 notes) |
+| 21 | GitHub profile > Settings > Emails: "Keep my email addresses private" and "Block command line pushes that expose my email" | On, so new commits use your `noreply` address (older commits already show an address; rewriting history is optional and risky, so it is not done here) |
+| 22 | Tags `v0.4.0` to `v0.7.0` exist and the matching issues are closed | Yes |
+| 23 | Create release `v1.0.0` from `main` with the CHANGELOG 1.0.0 text, then close #58 | Yes |
+
+**Adding a custom domain later (optional)**
+
+1. Buy the domain, then in Vercel: Project > Settings > Domains > Add, and follow the DNS instructions (an `A` record or a `CNAME`, as Vercel shows).
+2. Update `index.html`: `rel="canonical"`, `og:url` and `og:image` to the new address, and the README link.
+3. Redeploy and refresh the social preview caches (item 5).
+

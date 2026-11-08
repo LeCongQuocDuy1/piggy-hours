@@ -4,6 +4,27 @@ All notable changes are documented here. The format follows [Keep a Changelog](h
 
 ## [Unreleased]
 
+## [1.0.0]
+
+First complete release. Everything in 0.1.0 to 0.7.0, plus the quality pass below.
+
+### Added
+
+- **Accessibility audit (axe-core, WCAG 2.2 AA tags plus best practices)** of the page and every dialog at phone and desktop width: no violations. Lighthouse on the production build: Performance 100, Accessibility 100, Best Practices 100, SEO 100 (mobile and desktop profiles).
+- **Page metadata:** description, theme color, canonical link, Open Graph and Twitter card tags, a 1200 by 630 social image, an apple touch icon and `robots.txt`
+- Automated check that the metadata and the files it points to exist
+- README with screenshots and a quality section; full release checklist in `docs/TESTING.md`
+- Decisions ADR-019 (v1.0 scope, audit results, what is deliberately left out)
+
+### Fixed
+
+- The "Mark as completed" button's accessible name now starts with its visible text ("Mark as completed, Piano"), so voice-control users can say what they see (WCAG 2.5.3)
+- Contrast on the new pastel backgrounds: secondary text `#7A6670` to `#6B5560`, hero gradient end `#E8613F` to `#D44A28`, and text fields got a 3:1 border (`--color-field-border`)
+
+### Changed
+
+- Package version is 1.0.0
+
 ## [0.7.0]
 
 ### Added
