@@ -4,6 +4,12 @@ All notable changes are documented here. The format follows [Keep a Changelog](h
 
 ## [Unreleased]
 
+### Added
+
+- **3D pig in the hero (M9a):** a pig built in code with react-three-fiber that turns to follow the cursor, bobs, blinks, wiggles an ear and swells with its mood; a 3D clock falls into its slot every few seconds and the pig squishes on landing
+- The 2D pig stays as the fallback for reduced motion, no WebGL, low-end devices and any 3D error; the 3D code is a separate lazy chunk that loads when the browser is idle and stops drawing while off screen
+- Decision ADR-020 (how M9 is built)
+
 ## [1.0.0]
 
 First complete release. Everything in 0.1.0 to 0.7.0, plus the quality pass below.

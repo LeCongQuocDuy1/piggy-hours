@@ -302,3 +302,18 @@ Run this list on the Vercel preview first, then once more on https://piggy-hours
 2. Update `index.html`: `rel="canonical"`, `og:url` and `og:image` to the new address, and the README link.
 3. Redeploy and refresh the social preview caches (item 5).
 
+
+### M9a: 3D pig in the hero (US-17)
+
+Use a normal desktop or laptop for 1 to 6; the 3D pig only loads on devices with WebGL and more than 2 cores.
+
+| # | Steps | Expected |
+|---|---|---|
+| 1 | Open the preview and wait about 2 seconds | The flat pig is replaced by a 3D pig with a soft fade; no layout jump |
+| 2 | Move the mouse around the page | The pig turns its head and body toward the cursor, smoothly, and tilts a little up and down |
+| 3 | Watch for 10 seconds | The pig bobs, blinks, and every 5 seconds a gold clock falls, spins and slides into the slot while the pig squishes |
+| 4 | Scroll the hero out of view and back | No console errors; the animation resumes (it stops while hidden to save battery) |
+| 5 | Turn on "Reduce motion" in the system settings and reload | The flat 2D pig stays, no canvas, the old clock drop is a quiet fade |
+| 6 | Open DevTools, Network tab, reload and filter JS | The `Pig3DScene-*.js` chunk (about 244 kB gzipped) downloads only after the page has loaded |
+| 7 | Open the preview on a phone | A 3D pig on recent phones, or the 2D pig on older ones; never a blank circle |
+| 8 | Run Lighthouse (mobile) | Performance stays at 90 or more (99 measured; the 3D chunk does not load during the test because the check runs after idle on a 2-core machine) |
