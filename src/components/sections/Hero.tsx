@@ -1,3 +1,6 @@
+import { TimeToken } from '../pig/TimeToken'
+import { Squiggle } from '../ui/Squiggle'
+import { HeroDecor } from './HeroDecor'
 import { PigIllustration } from '../pig/PigIllustration'
 import { useCreatePig } from '../modals/CreatePigProvider'
 import { buttonStyles } from '../ui/buttonStyles'
@@ -7,31 +10,23 @@ export function Hero() {
   return (
     <section
       aria-labelledby="hero-title"
-      className="mx-auto flex max-w-[1120px] flex-col items-center gap-8 px-4 pb-14 pt-6 text-center sm:px-6 md:flex-row md:gap-10 md:pb-[72px] md:pt-10 md:text-left"
+      className="relative mx-auto flex max-w-[1120px] flex-col items-center gap-8 px-4 pb-14 pt-6 text-center sm:px-6 md:flex-row md:gap-10 md:pb-[72px] md:pt-10 md:text-left"
     >
+      <HeroDecor />
       {/* The pig comes first on phones so the first screen already feels alive. */}
       <div className="order-first flex w-full min-w-0 justify-center md:order-last md:flex-[1_1_340px]">
         <div className="relative flex aspect-square w-[min(74vw,320px)] items-center justify-center rounded-full bg-hero-disc md:w-full md:max-w-[440px]">
+          <span
+            aria-hidden="true"
+            className="hero-halo absolute -inset-3 rounded-full border-[3px] border-dashed border-coin/60"
+          />
           <PigIllustration
             mood="happy"
+            alive
             label="A happy pink piggy bank"
-            className="w-[84%]"
+            className="hero-pig w-[84%]"
           />
-          <svg
-            viewBox="0 0 24 24"
-            aria-hidden="true"
-            className="absolute left-1/2 top-[8%] w-[9%] -translate-x-1/2"
-          >
-            <circle
-              cx="12"
-              cy="12"
-              r="9"
-              fill="#F5B833"
-              stroke="#C98B0B"
-              strokeWidth="2"
-            />
-            <path d="M12 8v8" stroke="#C98B0B" strokeWidth="2" strokeLinecap="round" />
-          </svg>
+          <TimeToken className="hero-clock absolute left-[45.5%] top-[8%] w-[9%]" />
         </div>
       </div>
 
@@ -41,10 +36,12 @@ export function Hero() {
         </span>
         <h1
           id="hero-title"
-          className="mb-4 mt-4 font-heading text-[clamp(36px,10.5vw,64px)] font-medium leading-[1.1]"
+          className="mb-5 mt-4 font-heading text-[clamp(36px,10.5vw,64px)] font-medium leading-[1.1]"
         >
           <span className="block">Save your hours.</span>{' '}
-          <span className="block text-primary">Fill your pig.</span>
+          <span className="text-gradient block">
+            <Squiggle>Fill your pig.</Squiggle>
+          </span>
         </h1>
         <p className="mb-7 max-w-[480px] text-lg text-text-muted md:text-xl">
           Every hour you study or work goes into a piggy bank. Set a goal, drop your time

@@ -32,12 +32,14 @@ export function ProgressBar({
       className="h-3.5 overflow-hidden rounded-full bg-track"
     >
       <div
-        className="h-full rounded-full transition-[width] duration-[600ms] ease-[var(--ease-out)]"
+        className="relative h-full overflow-hidden rounded-full transition-[width] duration-[600ms] ease-[var(--ease-out)]"
         style={{
           width: `${pct}%`,
           background: full ? 'var(--color-coin)' : PIG_COLORS[color].strong,
         }}
-      />
+      >
+        {pct > 0 && <span aria-hidden="true" className="progress-shine" />}
+      </div>
     </div>
   )
 }

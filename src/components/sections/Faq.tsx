@@ -1,4 +1,6 @@
 import { ChevronDown } from 'lucide-react'
+import { Squiggle } from '../ui/Squiggle'
+import { Wave } from '../ui/Wave'
 
 const QUESTIONS = [
   {
@@ -22,36 +24,35 @@ const QUESTIONS = [
 
 export function Faq() {
   return (
-    <section
-      id="faq"
-      aria-labelledby="faq-title"
-      className="mx-auto max-w-[760px] px-4 py-14 sm:px-6 md:py-[72px]"
-    >
-      <h2
-        id="faq-title"
-        className="mb-6 text-center font-heading text-3xl font-medium leading-tight md:text-4xl"
-      >
-        Questions, answered quickly
-      </h2>
-      <div className="flex flex-col gap-3">
-        {QUESTIONS.map((item, i) => (
-          <details
-            key={item.q}
-            open={i === 0}
-            className="group rounded-[20px] border-2 border-border bg-surface px-5"
-          >
-            <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-3 font-heading text-lg font-medium [&::-webkit-details-marker]:hidden">
-              {item.q}
-              <ChevronDown
-                size={20}
-                strokeWidth={2.5}
-                aria-hidden="true"
-                className="flex-none text-text-muted transition-transform group-open:rotate-180"
-              />
-            </summary>
-            <p className="mb-4 mt-0 text-text-muted">{item.a}</p>
-          </details>
-        ))}
+    <section id="faq" aria-labelledby="faq-title" className="relative mt-4 bg-band-mint">
+      <Wave className="text-band-mint" />
+      <div className="mx-auto max-w-[760px] px-4 py-14 sm:px-6 md:py-[72px]">
+        <h2
+          id="faq-title"
+          className="mb-6 text-center font-heading text-3xl font-medium leading-tight md:text-4xl"
+        >
+          Questions, <Squiggle>answered</Squiggle> quickly
+        </h2>
+        <div className="flex flex-col gap-3">
+          {QUESTIONS.map((item, i) => (
+            <details
+              key={item.q}
+              open={i === 0}
+              className="group rounded-[20px] border-2 border-border bg-surface px-5"
+            >
+              <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-3 font-heading text-lg font-medium [&::-webkit-details-marker]:hidden">
+                {item.q}
+                <ChevronDown
+                  size={20}
+                  strokeWidth={2.5}
+                  aria-hidden="true"
+                  className="flex-none text-text-muted transition-transform group-open:rotate-180"
+                />
+              </summary>
+              <p className="mb-4 mt-0 text-text-muted">{item.a}</p>
+            </details>
+          ))}
+        </div>
       </div>
     </section>
   )

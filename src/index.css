@@ -21,6 +21,11 @@
   --color-track: #ffe3ec;
   --color-hero-disc: #ffe3ec;
   --color-coin-soft: #fff1c9;
+  /* Soft pastel bands that separate the sections (wavy edge, see Wave.tsx). */
+  --color-band-pink: #ffeaf1;
+  --color-band-gold: #fff2cf;
+  --color-band-lilac: #f1ebff;
+  --color-band-mint: #e4f6ec;
   /* Saving-days heatmap: none, under 1h, 1-2h, 2-3h, 3h or more (docs/DESIGN.md section 22.1). */
   --color-heat-0: #f9dde7;
   --color-heat-1: #f5b3ca;
@@ -50,6 +55,19 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+  }
+
+  /* Soft color glows behind the whole page; fixed so they stay put while the page scrolls. */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      radial-gradient(520px 420px at 6% 2%, rgb(255 186 208 / 0.5), transparent 70%),
+      radial-gradient(480px 380px at 98% 10%, rgb(255 224 140 / 0.5), transparent 70%),
+      radial-gradient(640px 520px at 50% 104%, rgb(190 235 215 / 0.45), transparent 70%);
   }
 
   body {
@@ -124,7 +142,7 @@
     transform: scale(1, 1);
   }
 }
-@keyframes coin-drop {
+@keyframes time-drop {
   0% {
     opacity: 0;
     transform: translateY(-14px) scale(0.9);
@@ -180,8 +198,8 @@
   transform-origin: 50% 90%;
   animation: pig-squish 450ms var(--ease-spring);
 }
-.coin-drop {
-  animation: coin-drop 450ms var(--ease-out) both;
+.time-drop {
+  animation: time-drop 450ms var(--ease-out) both;
 }
 .pig-bounce {
   transform-origin: 50% 100%;
@@ -193,13 +211,181 @@
   animation: twinkle 1.6s ease-in-out infinite;
 }
 
+/* Page polish (M6.5): scroll reveal, hero life, floating bits, shimmer. */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 520ms var(--ease-out) var(--reveal-delay, 0ms),
+    transform 520ms var(--ease-out) var(--reveal-delay, 0ms);
+}
+.reveal[data-shown='true'] {
+  opacity: 1;
+  transform: none;
+}
+
+.text-gradient {
+  background: linear-gradient(95deg, #c93a6f 10%, #e8613f 90%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(var(--r, 0deg));
+  }
+  50% {
+    transform: translateY(-14px) rotate(calc(var(--r, 0deg) + 8deg));
+  }
+}
+@keyframes hero-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-7px);
+  }
+}
+@keyframes hero-time-drop {
+  0% {
+    opacity: 0;
+    transform: translateY(-40%);
+  }
+  8% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  36% {
+    opacity: 1;
+    transform: translateY(300%);
+  }
+  40%,
+  100% {
+    opacity: 0;
+    transform: translateY(320%) scale(0.6);
+  }
+}
+@keyframes hero-squish {
+  0%,
+  36%,
+  54%,
+  100% {
+    transform: scale(1, 1);
+  }
+  41% {
+    transform: scale(1.06, 0.93);
+  }
+  47% {
+    transform: scale(0.97, 1.04);
+  }
+}
+@keyframes halo {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+  50% {
+    transform: scale(1.07);
+    opacity: 0.2;
+  }
+}
+@keyframes blink {
+  0%,
+  93%,
+  100% {
+    transform: scaleY(1);
+  }
+  96% {
+    transform: scaleY(0.1);
+  }
+}
+@keyframes ear-wiggle {
+  0%,
+  88%,
+  100% {
+    transform: rotate(0);
+  }
+  92% {
+    transform: rotate(-9deg);
+  }
+  96% {
+    transform: rotate(5deg);
+  }
+}
+@keyframes shine {
+  0%,
+  55% {
+    transform: translateX(-120%);
+  }
+  100% {
+    transform: translateX(260%);
+  }
+}
+
+.float-bit {
+  animation: float var(--dur, 7s) ease-in-out var(--delay, 0s) infinite;
+}
+.hero-bob {
+  animation: hero-bob 4.5s ease-in-out infinite;
+}
+.hero-clock {
+  animation: hero-time-drop 4.5s ease-in infinite;
+}
+.hero-pig {
+  transform-origin: 50% 90%;
+  animation: hero-squish 4.5s ease-in-out infinite;
+}
+.hero-halo {
+  animation: halo 4.5s ease-in-out infinite;
+}
+.pig-alive .pig-eye {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: blink 5s ease-in-out infinite;
+}
+.pig-alive .pig-ear-l {
+  transform-box: fill-box;
+  transform-origin: 100% 100%;
+  animation: ear-wiggle 7s ease-in-out 1.5s infinite;
+}
+.progress-shine {
+  position: absolute;
+  inset: 0;
+  width: 40%;
+  background: linear-gradient(100deg, transparent, rgb(255 255 255 / 0.5), transparent);
+  animation: shine 4.5s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
+  /* Page polish: everything is simply there and still. */
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .float-bit,
+  .hero-bob,
+  .hero-clock,
+  .hero-pig,
+  .hero-halo,
+  .pig-alive .pig-eye,
+  .pig-alive .pig-ear-l,
+  .progress-shine {
+    animation: none;
+  }
+  .progress-shine {
+    display: none;
+  }
   /* Bounces and drops become a short fade; sparkles stay, but still. */
   .pig-squish,
   .pig-bounce {
     animation: soft-fade 100ms linear;
   }
-  .coin-drop {
+  .time-drop {
     display: none;
   }
   .pig-sparkle {

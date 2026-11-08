@@ -83,9 +83,9 @@ Start with a clean state (private window, or clear site data) and create `Japane
 | 14 | Create a new pig again | It works (the slot was freed) |
 | 15 | Refresh the page | Deposits and the completed pig are remembered |
 | 16 | Keyboard only: open Add time, fill it, submit, press Esc in the dialogs | Everything is reachable; Esc closes; focus returns to the button that opened the dialog |
-| 17 | **Back to top:** scroll down about one screen on the landing page | A pink **Top** button appears bottom-right; it is not there near the top |
+| 17 | **Back to top:** scroll down about one screen on the landing page | A round pink button with a little pig looking up and an arrow badge appears bottom-right; it is not there near the top |
 | 18 | Press **Top** | The page scrolls smoothly to the top; focus moves to the logo; the button disappears |
-| 19 | Phone: repeat 1, 5, 6, 10 to 13 and 17 to 18 | Dialogs fit the screen with the buttons visible; the Top button is easy to hit with a thumb and does not cover important text |
+| 19 | Phone: repeat 1, 5, 6, 10 to 13 and 17 to 18 | Dialogs fit the screen with the buttons visible; the back-to-top button is easy to hit with a thumb and does not cover important text |
 | 20 | Turn on "reduce motion" in the system settings, press **Top** | The page jumps to the top without the smooth scroll |
 
 Not in M3 (arrives later): history list and editing deposits (M5), confetti and sound (M6), statistics and heatmap (M4).
@@ -180,18 +180,39 @@ Use a fresh browser profile or clear site data. Create a pig with a small target
 
 | # | Steps | Expected |
 |---|---|---|
-| 1 | Add 30 minutes to the pig | After the dialog closes, a gold coin drops into the pig's back slot and the pig squishes slightly; it takes under half a second |
+| 1 | Add 30 minutes to the pig | After the dialog closes, a gold clock drops into the pig's back slot and the pig squishes slightly; it takes under half a second |
 | 2 | Add time again | The effect plays again every time |
 | 3 | Refresh the page, or scroll around | No animation on load; the pig simply shows its mood |
-| 4 | Edit an entry to a smaller time, or delete an entry | No coin and no squish |
+| 4 | Edit an entry to a smaller time, or delete an entry | No clock and no squish |
 | 5 | Add enough time to fill the pig | The *Pig full* dialog opens, the pig bounces and confetti flies for about a second and a half, then stops |
 | 6 | Close the dialog with **Later** | The card shows the **Full** badge; no animation repeats |
 | 7 | Look at the overjoyed pig in the dialog and on the full card | The gold sparkles gently twinkle |
 | 8 | Open the browser's Network tab, reload, and add time that does not fill the pig | No `confetti` file is requested; it appears only when a pig becomes full |
-| 9 | Turn on the system setting "reduce motion" (Windows: Settings, Accessibility, Visual effects, turn off *Animation effects*), reload and add time | No coin and no squish, only a very short fade |
+| 9 | Turn on the system setting "reduce motion" (Windows: Settings, Accessibility, Visual effects, turn off *Animation effects*), reload and add time | No clock and no squish, only a very short fade |
 | 10 | With reduce motion on, fill a pig | The dialog opens with no bounce and no confetti; the sparkles are static; nothing requests `confetti` |
-| 11 | Phone width (390 px): repeat 1 and 5 | The coin stays inside the card; confetti covers the screen but does not block the buttons; no sideways scroll |
+| 11 | Phone width (390 px): repeat 1 and 5 | The clock stays inside the card; confetti covers the screen but does not block the buttons; no sideways scroll |
 | 12 | Keyboard: add time and fill a pig using only the keyboard | Focus handling is unchanged; animations never take focus |
 
 After M6 is accepted: tag `v0.6.0` (GitHub Releases) and close #46.
+
+### M6.5: polish (look and feel)
+
+Open the preview on a phone-sized window and on a desktop window. Add two pigs with some time so the page has content.
+
+| # | Steps | Expected |
+|---|---|---|
+| 1 | Open the top of the page | Soft pink, gold and mint glows in the background; "Fill your pig." has a warm gradient and a wavy underline |
+| 2 | Watch the hero pig for about ten seconds | It bobs gently, blinks, wiggles an ear now and then; a clock drops into its slot about every 4.5 s and the pig squishes as it lands; a dashed halo breathes |
+| 3 | Look around the hero | Small clocks, stars and hearts drift; none sits on top of the text (only two show on phones) |
+| 4 | Scroll down slowly | Headings, step cards, mood cards, stat tiles and benefits fade and rise into place, one after another; nothing stays blank |
+| 5 | Jump with the menu to **Your stats** | The four tiles count up from 0 to their values; no flash of wrong numbers afterwards |
+| 6 | Check the section edges | Wavy edges between sections; pink, gold, lilac and mint bands; no thin gaps or lines |
+| 7 | Hover a pig card, a mood card, a step card | They lift slightly; mood cards tilt a little |
+| 8 | Look at a progress bar | A soft shine passes over the fill every few seconds |
+| 9 | Phone width (390 px and 320 px) | No sideways scroll; text stays readable over the glows |
+| 10 | Turn on "reduce motion" in your system and reload | Everything is visible straight away and still: no drifting bits, no bobbing, no blinking, no reveal, no count-up, no shine |
+| 11 | Keyboard: Tab through the page | Focus rings are still clear on the colored bands; nothing animated takes focus |
+| 12 | Add time and fill a pig (M6 effects) | Clock drop, squish and confetti still work |
+
+Not in M6.5 (later): pig personality, accessories, achievements, dark mode, share image, 3D pig.
 

@@ -4,12 +4,27 @@ All notable changes are documented here. The format follows [Keep a Changelog](h
 
 ## [Unreleased]
 
+### Added (M6.5 polish)
+
+- **Back-to-top button** is now a round pig face looking up with a small arrow badge (no text); the accessible name is still "Back to top"
+- **Favicon** is the pig face instead of the default Vite icon
+
+- **Clocks instead of coins:** the thing that drops into the pig, floats around the hero and sits on top of an overjoyed pig is now a small gold clock, because Piggy Hours saves time, not money
+
+- **Livelier look:** soft color glows behind the page, pastel section bands (pink, gold, lilac, mint) with wavy edges, a gradient on "Fill your pig." and hand-drawn wavy underlines on key words
+- **Hero:** the pig bobs, blinks and wiggles an ear; a clock drops into its slot every few seconds and the pig squishes on landing; a dashed halo breathes; clocks, stars and hearts drift in the background
+- **Scroll reveal:** headings, steps, mood cards, stat tiles and benefits fade and rise into place, one after another
+- **Count-up** on the four stat tiles the first time they come into view
+- **Micro-interactions:** pig cards and mood cards lift on hover; a soft shine runs across progress bars
+- **Reduced motion and no observer:** everything is simply shown, still and complete; screen readers get final numbers at once
+- 8 more automated tests (Reveal, CountUp) for a total of 275
+
 ## [0.6.0]
 
 ### Added
 
-- **Pig animation and celebration** (US-12, DESIGN section 17): adding time drops a coin into the pig's slot and the pig squishes slightly (about 450 ms); when a pig becomes full, the _Pig full_ dialog bounces it and fires confetti for about 1.5 s; sparkles on an overjoyed pig twinkle
-- **Reduced motion:** with the system setting "reduce motion", bounces and drops become a fade of 100 ms or less, the coin is not shown, confetti is not loaded at all, and the sparkles stay still (a static sparkle instead)
+- **Pig animation and celebration** (US-12, DESIGN section 17): adding time drops a clock into the pig's slot and the pig squishes slightly (about 450 ms); when a pig becomes full, the _Pig full_ dialog bounces it and fires confetti for about 1.5 s; sparkles on an overjoyed pig twinkle
+- **Reduced motion:** with the system setting "reduce motion", bounces and drops become a fade of 100 ms or less, the clock is not shown, confetti is not loaded at all, and the sparkles stay still (a static sparkle instead)
 - `canvas-confetti` is loaded only when a pig becomes full (a separate 4 kB gzipped chunk), so the main bundle is unchanged
 - `usePrefersReducedMotion`, `usePulseOnIncrease`, `fireConfetti`; 11 more automated tests (267 in total)
 - No sound (DESIGN section 17)

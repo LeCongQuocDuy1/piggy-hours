@@ -43,15 +43,15 @@ beforeEach(() => {
 afterEach(() => vi.restoreAllMocks())
 
 describe('pig motion (US-12)', () => {
-  it('drops a coin and squishes the pig each time time is added, not before', async () => {
+  it('drops a clock and squishes the pig each time time is added, not before', async () => {
     render(<App />)
     await createPig('Piano', '10')
-    expect(screen.queryByTestId('coin-drop')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('time-drop')).not.toBeInTheDocument()
 
     await deposit('Piano', '1')
-    const coin = await screen.findByTestId('coin-drop')
-    expect(coin).toHaveAttribute('aria-hidden', 'true')
-    expect(coin.parentElement?.querySelector('.pig-squish')).not.toBeNull()
+    const clock = await screen.findByTestId('time-drop')
+    expect(clock).toHaveAttribute('aria-hidden', 'true')
+    expect(clock.parentElement?.querySelector('.pig-squish')).not.toBeNull()
   })
 
   it('fires confetti and bounces the pig when a pig becomes full', async () => {
@@ -68,7 +68,7 @@ describe('pig motion (US-12)', () => {
     render(<App />)
     await createPig('Piano', '2')
     await deposit('Piano', '1')
-    await screen.findByTestId('coin-drop')
+    await screen.findByTestId('time-drop')
     expect(confetti).not.toHaveBeenCalled()
   })
 

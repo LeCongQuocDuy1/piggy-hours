@@ -134,7 +134,7 @@ Acceptance criteria:
 - Show the estimated finish date and, if a deadline exists, whether it is ahead of, on, or behind schedule.
 
 **US-12 · Pig animation and celebration** — Should
-- The pig grows or changes expression with progress; coin-drop effect on deposit; confetti when full.
+- The pig grows or changes expression with progress; a clock dropping in on deposit; confetti when full.
 - Respects the system "reduce motion" setting.
 
 ### 3.4 Could
@@ -148,7 +148,7 @@ Acceptance criteria:
 
 Notes:
 - Out of scope for the MVP and v1.0 (they keep the simple, clear 2D look from `DESIGN.md`).
-- Candidate ideas: a 3D pig that reacts to progress, 3D coin drop, parallax or tilt effects on the landing page. Exact scope is decided in its own design pass.
+- Candidate ideas: a 3D pig that reacts to progress, 3D clock drop, parallax or tilt effects on the landing page. Exact scope is decided in its own design pass.
 - Must not break accessibility or performance targets: 2D fallback for reduced motion and low-end devices, lazy-loaded so the initial load stays fast.
 
 ### 3.5 Won't (this time)
