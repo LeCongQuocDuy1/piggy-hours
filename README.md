@@ -16,10 +16,12 @@ Piggy Hours is a small web app where you drop the time you spend studying or wor
 - Pig expressions change as it fills (sleepy to overjoyed); a celebration when it is full
 - Stats tiles and a GitHub-style heatmap of your saving days
 - Edit or delete a pig, and a history of every entry you can edit or delete
+- A shelf of completed pigs; completing pigs unlocks more slots
+- Export and import a JSON backup, with merge or replace
 - Everything on one page, with actions in modals
 - Local-first: no sign-up, data saved in your browser
 
-Planned: backup and restore, completed-pigs shelf, animations, deadline guidance.
+Planned: animations and celebration effects, deadline guidance, forecast.
 
 ## Tech stack
 

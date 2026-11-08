@@ -144,3 +144,33 @@ Start with a pig `Japanese N3` (target 50 hours) that has a few entries on diffe
 | 18 | Phone: repeat 1, 3, 9, 13 | Dialogs fit the screen, buttons are at least 44 px, nothing is cut off |
 
 Not in M5a (arrives with M5b): backup and restore, the completed-pigs shelf, the slot-unlock message.
+
+### M5b: backup and restore, shelf, slot unlock (US-07, US-08, US-09)
+
+Start with a few pigs and entries (two active pigs and one completed is a good start).
+
+| # | Steps | Expected |
+|---|---|---|
+| 1 | Scroll to **Your data** (also in the phone menu) | The reminder that data lives only in this browser, and **Export backup** and **Import backup** buttons |
+| 2 | Press **Export backup** | A file `piggy-hours-backup-YYYY-MM-DD.json` downloads; toast "Backup saved as ..."; open it: it holds your pigs, entries and `completedPigsCount` |
+| 3 | Choose a file that is not a backup (a photo, or a text file renamed to .json) | A red message under the buttons; nothing changes |
+| 4 | Edit your backup file: change `"version": 1` to `9` and import it | "This backup was made by a newer version..." and nothing changes |
+| 5 | Edit the file: delete a closing bracket, or change a pig's `id` in a deposit to an unknown value | "This backup is damaged or contains unexpected data" and nothing changes |
+| 6 | Delete a pig in the app, then import your backup and keep **Merge with my data** | The dialog shows file vs app counts; after **Merge backup** the deleted pig and its entries are back and a toast says what was added; nothing was duplicated |
+| 7 | Import the same file again with Merge | "Added 0 pigs and 0 entries"; nothing is duplicated |
+| 8 | With every slot used, import a backup that has a pig you do not have | That pig is skipped and the toast says so |
+| 9 | Change something in the app (rename a pig), import the older backup with Merge | Your current name stays |
+| 10 | Import with **Replace everything** | A warning appears; **Replace all** swaps your data for the backup |
+| 11 | Press **Cancel** in the import dialog | Nothing changes |
+| 12 | Refresh the page after an import | The data is still there |
+| 13 | Complete a pig | **Your shelf** appears with the pig, its target, the completion date and the count; a hint says how many more pigs unlock the next slot |
+| 14 | Complete a second pig | Toast "New slot unlocked: you now have 3 pig slots!" and the counter shows 3 |
+| 15 | Press the history button on a shelf pig | A read-only history (no edit buttons for entries or the pig); **Delete pig** still works |
+| 16 | Delete a completed pig | It leaves the shelf; the total completed count and your slots do not go down |
+| 17 | Phone: repeat 2, 6, 10 and 13 | Everything fits; the import dialog buttons are readable; no sideways scroll |
+| 18 | Keyboard: Tab to **Import backup**, press Enter, pick a file; use the radio options with the arrow keys | Everything is reachable; focus returns to the button after the dialog closes |
+
+After M5b is accepted: tag `v0.5.0` (GitHub Releases) and close #40.
+
+Not in M5b (arrives later): animations and confetti (M6), deadline guidance and forecast (M7).
+

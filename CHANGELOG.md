@@ -4,7 +4,22 @@ All notable changes are documented here. The format follows [Keep a Changelog](h
 
 ## [Unreleased]
 
+## [0.5.0]
+
 ### Added
+
+- **Your data** section (US-07): **Export backup** downloads all pigs, entries and achievements as a dated JSON file; **Import backup** reads a file, validates it with the same checks and migrations as stored data, and shows a clear message for files that are not JSON, not a Piggy Hours backup, made by a newer version, or damaged
+- Import asks how to bring the backup in: **Merge** (default; what you already have wins, pigs that do not fit the free slots and entries that would overfill a pig are skipped and counted) or **Replace everything** (with a warning)
+- A reminder that data lives only in this browser
+- **Your shelf** (US-08): completed pigs with target and completion date, newest first, a read-only history, and the total completed count; deleting a completed pig keeps the count
+- **Slot unlock message** (US-09): completing a pig that unlocks a slot says so, and the shelf shows how many more pigs unlock the next one
+- Domain `parseBackup`, `mergeData`, `replaceData`, `nextUnlock`; 44 more automated tests (256 in total)
+
+### Changed
+
+- "Your data" is also in the mobile menu
+
+### Added in M5a
 
 - **Pig details** dialog (US-06), opened from the **...** button on a pig card: progress, and the deposit history newest first with date, time and note
 - **Edit and delete deposits**; changing or removing time on a full pig makes it active again; completed pigs stay read-only
