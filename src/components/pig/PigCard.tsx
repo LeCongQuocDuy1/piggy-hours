@@ -8,6 +8,7 @@ import {
 import { formatMinutesShort } from '../../domain/time'
 import type { Deposit, Pig } from '../../domain/types'
 import { cn } from '../../lib/cn'
+import { usePulseOnIncrease } from '../../lib/usePulseOnIncrease'
 import { Badge } from '../ui/Badge'
 import { Button } from '../ui/Button'
 import { ProgressBar } from '../ui/ProgressBar'
@@ -38,6 +39,8 @@ export function PigCard({ pig, deposits, onAddTime, onComplete, onDetails }: Pro
   const status = pigStatus(pig, deposits)
   const full = status === 'full'
   const saved = savedMinutes(pig, deposits)
+  // Every time more is saved, the coin drops and the pig squishes (the key restarts the animation).
+  const pulse = usePulseOnIncrease(saved)
   const valueText = `${formatMinutesShort(saved)} of ${formatMinutesShort(pig.targetMinutes)}`
 
   return (
@@ -48,12 +51,24 @@ export function PigCard({ pig, deposits, onAddTime, onComplete, onDetails }: Pro
       )}
     >
       <div className="flex items-center gap-3.5">
-        <PigIllustration
-          mood={moodForProgress(percent)}
-          color={pig.color}
-          label={`${pig.name} pig, ${Math.floor(percent)}% full`}
-          className="h-[70px] w-[84px] flex-none"
-        />
+        <div className="relative h-[70px] w-[84px] flex-none">
+          <div key={pulse} className={cn('h-full w-full', pulse > 0 && 'pig-squish')}>
+            <PigIllustration
+              mood={moodForProgress(percent)}
+              color={pig.color}
+              label={`${pig.name} pig, ${Math.floor(percent)}% full`}
+              className="h-full w-full"
+            />
+          </div>
+          {pulse > 0 && (
+            <span
+              key={`coin-${pulse}`}
+              data-testid="coin-drop"
+              aria-hidden="true"
+              className="coin-drop pointer-events-none absolute left-[35px] top-[-4px] size-3.5 rounded-full border-2 border-coin-strong bg-coin"
+            />
+          )}
+        </div>
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2">
             <h3 className="m-0 min-w-0 break-words font-heading text-[22px] font-medium leading-snug">

@@ -1,3 +1,5 @@
+import { useEffect } from 'react'
+import { fireConfetti } from '../../lib/celebrate'
 import { formatMinutesShort } from '../../domain/time'
 import type { Pig } from '../../domain/types'
 import { PigIllustration } from '../pig/PigIllustration'
@@ -11,8 +13,13 @@ type Props = {
   onComplete: (pigId: string) => void
 }
 
-/** Shown when a deposit fills a pig (US-02). Confetti and sound arrive in milestone M6. */
+/** Shown when a deposit fills a pig (US-02). The pig bounces and confetti flies; reduced motion skips both (US-12, no sound). */
 export function PigFullModal({ pig, onClose, onComplete }: Props) {
+  const pigId = pig?.id
+  useEffect(() => {
+    if (pigId) void fireConfetti()
+  }, [pigId])
+
   return (
     <Modal
       open={pig !== null}
@@ -27,7 +34,7 @@ export function PigFullModal({ pig, onClose, onComplete }: Props) {
             mood="overjoyed"
             color={pig?.color}
             label="An overjoyed pig with a gold coin and sparkles"
-            className="w-[170px]"
+            className="pig-bounce w-[170px]"
           />
         </div>
       }

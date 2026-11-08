@@ -12,7 +12,7 @@ type Props = {
   className?: string
 }
 
-/** Original SVG pig, drawn in code so it stays crisp and themeable. Static in the MVP. */
+/** Original SVG pig, drawn in code so it stays crisp and themeable. Sparkles on an overjoyed pig twinkle (motion is switched off for reduced motion in index.css). */
 export function PigIllustration({
   mood = 'happy',
   color = 'pink',
@@ -181,6 +181,7 @@ export function PigIllustration({
           />
           <circle cx="60" cy="9" r="6" fill="#F5B833" stroke="#C98B0B" strokeWidth="2" />
           <path
+            className="pig-sparkle"
             d="M20 20v12M14 26h12M100 18v10M95 23h10"
             stroke="#F5B833"
             strokeWidth="2.5"
