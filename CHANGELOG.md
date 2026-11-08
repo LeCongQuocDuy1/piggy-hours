@@ -36,7 +36,7 @@ First complete release. Everything in 0.1.0 to 0.7.0, plus the quality pass belo
 
 ### Added (M6.5 polish)
 
-- **Back-to-top button** is now a round pig face looking up with a small arrow badge (no text); the accessible name is still "Back to top"
+- **Back-to-top button** is now a round button with a simple up arrow (no text); the accessible name is still "Back to top"
 - **Favicon** is the pig face instead of the default Vite icon
 
 - **Clocks instead of coins:** the thing that drops into the pig, floats around the hero and sits on top of an overjoyed pig is now a small gold clock, because Piggy Hours saves time, not money

@@ -83,7 +83,7 @@ Start with a clean state (private window, or clear site data) and create `Japane
 | 14 | Create a new pig again | It works (the slot was freed) |
 | 15 | Refresh the page | Deposits and the completed pig are remembered |
 | 16 | Keyboard only: open Add time, fill it, submit, press Esc in the dialogs | Everything is reachable; Esc closes; focus returns to the button that opened the dialog |
-| 17 | **Back to top:** scroll down about one screen on the landing page | A round pink button with a little pig looking up and an arrow badge appears bottom-right; it is not there near the top |
+| 17 | **Back to top:** scroll down about one screen on the landing page | A round pink button with a simple up arrow appears bottom-right; it is not there near the top |
 | 18 | Press **Top** | The page scrolls smoothly to the top; focus moves to the logo; the button disappears |
 | 19 | Phone: repeat 1, 5, 6, 10 to 13 and 17 to 18 | Dialogs fit the screen with the buttons visible; the back-to-top button is easy to hit with a thumb and does not cover important text |
 | 20 | Turn on "reduce motion" in the system settings, press **Top** | The page jumps to the top without the smooth scroll |
