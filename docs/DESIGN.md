@@ -147,7 +147,7 @@ Notes:
 - The header counter shows used / available slots.
 - The pig card shows a progress bar and a static pig in the MVP; the growing/animated pig arrives in v1.0 (US-12).
 - A **full** pig swaps the primary button from **Add time** to **Mark as completed** and gets a badge and a distinct look.
-- The deadline line only appears for pigs that have a deadline (v1.0, US-10).
+- The deadline line only appears for pigs that have a deadline (US-10). Below the numbers, a pig card shows up to two guidance lines (M7): days left with the time needed per day (only with a deadline), and "At your recent pace" with the estimated finish date, plus an ahead, on or behind schedule badge when there is a deadline. With fewer than 3 saving days it reads "Not enough data to estimate yet". Full and completed pigs show neither.
 
 ### S3 · Create pig (sheet)
 ```

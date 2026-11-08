@@ -216,3 +216,26 @@ Open the preview on a phone-sized window and on a desktop window. Add two pigs w
 
 Not in M6.5 (later): pig personality, accessories, achievements, dark mode, share image, 3D pig.
 
+### M7: guidance (US-10, US-11)
+
+Today's date matters here. To test the forecast you need deposits on several different days; the quickest way is to import a backup file (see M5b) whose deposits have dates in the last two weeks, or to add time on several real days.
+
+| # | Steps | Expected |
+|---|---|---|
+| 1 | Create a pig **without** a deadline | The card shows only "Not enough data to estimate yet"; no "days left" line |
+| 2 | Create a pig with a deadline 10 days from today and a 20h target | The card says "10 days left" and about 1h 50m a day to finish on time (20h split over 11 days, rounded up) |
+| 3 | Add time to it | The time needed per day goes down |
+| 4 | Edit the pig to a deadline of today | "Due today" and about all remaining time today |
+| 5 | A pig whose deadline has passed (import a backup with a past deadline; the forms do not allow creating one) | "Overdue by N days" and the time still to go; no per-day plan |
+| 6 | Give a pig deposits on 3 different days in the last 14 days | "At your recent pace" with an estimated finish date appears |
+| 7 | With that pig, set a deadline earlier than the estimate | A "behind schedule" badge with an icon and the number of days |
+| 8 | Move the deadline later than the estimate | An "ahead of schedule" badge (green, with a check icon) |
+| 9 | Set the deadline to the estimated date | "On schedule" |
+| 10 | Make a plan that needs more than 24 hours a day (big target, deadline today) | A note says it is more than 24 hours a day and suggests a later deadline |
+| 11 | Fill a pig | The guidance lines disappear (full pigs show neither) |
+| 12 | Phone width (390 px and 320 px) | The lines wrap, nothing is cut off, no sideways scroll |
+| 13 | Screen reader or keyboard check | The guidance is a list named "Guidance for <pig>"; the status is readable as text, not color only |
+| 14 | Turn on "reduce motion", reload | Guidance is unchanged and still readable |
+
+After M7 is accepted: tag `v0.7.0` (GitHub Releases) and close #53.
+

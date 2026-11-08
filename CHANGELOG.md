@@ -4,6 +4,15 @@ All notable changes are documented here. The format follows [Keep a Changelog](h
 
 ## [Unreleased]
 
+## [0.7.0]
+
+### Added
+
+- **Deadline guidance** (US-10): a pig with a deadline shows how many days are left ("Due today", "Overdue by N days" afterwards) and about how much time to save per day to finish on time. Today and the deadline day both count as saving days, and the amount is rounded up. When the plan would need more than 24 hours a day, it says so and suggests a later deadline. Pigs without a deadline show none of this.
+- **Completion forecast** (US-11): from the average daily pace of the last 14 days (or since the first deposit when the pig is newer), the card shows the estimated finish date. With a deadline it adds "N days ahead of schedule", "On schedule" or "N days behind schedule", in words and with an icon, never by color alone. With fewer than 3 saving days it says "Not enough data to estimate yet"; a very slow pace says "More than 10 years away at your current pace".
+- `deadlineGuidance`, `forecast`, `recentPace` and `daysBetween` (pure domain functions), the `PigGuidance` card section, a green `success` badge style
+- 37 more automated tests (domain, component and flow) for a total of 312
+
 ### Added (M6.5 polish)
 
 - **Back-to-top button** is now a round pig face looking up with a small arrow badge (no text); the accessible name is still "Back to top"
