@@ -34,7 +34,7 @@ This plan turns the approved design into small, shippable milestones. Each miles
 | **M3** | Deposit and complete | Add time (with the "too much" error and **Fill the pig**), pig-full modal, completion confirmation, slot counter | US-02, US-04 | v0.3.x |
 | **M4** | Stats and heatmap — **MVP release** | Real "Your stats" tiles and GitHub-style heatmap; the whole one-page site works end to end | US-13 | **v0.4.0 (MVP)** |
 | **M5** | Manage and keep data | Edit/delete pig, deposit history, backup/restore JSON, completed-pigs shelf, slot unlocks | US-05–US-09 | v0.5.0 |
-| **M6** | Delight | Pig reacts to progress, coin-drop effect, confetti when full, motion with reduced-motion support | US-12 | v0.6.0 |
+| **M6** | Delight | Pig reacts to progress, clock-drop effect, confetti when full, motion with reduced-motion support | US-12 | v0.6.0 |
 | **M7** | Guidance | Deadline guidance and completion forecast | US-10, US-11 | v0.7.0 |
 | **M8** | Polish and v1.0 | Accessibility audit, performance pass, README with screenshots, CHANGELOG, custom domain if ready | NFR, docs | **v1.0.0** |
 | **M9** | 3D visual upgrade | New look with 3D effects (own design pass first) | US-17 | v2.0.0 (post-v1.0) |

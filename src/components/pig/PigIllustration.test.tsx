@@ -23,11 +23,11 @@ describe('PigIllustration', () => {
     expect(container.querySelector('svg')).toHaveAttribute('aria-hidden', 'true')
   })
 
-  it('only the overjoyed pig has the gold coin', () => {
+  it('only the overjoyed pig has the gold clock', () => {
     const { container, rerender } = render(<PigIllustration mood="happy" />)
-    expect(container.querySelector('circle[fill="#F5B833"]')).toBeNull()
+    expect(container.querySelector('.pig-clock')).toBeNull()
     rerender(<PigIllustration mood="overjoyed" />)
-    expect(container.querySelector('circle[fill="#F5B833"]')).not.toBeNull()
+    expect(container.querySelector('.pig-clock')).not.toBeNull()
   })
 
   it('tints the body with the chosen color', () => {

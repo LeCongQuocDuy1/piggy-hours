@@ -338,7 +338,7 @@ Tone: friendly, short, encouraging; no jargon; no blame in error messages.
 **Mood:** cozy, cute, rewarding. Think "sticker on a warm paper background": cream page, soft pink pig, rounded shapes, gentle shadows, a little gold when something is achieved.
 
 **Rules of thumb**
-- Pink is the brand color and the main action color; gold is reserved for *achievement* (full pigs, coins).
+- Pink is the brand color and the main action color; gold is reserved for *achievement* (full pigs, completed goals).
 - Lots of whitespace and rounded corners; nothing sharp.
 - Text is always dark ink on light surfaces for readability; pastel colors are for fills, never for text.
 - Personality comes from the pig and the copy, not from decoration.
@@ -357,7 +357,7 @@ Semantic names are used in code so a dark theme can be added later by overriding
 | `--color-primary` | `#C93A6F` | Primary buttons, links, focus ring |
 | `--color-primary-hover` | `#B02F5E` | Primary button hover/pressed |
 | `--color-on-primary` | `#FFFFFF` | Text/icons on primary |
-| `--color-coin` | `#F5B833` | Gold for full pigs, coins, sparkles |
+| `--color-coin` | `#F5B833` | Gold for full pigs, the time clock, sparkles (the token keeps its old name) |
 | `--color-coin-strong` | `#C98B0B` | Gold outlines |
 | `--color-warning-bg` / `--color-warning-text` | `#FFE9A8` / `#6B4700` | "Full" badge, warnings |
 | `--color-danger` / `--color-danger-bg` | `#B3261E` / `#FFE5E1` | Errors, destructive actions |
@@ -411,7 +411,7 @@ Semantic names are used in code so a dark theme can be added later by overriding
 ## 16. Pig illustration
 
 - The pig is an **original SVG character** built as a React component, parametrized by `expression`, `scale` and `color`. Drawn in code, so it stays crisp, themeable and animatable.
-- Only one illustration style: flat shapes, rounded forms, a soft outline slightly darker than the body, a coin slot on the back.
+- Only one illustration style: flat shapes, rounded forms, a soft outline slightly darker than the body, a slot on the back where time drops in.
 - **Expression and size follow progress** (5 states). The belly grows slightly with progress, which delivers the "pig getting fuller" feeling even before any animation exists.
 
 | Progress | Expression | Body scale | Extras |
@@ -420,13 +420,13 @@ Semantic names are used in code so a dark theme can be added later by overriding
 | 25–49% | Curious (round eyes) | 0.94 | — |
 | 50–74% | Happy (eyes + smile) | 1.00 | — |
 | 75–99% | Excited (sparkly eyes, blush, bigger smile) | 1.05 | Blush cheeks |
-| 100% | Overjoyed (happy-closed eyes, blush, big smile) | 1.10 | Gold coin on top, sparkles |
+| 100% | Overjoyed (happy-closed eyes, blush, big smile) | 1.10 | Gold clock on top, sparkles |
 
 - **User color** tints the pig's body (soft tone); the outline uses a darker shade of the same hue.
 - **Emoji role:** the chosen emoji appears as a small **sticker next to the pig's name** (e.g. a book for studying), not as the avatar. The pig is always the avatar.
 - **Where it appears:** empty state (large sleepy pig), pig cards (small), *Pig full* dialog (large, overjoyed), app header (tiny logo).
 - **Originality and license:** the character is created for this project and must not imitate existing mascots or characters. The SVG source lives in the repository under the project license. If any AI assistance is used for drawing, it must be edited into an original result and its origin noted in the docs.
-- **MVP scope:** expression and body scale switch with progress as a static SVG (no animation). Animations arrive in v1.0 (US-12).
+- **MVP scope:** expression and body scale switch with progress as a static SVG. Motion arrived in M6 (US-12): squish and a clock dropping in on deposit, bounce and confetti when full, twinkling sparkles on an overjoyed pig.
 
 ## 17. Motion
 
@@ -443,7 +443,7 @@ Semantic names are used in code so a dark theme can be added later by overriding
 | Button press | Scale to 0.97 | MVP |
 | Sheet / dialog open | Slide up + fade, 320 ms | MVP |
 | Progress bar update | Fill animates ~600 ms | MVP |
-| Deposit confirmed | Coin drops into the slot, pig squishes slightly (~450 ms) | v1.0 |
+| Deposit confirmed | A clock drops into the slot, pig squishes slightly (~450 ms) | v1.0 |
 | Pig becomes full | Pig bounce + confetti (~1.5 s, loaded on demand) | v1.0 |
 
 - **Reduced motion:** when the system prefers reduced motion, replace slides/bounces with short fades (≤ 100 ms) and skip confetti, showing a static sparkle instead.

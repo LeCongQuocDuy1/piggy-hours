@@ -2,7 +2,9 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
+  useRef,
   useState,
   type ReactNode,
 } from 'react'
@@ -18,11 +20,25 @@ const DURATION_MS = 4000
 /** Polite live region plus a `useToast()` hook. Toasts disappear on their own. */
 export function ToastProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<ToastItem[]>([])
+  const timers = useRef(new Set<ReturnType<typeof setTimeout>>())
+
+  // Pending timers must not outlive the provider (they would update a torn-down tree).
+  useEffect(() => {
+    const pending = timers.current
+    return () => {
+      pending.forEach(clearTimeout)
+      pending.clear()
+    }
+  }, [])
 
   const show = useCallback((message: string) => {
     const id = Date.now() + Math.random()
     setItems((list) => [...list, { id, message }])
-    setTimeout(() => setItems((list) => list.filter((t) => t.id !== id)), DURATION_MS)
+    const timer = setTimeout(() => {
+      timers.current.delete(timer)
+      setItems((list) => list.filter((t) => t.id !== id))
+    }, DURATION_MS)
+    timers.current.add(timer)
   }, [])
 
   const api = useMemo(() => ({ show }), [show])

@@ -4,7 +4,7 @@
 
 Piggy Hours is a small web app where you drop the time you spend studying or working into piggy banks ("pigs") and watch them fill up toward a goal you set. No timers, no accounts: you add the hours and minutes after a session, and your data stays in your browser.
 
-> **Status:** MVP feature-complete (v0.4.0 candidate): create pigs, add time, complete pigs, stats and heatmap. Editing, history and backup come next. See the [roadmap](docs/ROADMAP.md).
+> **Status:** v0.6.0 candidate: everything in the MVP plus editing, history, backup and shelf (v0.5.0), and now playful motion: clock drop, squish and confetti. See the [roadmap](docs/ROADMAP.md).
 
 **Live preview:** https://piggy-hours.vercel.app
 
@@ -13,19 +13,21 @@ Piggy Hours is a small web app where you drop the time you spend studying or wor
 ## Features
 
 - Create pigs with a target in hours; add time in hours and minutes
-- Pig expressions change as it fills (sleepy to overjoyed); a celebration when it is full
+- Pig expressions change as it fills (sleepy to overjoyed)
+- A clock drops into the pig and the pig squishes when you add time; bounce and confetti when it is full. Respects "reduce motion"; no sound
 - Stats tiles and a GitHub-style heatmap of your saving days
 - Edit or delete a pig, and a history of every entry you can edit or delete
 - A shelf of completed pigs; completing pigs unlocks more slots
 - Export and import a JSON backup, with merge or replace
+- A playful look: pastel section bands, a lively hero, scroll reveals and count-up stats (all still when you prefer reduced motion)
 - Everything on one page, with actions in modals
 - Local-first: no sign-up, data saved in your browser
 
-Planned: animations and celebration effects, deadline guidance, forecast.
+Planned: deadline guidance and forecast.
 
 ## Tech stack
 
-React, TypeScript, Vite, Tailwind CSS, Radix UI (dialogs), Lucide icons, self-hosted Fredoka and Nunito fonts, Vitest and Testing Library, ESLint and Prettier, GitHub Actions, Vercel.
+React, TypeScript, Vite, Tailwind CSS, Radix UI (dialogs), Lucide icons, canvas-confetti (loaded on demand), self-hosted Fredoka and Nunito fonts, Vitest and Testing Library, ESLint and Prettier, GitHub Actions, Vercel.
 
 The component library is browsable at `/#design-system` (run `npm run dev`, or open the live preview).
 

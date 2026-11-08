@@ -8,10 +8,12 @@ import {
 import { formatMinutesShort } from '../../domain/time'
 import type { Deposit, Pig } from '../../domain/types'
 import { cn } from '../../lib/cn'
+import { usePulseOnIncrease } from '../../lib/usePulseOnIncrease'
 import { Badge } from '../ui/Badge'
 import { Button } from '../ui/Button'
 import { ProgressBar } from '../ui/ProgressBar'
 import { PigIllustration } from './PigIllustration'
+import { TimeToken } from './TimeToken'
 
 const dateFormat = new Intl.DateTimeFormat('en-US', {
   month: 'short',
@@ -38,22 +40,38 @@ export function PigCard({ pig, deposits, onAddTime, onComplete, onDetails }: Pro
   const status = pigStatus(pig, deposits)
   const full = status === 'full'
   const saved = savedMinutes(pig, deposits)
+  // Every time more is saved, a clock drops in and the pig squishes (the key restarts the animation).
+  const pulse = usePulseOnIncrease(saved)
   const valueText = `${formatMinutesShort(saved)} of ${formatMinutesShort(pig.targetMinutes)}`
 
   return (
     <article
       className={cn(
-        'rounded-lg border-2 bg-surface p-5 shadow-card',
+        'rounded-lg border-2 bg-surface p-5 shadow-card transition-[transform,box-shadow] duration-200 ease-[var(--ease-out)] motion-safe:hover:-translate-y-1 motion-safe:hover:shadow-[0_12px_28px_rgba(201,58,111,0.18)]',
         full ? 'border-coin shadow-card-gold' : 'border-border',
       )}
     >
       <div className="flex items-center gap-3.5">
-        <PigIllustration
-          mood={moodForProgress(percent)}
-          color={pig.color}
-          label={`${pig.name} pig, ${Math.floor(percent)}% full`}
-          className="h-[70px] w-[84px] flex-none"
-        />
+        <div className="relative h-[70px] w-[84px] flex-none">
+          <div key={pulse} className={cn('h-full w-full', pulse > 0 && 'pig-squish')}>
+            <PigIllustration
+              mood={moodForProgress(percent)}
+              color={pig.color}
+              label={`${pig.name} pig, ${Math.floor(percent)}% full`}
+              className="h-full w-full"
+            />
+          </div>
+          {pulse > 0 && (
+            <span
+              key={`clock-${pulse}`}
+              data-testid="time-drop"
+              aria-hidden="true"
+              className="time-drop pointer-events-none absolute left-[33px] top-[-6px] size-[18px]"
+            >
+              <TimeToken className="size-full" />
+            </span>
+          )}
+        </div>
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2">
             <h3 className="m-0 min-w-0 break-words font-heading text-[22px] font-medium leading-snug">
