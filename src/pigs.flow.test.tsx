@@ -120,6 +120,17 @@ describe('create and view pigs (US-01, US-03)', () => {
       targetMinutes: 1200,
     })
     expect(within(pigsSection()).getByText('Due Dec 31, 2099')).toBeInTheDocument()
+    expect(within(pigsSection()).getByText(/days left/)).toBeInTheDocument()
+    expect(within(pigsSection()).getByText(/a day to finish on time/)).toBeInTheDocument()
+  })
+
+  it('shows no deadline guidance for a pig without a deadline, but a forecast hint', async () => {
+    render(<App />)
+    await createPig('Piano', '10')
+    expect(within(pigsSection()).queryByText(/days? left/)).not.toBeInTheDocument()
+    expect(
+      within(pigsSection()).getByText('Not enough data to estimate yet'),
+    ).toBeInTheDocument()
   })
 
   it('closes with Escape without creating anything', async () => {

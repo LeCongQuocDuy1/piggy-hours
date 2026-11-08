@@ -1,6 +1,7 @@
 import { Plus } from 'lucide-react'
 import { useState } from 'react'
 import { slotLimit, usedSlots } from '../../domain/slots'
+import { toLocalDate } from '../../domain/time'
 import type { Pig } from '../../domain/types'
 import { useApp } from '../../state/AppProvider'
 import { AddTimeModal } from '../modals/AddTimeModal'
@@ -16,6 +17,7 @@ import { Button } from '../ui/Button'
 export function YourPigs() {
   const { data } = useApp()
   const { canCreate, open } = useCreatePig()
+  const today = toLocalDate(new Date())
   const pigs = data.pigs.filter((p) => !p.completedAt)
   // The dialogs only keep a pig id; the pig itself is read from state so it is never stale.
   const [addingId, setAddingId] = useState<string | null>(null)
@@ -78,6 +80,7 @@ export function YourPigs() {
                 <PigCard
                   pig={pig}
                   deposits={data.deposits}
+                  today={today}
                   onAddTime={(p) => setAddingId(p.id)}
                   onComplete={(p) => setCompletingId(p.id)}
                   onDetails={(p) => setDetailsId(p.id)}
