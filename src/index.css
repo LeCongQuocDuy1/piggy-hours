@@ -6,8 +6,10 @@
   --color-bg: #fff8f0;
   --color-surface: #ffffff;
   --color-border: #f3d6e0;
+  /* Borders that mark the edge of a control need 3:1 against white (WCAG 1.4.11); --color-border is decoration only. */
+  --color-field-border: #b9809a;
   --color-text: #3d2b35;
-  --color-text-muted: #7a6670;
+  --color-text-muted: #6b5560;
   --color-primary: #c93a6f;
   --color-primary-hover: #b02f5e;
   --color-primary-shadow: #a12c58;
@@ -227,7 +229,7 @@
 }
 
 .text-gradient {
-  background: linear-gradient(95deg, #c93a6f 10%, #e8613f 90%);
+  background: linear-gradient(95deg, #c93a6f 10%, #d44a28 90%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;

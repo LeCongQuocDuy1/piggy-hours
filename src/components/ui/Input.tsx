@@ -47,7 +47,7 @@ export function Input({
           aria-describedby={describedBy}
           className={cn(
             'h-12 w-full rounded-md border-2 bg-surface px-4 text-base text-text placeholder:text-text-muted',
-            error || invalidBy ? 'border-danger' : 'border-border',
+            error || invalidBy ? 'border-danger' : 'border-field-border',
             className,
           )}
           {...rest}
