@@ -4,6 +4,20 @@ All notable changes are documented here. The format follows [Keep a Changelog](h
 
 ## [Unreleased]
 
+## [0.6.0]
+
+### Added
+
+- **Pig animation and celebration** (US-12, DESIGN section 17): adding time drops a coin into the pig's slot and the pig squishes slightly (about 450 ms); when a pig becomes full, the _Pig full_ dialog bounces it and fires confetti for about 1.5 s; sparkles on an overjoyed pig twinkle
+- **Reduced motion:** with the system setting "reduce motion", bounces and drops become a fade of 100 ms or less, the coin is not shown, confetti is not loaded at all, and the sparkles stay still (a static sparkle instead)
+- `canvas-confetti` is loaded only when a pig becomes full (a separate 4 kB gzipped chunk), so the main bundle is unchanged
+- `usePrefersReducedMotion`, `usePulseOnIncrease`, `fireConfetti`; 9 more automated tests (265 in total)
+- No sound (DESIGN section 17)
+
+### Changed
+
+- Motion uses CSS keyframes instead of Framer Motion (see ADR-016)
+
 ## [0.5.0]
 
 ### Added

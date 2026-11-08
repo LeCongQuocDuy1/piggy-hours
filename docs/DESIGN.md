@@ -426,7 +426,7 @@ Semantic names are used in code so a dark theme can be added later by overriding
 - **Emoji role:** the chosen emoji appears as a small **sticker next to the pig's name** (e.g. a book for studying), not as the avatar. The pig is always the avatar.
 - **Where it appears:** empty state (large sleepy pig), pig cards (small), *Pig full* dialog (large, overjoyed), app header (tiny logo).
 - **Originality and license:** the character is created for this project and must not imitate existing mascots or characters. The SVG source lives in the repository under the project license. If any AI assistance is used for drawing, it must be edited into an original result and its origin noted in the docs.
-- **MVP scope:** expression and body scale switch with progress as a static SVG (no animation). Animations arrive in v1.0 (US-12).
+- **MVP scope:** expression and body scale switch with progress as a static SVG. Motion arrived in M6 (US-12): squish and coin drop on deposit, bounce and confetti when full, twinkling sparkles on an overjoyed pig.
 
 ## 17. Motion
 
