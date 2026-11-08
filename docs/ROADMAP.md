@@ -114,7 +114,7 @@ Detailed issues for M5 onward are written when the previous milestone is almost 
 | P2 | Repository name | **`piggy-hours`** |
 | P3 | Milestone order | As in section 2: MVP release at **M4**, v1.0 at **M8**, 3D at **M9** |
 | P4 | Tracking | **GitHub Issues + one Project board**, milestones M0–M9; I prepare the issue texts as Markdown for you to paste or import, since creating them needs your GitHub account |
-| P5 | Custom domain | **Decide during M8**; until then the free Vercel URL |
+| P5 | Custom domain | Decided in M8 (ADR-019): the free Vercel URL for v1.0; steps to add one later are in `docs/TESTING.md` |
 
 ## 6. Next phase
 

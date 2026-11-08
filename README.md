@@ -4,11 +4,15 @@
 
 Piggy Hours is a small web app where you drop the time you spend studying or working into piggy banks ("pigs") and watch them fill up toward a goal you set. No timers, no accounts: you add the hours and minutes after a session, and your data stays in your browser.
 
-> **Status:** v0.7.0 candidate: everything in the MVP plus editing, history, backup and shelf (v0.5.0), playful motion (v0.6.0), and now deadline guidance with a finish-date forecast. See the [roadmap](docs/ROADMAP.md).
+**Live app:** https://piggy-hours.vercel.app
 
-**Live preview:** https://piggy-hours.vercel.app
+![Piggy Hours landing page](docs/screenshots/v1-hero-desktop.png)
 
-![Piggy Hours landing page](docs/screenshots/landing-desktop.png)
+| Your pigs, with deadline guidance and forecast                                                             | Your stats and saving-days heatmap                                               |
+| ---------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| ![Pig cards with days left, time needed per day and schedule status](docs/screenshots/v1-pigs-desktop.png) | ![Stats tiles and a GitHub-style heatmap](docs/screenshots/v1-stats-desktop.png) |
+
+<img src="docs/screenshots/v1-hero-mobile.png" alt="Phone layout" width="240"> <img src="docs/screenshots/v1-pigs-mobile.png" alt="Pig cards on a phone" width="240">
 
 ## Features
 
@@ -24,7 +28,14 @@ Piggy Hours is a small web app where you drop the time you spend studying or wor
 - Everything on one page, with actions in modals
 - Local-first: no sign-up, data saved in your browser
 
-Planned: accessibility and performance polish, then v1.0.
+Not in v1.0 (ideas for later): dark mode, installable app (PWA), share-as-image, and a 3D pig. See the [roadmap](docs/ROADMAP.md).
+
+## Quality
+
+- **Lighthouse (production build, mobile profile):** Performance 100, Accessibility 100, Best Practices 100, SEO 100 (see the M8 notes in [docs/TESTING.md](docs/TESTING.md)).
+- **Accessibility:** keyboard operable, dialogs trap and restore focus, status never by color alone, text contrast of at least 4.5:1 on every background, reduced motion respected. An automated axe-core audit of the page and every dialog reports no violations.
+- **Tests:** 323 automated tests (domain rules, state, storage, components and full user flows) run on every push.
+- **Privacy:** no accounts, no analytics, no network requests with your data; everything stays in your browser and can be exported as a JSON backup.
 
 ## Tech stack
 

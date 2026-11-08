@@ -118,7 +118,7 @@ export function PigCard({
         {full ? (
           <Button
             className="w-full"
-            aria-label={`Mark ${pig.name} as completed`}
+            aria-label={`Mark as completed, ${pig.name}`}
             onClick={() => onComplete(pig)}
           >
             <CheckCircle2 size={20} strokeWidth={2.5} aria-hidden="true" />

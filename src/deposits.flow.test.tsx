@@ -163,7 +163,7 @@ describe('fill and complete a pig (US-02, US-04)', () => {
       within(pigsSection()).queryByRole('button', { name: /Add time to/ }),
     ).not.toBeInTheDocument()
     expect(
-      within(pigsSection()).getByRole('button', { name: 'Mark Piano as completed' }),
+      within(pigsSection()).getByRole('button', { name: 'Mark as completed, Piano' }),
     ).toBeInTheDocument()
   })
 

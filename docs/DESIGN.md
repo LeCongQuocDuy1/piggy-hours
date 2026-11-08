@@ -351,9 +351,12 @@ Semantic names are used in code so a dark theme can be added later by overriding
 |---|---|---|
 | `--color-bg` | `#FFF8F0` | Page background (cream) |
 | `--color-surface` | `#FFFFFF` | Cards, sheets, dialogs |
-| `--color-border` | `#F3D6E0` | Card and field borders |
+| `--color-border` | `#F3D6E0` | Card borders and dividers (decoration) |
+| `--color-field-border` | `#B9809A` | Edge of text fields; 3.2:1 on white (WCAG 1.4.11), added in M8 |
 | `--color-text` | `#3D2B35` | Primary text (ink) |
-| `--color-text-muted` | `#7A6670` | Secondary text, hints |
+| `--color-text-muted` | `#6B5560` | Secondary text, hints (darkened in M8) |
+| `--color-success-bg` / `--color-success-text` | `#DFF5E8` / `#1B5E3A` | "Ahead of schedule" and "On schedule" badges |
+| `--color-band-*` | pink, gold, lilac, mint pastels | Section bands (M6.5) |
 | `--color-primary` | `#C93A6F` | Primary buttons, links, focus ring |
 | `--color-primary-hover` | `#B02F5E` | Primary button hover/pressed |
 | `--color-on-primary` | `#FFFFFF` | Text/icons on primary |
@@ -373,6 +376,8 @@ Semantic names are used in code so a dark theme can be added later by overriding
 | Mint | `#BFEAD9` | `#2A8F6B` |
 | Sky | `#C9E4FF` | `#2F7FCF` |
 | Lavender | `#E0D4FF` | `#7A60CC` |
+
+**M8 audit (2026-11-08):** the pastel bands and background glows lowered some ratios, so muted text went from `#7A6670` (4.1:1 on the pink glow) to `#6B5560` (5.3:1 or more on every band and glow), the hero gradient ends at `#D44A28` (3.4:1 or more, large text needs 3:1), and text fields got their own 3.2:1 border. Primary pink is used for text only on white or cream (4.6:1 or more); on tinted bands it appears in icons only.
 
 **Contrast:** ink on cream is about 12:1, muted text on cream about 5:1, white on primary about 4.9:1 (all expected to pass WCAG AA for normal text). **Verified in Milestone M1 (2026-11-06)** with the WCAG formula: ink on cream 12.5:1, muted on cream 5.0:1, white on primary 4.9:1, primary links on cream 4.6:1, warning text 6.9:1, danger text 6.5:1 (all pass AA). The strong pig tones were darkened so every progress fill reaches at least 3:1 against the track (3.2 to 4.0). The gold fill of a full pig has a darker gold edge. The numeric label next to every bar means meaning never depends on color alone.
 
