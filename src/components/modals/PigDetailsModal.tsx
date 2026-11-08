@@ -61,10 +61,13 @@ export function PigDetailsModal({
         <div>
           <div className="mb-5 flex flex-wrap items-center gap-2.5">
             {status === 'full' && <Badge variant="gold">Full</Badge>}
-            <Button variant="secondary" size="sm" onClick={() => onEditPig(pig)}>
-              <Pencil size={18} strokeWidth={2.5} aria-hidden="true" />
-              Edit pig
-            </Button>
+            {status === 'completed' && <Badge variant="gold">Completed</Badge>}
+            {status !== 'completed' && (
+              <Button variant="secondary" size="sm" onClick={() => onEditPig(pig)}>
+                <Pencil size={18} strokeWidth={2.5} aria-hidden="true" />
+                Edit pig
+              </Button>
+            )}
             <Button variant="danger-outline" size="sm" onClick={() => onDeletePig(pig)}>
               <Trash2 size={18} strokeWidth={2.5} aria-hidden="true" />
               Delete pig
