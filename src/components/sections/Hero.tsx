@@ -1,7 +1,6 @@
-import { TimeToken } from '../pig/TimeToken'
 import { Squiggle } from '../ui/Squiggle'
 import { HeroDecor } from './HeroDecor'
-import { PigIllustration } from '../pig/PigIllustration'
+import { Pig3D } from '../pig3d/Pig3D'
 import { useCreatePig } from '../modals/CreatePigProvider'
 import { buttonStyles } from '../ui/buttonStyles'
 
@@ -20,13 +19,11 @@ export function Hero() {
             aria-hidden="true"
             className="hero-halo absolute -inset-3 rounded-full border-[3px] border-dashed border-coin/60"
           />
-          <PigIllustration
+          <Pig3D
             mood="happy"
-            alive
             label="A happy pink piggy bank"
             className="hero-pig w-[84%]"
           />
-          <TimeToken className="hero-clock absolute left-[45.5%] top-[8%] w-[9%]" />
         </div>
       </div>
 
