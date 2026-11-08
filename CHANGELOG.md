@@ -4,6 +4,16 @@ All notable changes are documented here. The format follows [Keep a Changelog](h
 
 ## [Unreleased]
 
+### Added (M6.5 polish)
+
+- **Livelier look:** soft color glows behind the page, pastel section bands (pink, gold, lilac, mint) with wavy edges, a gradient on "Fill your pig." and hand-drawn wavy underlines on key words
+- **Hero:** the pig bobs, blinks and wiggles an ear; a coin drops into its slot every few seconds and the pig squishes on landing; a dashed halo breathes; coins, stars and hearts drift in the background
+- **Scroll reveal:** headings, steps, mood cards, stat tiles and benefits fade and rise into place, one after another
+- **Count-up** on the four stat tiles the first time they come into view
+- **Micro-interactions:** pig cards and mood cards lift on hover; a soft shine runs across progress bars
+- **Reduced motion and no observer:** everything is simply shown, still and complete; screen readers get final numbers at once
+- 8 more automated tests (Reveal, CountUp) for a total of 275
+
 ## [0.6.0]
 
 ### Added

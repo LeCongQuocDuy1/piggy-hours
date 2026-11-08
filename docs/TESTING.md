@@ -195,3 +195,24 @@ Use a fresh browser profile or clear site data. Create a pig with a small target
 
 After M6 is accepted: tag `v0.6.0` (GitHub Releases) and close #46.
 
+### M6.5: polish (look and feel)
+
+Open the preview on a phone-sized window and on a desktop window. Add two pigs with some time so the page has content.
+
+| # | Steps | Expected |
+|---|---|---|
+| 1 | Open the top of the page | Soft pink, gold and mint glows in the background; "Fill your pig." has a warm gradient and a wavy underline |
+| 2 | Watch the hero pig for about ten seconds | It bobs gently, blinks, wiggles an ear now and then; a coin drops into its slot about every 4.5 s and the pig squishes as it lands; a dashed halo breathes |
+| 3 | Look around the hero | Small coins, stars and hearts drift; none sits on top of the text (only two show on phones) |
+| 4 | Scroll down slowly | Headings, step cards, mood cards, stat tiles and benefits fade and rise into place, one after another; nothing stays blank |
+| 5 | Jump with the menu to **Your stats** | The four tiles count up from 0 to their values; no flash of wrong numbers afterwards |
+| 6 | Check the section edges | Wavy edges between sections; pink, gold, lilac and mint bands; no thin gaps or lines |
+| 7 | Hover a pig card, a mood card, a step card | They lift slightly; mood cards tilt a little |
+| 8 | Look at a progress bar | A soft shine passes over the fill every few seconds |
+| 9 | Phone width (390 px and 320 px) | No sideways scroll; text stays readable over the glows |
+| 10 | Turn on "reduce motion" in your system and reload | Everything is visible straight away and still: no drifting bits, no bobbing, no blinking, no reveal, no count-up, no shine |
+| 11 | Keyboard: Tab through the page | Focus rings are still clear on the colored bands; nothing animated takes focus |
+| 12 | Add time and fill a pig (M6 effects) | Coin drop, squish and confetti still work |
+
+Not in M6.5 (later): pig personality, accessories, achievements, dark mode, share image, 3D pig.
+
