@@ -92,3 +92,10 @@ Status values: **Accepted**, **Superseded**, **Proposed**.
 ## ADR-014 · Technical design (Part 3C)
 - **Date:** 2026-11-06 · **Status:** Accepted
 - **Decision:** Approved as written in `ARCHITECTURE.md` (T1–T8): React + TypeScript + Vite + Tailwind; `useReducer` + Context; Radix UI Dialog for modals; one versioned JSON blob in localStorage behind a Storage interface; local `YYYY-MM-DD` dates for deposits; no router; Vitest + Testing Library; trunk-based with PRs, Conventional Commits and SemVer.
+
+## ADR-015 · How M5 manages and keeps data
+- **Date:** 2026-11-08 · **Status:** Accepted
+- **Context:** M5 adds editing, history, backup and the completed shelf (US-05 to US-09), which is a lot for one pull request.
+- **Decision:** (1) M5 ships as two pull requests: **M5a** edit and delete pigs and the deposit history, **M5b** backup and restore, the completed shelf and the slot-unlock message; `v0.5.0` is tagged after M5b. (2) Details, history, edit and delete open in dialogs from the pig card, stacked over a *Pig details* dialog (consistent with ADR-011). (3) Backup and restore live in a new **Your data** section before the FAQ, with the browser-storage reminder. (4) Import offers **Replace everything** or **Merge**; on a merge, data already in the app wins when the same id appears in both. (5) A pig's target can only change while it is active and never below the saved time; a deadline that is already in the past is accepted if unchanged; completed pigs are read-only. (6) Deleting a pig deletes its deposits and never lowers the completed count (BR-08).
+- **Consequences:** Status stays derived, so deleting or reducing time on a full pig returns it to active with no extra code. The deposit editor reuses the add-time form. Two smaller PRs are easier to review and test.
+

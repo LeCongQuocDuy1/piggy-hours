@@ -1,4 +1,4 @@
-import { CheckCircle2, Plus } from 'lucide-react'
+import { CheckCircle2, MoreHorizontal, Plus } from 'lucide-react'
 import {
   moodForProgress,
   pigStatus,
@@ -29,10 +29,11 @@ type Props = {
   deposits: Deposit[]
   onAddTime: (pig: Pig) => void
   onComplete: (pig: Pig) => void
+  onDetails: (pig: Pig) => void
 }
 
 /** One pig: illustration, name, progress and its action (add time while active, complete once full). */
-export function PigCard({ pig, deposits, onAddTime, onComplete }: Props) {
+export function PigCard({ pig, deposits, onAddTime, onComplete, onDetails }: Props) {
   const percent = progressPercent(pig, deposits)
   const status = pigStatus(pig, deposits)
   const full = status === 'full'
@@ -53,7 +54,7 @@ export function PigCard({ pig, deposits, onAddTime, onComplete }: Props) {
           label={`${pig.name} pig, ${Math.floor(percent)}% full`}
           className="h-[70px] w-[84px] flex-none"
         />
-        <div className="min-w-0">
+        <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2">
             <h3 className="m-0 min-w-0 break-words font-heading text-[22px] font-medium leading-snug">
               {pig.name}
@@ -72,6 +73,14 @@ export function PigCard({ pig, deposits, onAddTime, onComplete }: Props) {
             </p>
           )}
         </div>
+        <button
+          type="button"
+          aria-label={`Details and history for ${pig.name}`}
+          onClick={() => onDetails(pig)}
+          className="-mr-2 flex h-11 w-11 flex-none cursor-pointer items-center justify-center self-start rounded-full bg-transparent text-text hover:bg-track"
+        >
+          <MoreHorizontal size={22} strokeWidth={2.5} aria-hidden="true" />
+        </button>
       </div>
       <div className="mt-4">
         <ProgressBar

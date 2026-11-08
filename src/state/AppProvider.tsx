@@ -12,17 +12,25 @@ import {
 import { toLocalDate } from '../domain/time'
 import type { DepositInput } from '../domain/deposits'
 import { emptyData, type Deposit, type Pig, type Result } from '../domain/types'
-import type { PigInput } from '../domain/validation'
+import type { PigInput, ValidPig } from '../domain/validation'
 import { createLocalStorage } from '../storage/localStorage'
 import type { Storage, StorageError } from '../storage/storage'
 import {
   prepareAddDeposit,
   prepareCompletePig,
   prepareCreatePig,
+  prepareDeleteDeposit,
+  prepareDeletePig,
+  prepareUpdateDeposit,
+  prepareUpdatePig,
   reducer,
   type AddDepositError,
   type CompletePigError,
   type CreatePigError,
+  type DeleteDepositError,
+  type DeletePigError,
+  type UpdateDepositError,
+  type UpdatePigError,
   type Env,
 } from './reducer'
 
@@ -36,6 +44,22 @@ type AppApi = {
   completePig: (
     pigId: string,
   ) => Result<{ pigId: string; completedAt: string }, CompletePigError>
+  updatePig: (
+    pigId: string,
+    input: PigInput,
+  ) => Result<{ pigId: string; changes: ValidPig }, UpdatePigError>
+  /** Deletes the pig and all of its deposits. The result tells how many deposits and minutes were removed. */
+  deletePig: (
+    pigId: string,
+  ) => Result<{ pigId: string; deposits: number; minutes: number }, DeletePigError>
+  updateDeposit: (
+    depositId: string,
+    input: DepositInput,
+  ) => Result<
+    { depositId: string; changes: { minutes: number; date: string; note?: string } },
+    UpdateDepositError
+  >
+  deleteDeposit: (depositId: string) => Result<{ depositId: string }, DeleteDepositError>
 }
 
 const AppContext = createContext<AppApi | null>(null)
@@ -123,6 +147,42 @@ export function AppProvider({ children, storage, env = defaultEnv }: Props) {
     [data, env],
   )
 
+  const updatePig = useCallback(
+    (pigId: string, input: PigInput) => {
+      const prepared = prepareUpdatePig(data, pigId, input, env)
+      if (prepared.ok) dispatch({ type: 'updatePig', ...prepared.value })
+      return prepared
+    },
+    [data, env],
+  )
+
+  const deletePig = useCallback(
+    (pigId: string) => {
+      const prepared = prepareDeletePig(data, pigId)
+      if (prepared.ok) dispatch({ type: 'deletePig', pigId })
+      return prepared
+    },
+    [data],
+  )
+
+  const updateDeposit = useCallback(
+    (depositId: string, input: DepositInput) => {
+      const prepared = prepareUpdateDeposit(data, depositId, input, env)
+      if (prepared.ok) dispatch({ type: 'updateDeposit', ...prepared.value })
+      return prepared
+    },
+    [data, env],
+  )
+
+  const deleteDeposit = useCallback(
+    (depositId: string) => {
+      const prepared = prepareDeleteDeposit(data, depositId)
+      if (prepared.ok) dispatch({ type: 'deleteDeposit', depositId })
+      return prepared
+    },
+    [data],
+  )
+
   const api = useMemo<AppApi>(
     () => ({
       data,
@@ -131,8 +191,22 @@ export function AppProvider({ children, storage, env = defaultEnv }: Props) {
       createPig,
       addDeposit,
       completePig,
+      updatePig,
+      deletePig,
+      updateDeposit,
+      deleteDeposit,
     }),
-    [data, storageError, createPig, addDeposit, completePig],
+    [
+      data,
+      storageError,
+      createPig,
+      addDeposit,
+      completePig,
+      updatePig,
+      deletePig,
+      updateDeposit,
+      deleteDeposit,
+    ],
   )
 
   return <AppContext.Provider value={api}>{children}</AppContext.Provider>

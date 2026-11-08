@@ -4,6 +4,18 @@ All notable changes are documented here. The format follows [Keep a Changelog](h
 
 ## [Unreleased]
 
+### Added
+
+- **Pig details** dialog (US-06), opened from the **...** button on a pig card: progress, and the deposit history newest first with date, time and note
+- **Edit and delete deposits**; changing or removing time on a full pig makes it active again; completed pigs stay read-only
+- **Edit pig** (US-05): name, emoji, color, deadline and, for an active pig, the target (never below the saved time); a full pig keeps its target
+- **Delete pig** with a confirmation that states how many entries and how much time will be lost; the completed-pigs count is never reduced
+- Domain `validatePigEdit`, reducer actions `updatePig`, `deletePig`, `updateDeposit`, `deleteDeposit`; 40 more automated tests (212 in total)
+
+### Changed
+
+- The create-pig form is now a shared `PigForm`, also used by Edit pig
+
 ## [0.4.0] MVP
 
 ### Added

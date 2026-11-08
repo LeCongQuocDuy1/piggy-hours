@@ -117,3 +117,30 @@ Not in M4 (arrives later): deposit history and editing (M5), backup and restore 
 ## 5. Reporting a problem
 
 Comment on the pull request or tell Claude. A useful report has: what you did, what you expected, what happened, device and browser, and a screenshot if possible.
+
+### M5a: edit and delete pigs, deposit history (US-05, US-06)
+
+Start with a pig `Japanese N3` (target 50 hours) that has a few entries on different days (use the date field in Add time), one with a note.
+
+| # | Steps | Expected |
+|---|---|---|
+| 1 | Press the **...** button at the top right of the pig card | A *Japanese N3* dialog: saved time and percent, **Edit pig** and **Delete pig** buttons, a **History** list |
+| 2 | Look at the history | Newest day first; each row has the time, the full date and the note (if any); an empty pig shows "No time yet" |
+| 3 | Press the pencil on an entry | *Edit time* opens filled with that entry's hours, minutes, date and note |
+| 4 | Enter more time than the pig has room for, **Save changes** | "Only ... left in this pig." and nothing is saved; **Fill the pig** sets the exact maximum |
+| 5 | Change the time and date, **Save changes** | Back in the history with the new values, toast "Deposit updated"; the card's total and the stats update |
+| 6 | Press the trash on an entry, then **Cancel** | Nothing changes |
+| 7 | Press the trash again, **Delete entry** | The entry disappears; toast "Deposit deleted"; the total goes down |
+| 8 | Fill a pig completely (choose **Later**), open its details and delete one entry | The *Full* badge is gone and **Add time** is back |
+| 9 | Press **Edit pig**; change the name, emoji, color and deadline; **Save changes** | The card shows the new look and name; saved time is unchanged |
+| 10 | Edit the target to a number below what you saved | "You already saved ... The target cannot be lower." and focus on the field |
+| 11 | Edit a full pig | The target field is disabled ("A full pig keeps its target"); the other fields can be changed |
+| 12 | Clear the deadline and save | The "Due ..." line disappears from the card |
+| 13 | Press **Delete pig** | A confirmation says how many entries and how much time will be deleted; **Cancel** keeps everything |
+| 14 | Confirm with **Delete pig** | The pig is gone; toast "... deleted"; the slot counter goes down; the stats heatmap no longer counts its entries |
+| 15 | Complete two pigs (so a third slot is unlocked), then delete one of the active pigs | The slot limit stays at 3 (deleting never locks slots again) |
+| 16 | Refresh the page | Everything you changed is still there |
+| 17 | Keyboard: open details, Tab through, press Esc in each dialog | Everything is reachable; Esc closes only the top dialog; focus returns to the button that opened it |
+| 18 | Phone: repeat 1, 3, 9, 13 | Dialogs fit the screen, buttons are at least 44 px, nothing is cut off |
+
+Not in M5a (arrives with M5b): backup and restore, the completed-pigs shelf, the slot-unlock message.

@@ -6,6 +6,7 @@ import { useApp } from '../../state/AppProvider'
 import { AddTimeModal } from '../modals/AddTimeModal'
 import { CompleteModal } from '../modals/CompleteModal'
 import { useCreatePig } from '../modals/CreatePigProvider'
+import { PigManagement } from '../modals/PigManagement'
 import { PigFullModal } from '../modals/PigFullModal'
 import { PigCard } from '../pig/PigCard'
 import { PigIllustration } from '../pig/PigIllustration'
@@ -20,6 +21,7 @@ export function YourPigs() {
   const [addingId, setAddingId] = useState<string | null>(null)
   const [fullId, setFullId] = useState<string | null>(null)
   const [completingId, setCompletingId] = useState<string | null>(null)
+  const [detailsId, setDetailsId] = useState<string | null>(null)
   const byId = (id: string | null): Pig | null => pigs.find((p) => p.id === id) ?? null
   const used = usedSlots(data)
   const limit = slotLimit(data.achievements.completedPigsCount)
@@ -78,6 +80,7 @@ export function YourPigs() {
                   deposits={data.deposits}
                   onAddTime={(p) => setAddingId(p.id)}
                   onComplete={(p) => setCompletingId(p.id)}
+                  onDetails={(p) => setDetailsId(p.id)}
                 />
               </li>
             ))}
@@ -104,6 +107,11 @@ export function YourPigs() {
       <AddTimeModal
         pig={byId(addingId)}
         onOpenChange={(open) => !open && setAddingId(null)}
+        onFull={setFullId}
+      />
+      <PigManagement
+        pig={byId(detailsId)}
+        onClose={() => setDetailsId(null)}
         onFull={setFullId}
       />
       <PigFullModal

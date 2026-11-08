@@ -7,7 +7,7 @@ import {
 } from '../../domain/deposits'
 import { remainingMinutes, savedMinutes } from '../../domain/pigs'
 import { formatMinutes, formatMinutesShort, toLocalDate } from '../../domain/time'
-import type { Pig } from '../../domain/types'
+import type { Deposit, Pig } from '../../domain/types'
 import { cn } from '../../lib/cn'
 import { useApp } from '../../state/AppProvider'
 import { Button } from '../ui/Button'
@@ -50,25 +50,36 @@ const QUICK_PICKS = [
   { label: '2h', hours: '2', minutes: '' },
 ]
 
-function AddTimeForm({
+/**
+ * The add-time form (US-02). With `deposit` it edits that deposit instead (US-06): the fields start with its values,
+ * and the deposit itself does not count against the room left in the pig.
+ */
+export function AddTimeForm({
   pig,
+  deposit,
   onDone,
   onFull,
 }: {
   pig: Pig
+  deposit?: Deposit
   onDone: () => void
   onFull: (id: string) => void
 }) {
-  const { data, addDeposit } = useApp()
+  const { data, addDeposit, updateDeposit } = useApp()
   const toast = useToast()
   const today = toLocalDate(new Date())
-  const [hours, setHours] = useState('')
-  const [minutes, setMinutes] = useState('')
-  const [date, setDate] = useState(today)
-  const [note, setNote] = useState('')
+  const [hours, setHours] = useState(
+    deposit ? String(Math.floor(deposit.minutes / 60)) : '',
+  )
+  const [minutes, setMinutes] = useState(deposit ? String(deposit.minutes % 60) : '')
+  const [date, setDate] = useState(deposit?.date ?? today)
+  const [note, setNote] = useState(deposit?.note ?? '')
   const [errors, setErrors] = useState<DepositErrors>({})
 
-  const remaining = remainingMinutes(pig, data.deposits)
+  const others = deposit
+    ? data.deposits.filter((d) => d.id !== deposit.id)
+    : data.deposits
+  const remaining = remainingMinutes(pig, others)
   const durationErrorId = 'duration-error'
   const typedMinutes = Number(hours || 0) * 60 + Number(minutes || 0)
   const dayWarning =
@@ -76,7 +87,7 @@ function AddTimeForm({
     /^\d+$/.test(minutes || '0') &&
     typedMinutes > 0 &&
     /^\d{4}-\d{2}-\d{2}$/.test(date)
-      ? exceedsDayLimit(data.deposits, date, typedMinutes)
+      ? exceedsDayLimit(others, date, typedMinutes)
       : false
 
   function pick(h: string, m: string) {
@@ -92,16 +103,21 @@ function AddTimeForm({
   function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
     const form = e.currentTarget
-    const result = addDeposit(pig.id, { hours, minutes, date, note })
+    const input = { hours, minutes, date, note }
+    const result = deposit ? updateDeposit(deposit.id, input) : addDeposit(pig.id, input)
     if (result.ok) {
-      const added = result.value.minutes
-      toast.show(`Added ${formatMinutesShort(added)} to ${pig.name}`)
+      const value = deposit
+        ? (result.value as { changes: { minutes: number } }).changes.minutes
+        : (result.value as { minutes: number }).minutes
+      toast.show(
+        deposit ? 'Deposit updated' : `Added ${formatMinutesShort(value)} to ${pig.name}`,
+      )
       onDone()
-      if (savedMinutes(pig, data.deposits) + added >= pig.targetMinutes) onFull(pig.id)
+      if (savedMinutes(pig, others) + value >= pig.targetMinutes) onFull(pig.id)
       return
     }
-    if (result.error.kind === 'NO_PIG') {
-      setErrors({ pig: 'This pig no longer exists.' })
+    if (result.error.kind === 'NO_PIG' || result.error.kind === 'NO_DEPOSIT') {
+      setErrors({ pig: 'This entry no longer exists.' })
       return
     }
     const found = result.error.errors
@@ -226,7 +242,7 @@ function AddTimeForm({
       />
 
       <div className="flex items-center justify-between rounded-md bg-bg px-4 py-3 text-sm text-text-muted">
-        <span>Remaining in this pig</span>
+        <span>{deposit ? 'Room left for this entry' : 'Remaining in this pig'}</span>
         <span className={cn('font-bold tabular-nums text-text')}>
           {formatMinutes(remaining)}
         </span>
@@ -237,7 +253,7 @@ function AddTimeForm({
           Cancel
         </Button>
         <Button type="submit" className="flex-[2]">
-          Drop into pig
+          {deposit ? 'Save changes' : 'Drop into pig'}
         </Button>
       </div>
     </form>
