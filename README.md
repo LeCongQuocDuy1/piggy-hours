@@ -4,7 +4,7 @@
 
 Piggy Hours is a small web app where you drop the time you spend studying or working into piggy banks ("pigs") and watch them fill up toward a goal you set. No timers, no accounts: you add the hours and minutes after a session, and your data stays in your browser.
 
-> **Status:** v0.6.0 candidate: everything in the MVP plus editing, history, backup and shelf (v0.5.0), and now playful motion: clock drop, squish and confetti. See the [roadmap](docs/ROADMAP.md).
+> **Status:** v0.7.0 candidate: everything in the MVP plus editing, history, backup and shelf (v0.5.0), playful motion (v0.6.0), and now deadline guidance with a finish-date forecast. See the [roadmap](docs/ROADMAP.md).
 
 **Live preview:** https://piggy-hours.vercel.app
 
@@ -20,10 +20,11 @@ Piggy Hours is a small web app where you drop the time you spend studying or wor
 - A shelf of completed pigs; completing pigs unlocks more slots
 - Export and import a JSON backup, with merge or replace
 - A playful look: pastel section bands, a lively hero, scroll reveals and count-up stats (all still when you prefer reduced motion)
+- Deadline guidance (days left and time needed per day) and a finish-date forecast from your recent pace, with ahead, on or behind schedule
 - Everything on one page, with actions in modals
 - Local-first: no sign-up, data saved in your browser
 
-Planned: deadline guidance and forecast.
+Planned: accessibility and performance polish, then v1.0.
 
 ## Tech stack
 

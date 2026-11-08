@@ -34,6 +34,17 @@ export function addDays(date: string, days: number): string {
   return format(value)
 }
 
+/** Whole calendar days from `from` to `to` (negative when `to` is earlier). DST-safe: counts dates, not hours. */
+export function daysBetween(from: string, to: string): number {
+  const a = parseLocalDate(from)
+  const b = parseLocalDate(to)
+  return Math.round(
+    (Date.UTC(b.getFullYear(), b.getMonth(), b.getDate()) -
+      Date.UTC(a.getFullYear(), a.getMonth(), a.getDate())) /
+      86_400_000,
+  )
+}
+
 /** Monday of the week that contains `date` (weeks run Monday to Sunday, as in the heatmap). */
 export function startOfWeek(date: string): string {
   const day = parseLocalDate(date).getDay() // 0 = Sunday

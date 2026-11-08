@@ -8,34 +8,34 @@ import {
 import { formatMinutesShort } from '../../domain/time'
 import type { Deposit, Pig } from '../../domain/types'
 import { cn } from '../../lib/cn'
+import { formatDate } from '../../lib/formatDate'
 import { usePulseOnIncrease } from '../../lib/usePulseOnIncrease'
 import { Badge } from '../ui/Badge'
 import { Button } from '../ui/Button'
 import { ProgressBar } from '../ui/ProgressBar'
+import { PigGuidance } from './PigGuidance'
 import { PigIllustration } from './PigIllustration'
 import { TimeToken } from './TimeToken'
-
-const dateFormat = new Intl.DateTimeFormat('en-US', {
-  month: 'short',
-  day: 'numeric',
-  year: 'numeric',
-})
-
-function formatDeadline(value: string): string {
-  const [y, m, d] = value.split('-').map(Number)
-  return dateFormat.format(new Date(y, m - 1, d))
-}
 
 type Props = {
   pig: Pig
   deposits: Deposit[]
+  /** Today's local date, `YYYY-MM-DD`; guidance and forecast are measured from it. */
+  today: string
   onAddTime: (pig: Pig) => void
   onComplete: (pig: Pig) => void
   onDetails: (pig: Pig) => void
 }
 
 /** One pig: illustration, name, progress and its action (add time while active, complete once full). */
-export function PigCard({ pig, deposits, onAddTime, onComplete, onDetails }: Props) {
+export function PigCard({
+  pig,
+  deposits,
+  today,
+  onAddTime,
+  onComplete,
+  onDetails,
+}: Props) {
   const percent = progressPercent(pig, deposits)
   const status = pigStatus(pig, deposits)
   const full = status === 'full'
@@ -86,9 +86,7 @@ export function PigCard({ pig, deposits, onAddTime, onComplete, onDetails }: Pro
           </div>
           {full && <Badge variant="gold">Full</Badge>}
           {pig.deadline && !full && (
-            <p className="m-0 text-sm text-text-muted">
-              Due {formatDeadline(pig.deadline)}
-            </p>
+            <p className="m-0 text-sm text-text-muted">Due {formatDate(pig.deadline)}</p>
           )}
         </div>
         <button
@@ -115,6 +113,7 @@ export function PigCard({ pig, deposits, onAddTime, onComplete, onDetails }: Pro
         </span>
         <span className="font-bold text-text">{percent}%</span>
       </div>
+      <PigGuidance pig={pig} deposits={deposits} today={today} />
       <div className="mt-4">
         {full ? (
           <Button

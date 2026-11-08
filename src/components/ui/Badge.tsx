@@ -1,12 +1,13 @@
 import type { ReactNode } from 'react'
 import { cn } from '../../lib/cn'
 
-type Variant = 'neutral' | 'gold' | 'danger'
+type Variant = 'neutral' | 'gold' | 'danger' | 'success'
 
 const VARIANT: Record<Variant, string> = {
   neutral: 'bg-track text-text',
   gold: 'bg-warning-bg text-warning-text',
   danger: 'bg-danger-bg text-danger',
+  success: 'bg-success-bg text-success-text',
 }
 
 export function Badge({
