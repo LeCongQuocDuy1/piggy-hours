@@ -14,7 +14,7 @@ import {
  * (no seams between spheres), and colors are painted per vertex. No model file, so no license to track.
  */
 
-export type PigShape = 'chibi' | 'classic' | 'round' | 'ball'
+export type PigShape = 'chibi' | 'classic' | 'round' | 'ball' | 'pig'
 type V3 = readonly [number, number, number]
 
 type Ellipsoid = { c: V3; r: V3 }
@@ -125,6 +125,30 @@ const SHAPES: Record<PigShape, Layout> = {
     kHead: 0.55,
     tail: [-1.32, -0.2, 0],
   },
+  // A proper pig: tapered head that runs into a big flat snout, small cheeks, barrel body with
+  // a plump rump, and slim legs ending in dark trotters.
+  pig: {
+    bodies: [
+      { c: [-0.7, -0.3, 0], r: [1.0, 0.98, 0.92] },
+      { c: [0.1, -0.38, 0], r: [0.95, 0.88, 0.84] },
+    ],
+    head: { c: [1.15, 0.02, 0], r: [0.72, 0.67, 0.67] },
+    jowls: [
+      { c: [1.22, -0.17, 0.4], r: [0.4, 0.34, 0.28] },
+      { c: [1.22, -0.17, -0.4], r: [0.4, 0.34, 0.28] },
+      { c: [1.72, -0.04, 0], r: [0.55, 0.42, 0.45] },
+    ],
+    snout: { c: [2.0, -0.04, 0], r: [0.3, 0.3, 0.36] },
+    legs: [
+      leg(0.5, 0.45, -0.85, -1.32, 0.31, 0.23),
+      leg(0.5, -0.45, -0.85, -1.32, 0.31, 0.23),
+      leg(-0.95, 0.5, -0.85, -1.32, 0.33, 0.24),
+      leg(-0.95, -0.5, -0.85, -1.32, 0.33, 0.24),
+    ],
+    kBody: 0.5,
+    kHead: 0.28,
+    tail: [-1.68, -0.1, 0],
+  },
 }
 
 function ellipsoid(p: V3, e: Ellipsoid): number {
@@ -189,7 +213,13 @@ const hex = (h: string): V3 => [
   toLinear(parseInt(h.slice(5, 7), 16) / 255),
 ]
 
-export type PigPalette = { base: string; belly: string; deep: string; blush: string }
+export type PigPalette = {
+  base: string
+  belly: string
+  deep: string
+  blush: string
+  hoof?: string
+}
 
 /** Builds the pig body. `step` is the grid size in world units (smaller is smoother and slower). */
 export function buildPigGeometry(
@@ -253,6 +283,7 @@ export function buildPigGeometry(
   const belly = hex(palette.belly)
   const deep = hex(palette.deep)
   const blush = hex(palette.blush)
+  const hoof = hex(palette.hoof ?? '#8A4A62')
 
   const paint = (p: V3, n: V3): V3 => {
     // lighter belly underneath, deeper pink toward the snout, ears and feet, blush on the cheeks
@@ -273,6 +304,11 @@ export function buildPigGeometry(
       mix(c[1], deep[1], t * 0.9),
       mix(c[2], deep[2], t * 0.9),
     ]
+    if (shape === 'pig') {
+      // dark trotters
+      t = clamp01((-1.2 - p[1]) * 9)
+      c = [mix(c[0], hoof[0], t), mix(c[1], hoof[1], t), mix(c[2], hoof[2], t)]
+    }
     for (const side of [1, -1]) {
       const cx = s.head.c[0] + s.head.r[0] * 0.5
       const cy = s.head.c[1] - s.head.r[1] * 0.28
@@ -433,4 +469,13 @@ export function buildTailGeometry(): BufferGeometry {
     )
   }
   return new TubeGeometry(new CatmullRomCurve3(pts), 64, 0.055, 10, false)
+}
+
+/** The flat, round snout plate at the front of the muzzle: where it sits and how big it is. */
+export function snoutDisc(shape: PigShape): { p: V3; r: number; flat: number } {
+  const { snout } = SHAPES[shape]
+  if (shape === 'pig')
+    return { p: [snout.c[0] + snout.r[0] - 0.14, snout.c[1], 0], r: 0.4, flat: 0.5 }
+  const r = shape === 'chibi' ? 0.31 : 0.29
+  return { p: [snout.c[0] + snout.r[0] - 0.1, snout.c[1] + 0.02, 0], r, flat: 0.5 }
 }
