@@ -14,7 +14,7 @@ import {
  * (no seams between spheres), and colors are painted per vertex. No model file, so no license to track.
  */
 
-export type PigShape = 'chibi' | 'classic'
+export type PigShape = 'chibi' | 'classic' | 'round' | 'ball'
 type V3 = readonly [number, number, number]
 
 type Ellipsoid = { c: V3; r: V3 }
@@ -83,6 +83,47 @@ const SHAPES: Record<PigShape, Layout> = {
     kBody: 0.5,
     kHead: 0.2,
     tail: [-1.58, -0.1, 0],
+  },
+  // Rounder: a plump, short body, a big head that melts into it, puffy cheeks and stubby legs.
+  round: {
+    bodies: [
+      { c: [-0.3, -0.38, 0], r: [1.18, 1.1, 1.04] },
+      { c: [0.4, -0.38, 0], r: [0.9, 0.92, 0.9] },
+    ],
+    head: { c: [1.08, 0.12, 0], r: [0.84, 0.8, 0.82] },
+    jowls: [
+      { c: [1.02, -0.22, 0.52], r: [0.5, 0.44, 0.36] },
+      { c: [1.02, -0.22, -0.52], r: [0.5, 0.44, 0.36] },
+    ],
+    snout: { c: [1.82, 0.0, 0], r: [0.34, 0.3, 0.37] },
+    legs: [
+      leg(0.5, 0.5, -1.0, -1.38, 0.38, 0.3),
+      leg(0.5, -0.5, -1.0, -1.38, 0.38, 0.3),
+      leg(-0.8, 0.55, -1.0, -1.38, 0.4, 0.31),
+      leg(-0.8, -0.55, -1.0, -1.38, 0.4, 0.31),
+    ],
+    kBody: 0.6,
+    kHead: 0.5,
+    tail: [-1.42, -0.2, 0],
+  },
+  // Rounder still: almost a ball with a head, like a squishy toy.
+  ball: {
+    bodies: [{ c: [-0.12, -0.35, 0], r: [1.22, 1.18, 1.12] }],
+    head: { c: [1.0, 0.18, 0], r: [0.86, 0.82, 0.84] },
+    jowls: [
+      { c: [0.95, -0.2, 0.55], r: [0.5, 0.46, 0.38] },
+      { c: [0.95, -0.2, -0.55], r: [0.5, 0.46, 0.38] },
+    ],
+    snout: { c: [1.78, 0.04, 0], r: [0.34, 0.3, 0.37] },
+    legs: [
+      leg(0.45, 0.52, -1.05, -1.4, 0.4, 0.32),
+      leg(0.45, -0.52, -1.05, -1.4, 0.4, 0.32),
+      leg(-0.7, 0.58, -1.05, -1.4, 0.42, 0.33),
+      leg(-0.7, -0.58, -1.05, -1.4, 0.42, 0.33),
+    ],
+    kBody: 0.5,
+    kHead: 0.55,
+    tail: [-1.32, -0.2, 0],
   },
 }
 
