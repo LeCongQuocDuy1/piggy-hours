@@ -479,3 +479,8 @@ export function snoutDisc(shape: PigShape): { p: V3; r: number; flat: number } {
   const r = shape === 'chibi' ? 0.31 : 0.29
   return { p: [snout.c[0] + snout.r[0] - 0.1, snout.c[1] + 0.02, 0], r, flat: 0.5 }
 }
+
+/** A single-color palette: the whole pig is one color and only the light shapes it. `blush` is optional. */
+export function flatPalette(color: string, blush: string = color): PigPalette {
+  return { base: color, belly: color, deep: color, hoof: color, blush }
+}
