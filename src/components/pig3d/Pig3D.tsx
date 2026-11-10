@@ -117,7 +117,6 @@ export function Pig3D({
             <Suspense fallback={null}>
               <Pig3DScene
                 mood={mood}
-                color={color}
                 clock={clock}
                 visible={visible}
                 onReady={() => setReady(true)}

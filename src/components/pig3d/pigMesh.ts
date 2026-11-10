@@ -14,7 +14,7 @@ import {
  * (no seams between spheres), and colors are painted per vertex. No model file, so no license to track.
  */
 
-export type PigShape = 'chibi' | 'classic' | 'round' | 'ball' | 'pig'
+export type PigShape = 'chibi' | 'classic' | 'round' | 'ball' | 'pig' | 'lying'
 type V3 = readonly [number, number, number]
 
 type Ellipsoid = { c: V3; r: V3 }
@@ -149,18 +149,41 @@ const SHAPES: Record<PigShape, Layout> = {
     kHead: 0.28,
     tail: [-1.68, -0.1, 0],
   },
+  // Asleep: belly on the floor, legs tucked, chin resting on the ground.
+  lying: {
+    bodies: [
+      { c: [-0.62, -0.78, 0], r: [1.05, 0.62, 0.98] },
+      { c: [0.12, -0.84, 0], r: [0.95, 0.54, 0.9] },
+    ],
+    head: { c: [1.18, -0.86, 0], r: [0.72, 0.6, 0.67] },
+    jowls: [
+      { c: [1.25, -0.98, 0.4], r: [0.4, 0.32, 0.28] },
+      { c: [1.25, -0.98, -0.4], r: [0.4, 0.32, 0.28] },
+      { c: [1.74, -0.97, 0], r: [0.55, 0.38, 0.45] },
+    ],
+    snout: { c: [2.02, -0.96, 0], r: [0.3, 0.27, 0.36] },
+    legs: [
+      leg(0.62, 0.62, -1.02, -1.28, 0.3, 0.25),
+      leg(0.62, -0.62, -1.02, -1.28, 0.3, 0.25),
+      leg(-1.02, 0.66, -1.02, -1.28, 0.32, 0.26),
+      leg(-1.02, -0.66, -1.02, -1.28, 0.32, 0.26),
+    ],
+    kBody: 0.5,
+    kHead: 0.28,
+    tail: [-1.7, -0.92, 0],
+  },
 }
 
 function ellipsoid(p: V3, e: Ellipsoid): number {
   const x = (p[0] - e.c[0]) / e.r[0]
   const y = (p[1] - e.c[1]) / e.r[1]
   const z = (p[2] - e.c[2]) / e.r[2]
-  const k0 = Math.hypot(x, y, z)
+  const k0 = Math.sqrt(x * x + y * y + z * z)
   const x1 = x / e.r[0]
   const y1 = y / e.r[1]
   const z1 = z / e.r[2]
-  const k1 = Math.hypot(x1, y1, z1)
-  return k1 < 1e-9 ? -Math.min(...e.r) : (k0 * (k0 - 1)) / k1
+  const k1 = Math.sqrt(x1 * x1 + y1 * y1 + z1 * z1)
+  return k1 < 1e-9 ? -Math.min(e.r[0], e.r[1], e.r[2]) : (k0 * (k0 - 1)) / k1
 }
 
 function capsule(p: V3, c: Leg): number {
@@ -177,9 +200,10 @@ function capsule(p: V3, c: Leg): number {
       (pax * bax + pay * bay + paz * baz) / (bax * bax + bay * bay + baz * baz),
     ),
   )
-  return (
-    Math.hypot(pax - bax * h, pay - bay * h, paz - baz * h) - (c.r + (c.r2 - c.r) * h)
-  )
+  const dx = pax - bax * h
+  const dy = pay - bay * h
+  const dz = paz - baz * h
+  return Math.sqrt(dx * dx + dy * dy + dz * dz) - (c.r + (c.r2 - c.r) * h)
 }
 
 /** Polynomial smooth minimum: joins two shapes with a soft fillet of size k. */
@@ -221,6 +245,29 @@ export type PigPalette = {
   hoof?: string
 }
 
+/** The box that holds the pig's field, with a margin for the smooth joins. Smaller box = faster build. */
+function fieldBounds(shape: PigShape): [V3, V3] {
+  const s = SHAPES[shape]
+  const lo: [number, number, number] = [Infinity, Infinity, Infinity]
+  const hi: [number, number, number] = [-Infinity, -Infinity, -Infinity]
+  const grow = (c: V3, r: V3) => {
+    for (let i = 0; i < 3; i++) {
+      lo[i] = Math.min(lo[i], c[i] - r[i])
+      hi[i] = Math.max(hi[i], c[i] + r[i])
+    }
+  }
+  for (const e of [...s.bodies, s.head, ...s.jowls, s.snout]) grow(e.c, e.r)
+  for (const l of s.legs) {
+    grow(l.a, [l.r, l.r, l.r])
+    grow(l.b, [l.r2, l.r2, l.r2])
+  }
+  const m = 0.2
+  return [
+    [lo[0] - m, lo[1] - m, lo[2] - m],
+    [hi[0] + m, hi[1] + m, hi[2] + m],
+  ]
+}
+
 /** Builds the pig body. `step` is the grid size in world units (smaller is smoother and slower). */
 export function buildPigGeometry(
   shape: PigShape,
@@ -229,8 +276,7 @@ export function buildPigGeometry(
 ): BufferGeometry {
   const f = pigField(shape)
   const s = SHAPES[shape]
-  const min: V3 = [-2.2, -1.75, -1.3]
-  const max: V3 = [2.4, 1.2, 1.3]
+  const [min, max] = fieldBounds(shape)
   const nx = Math.ceil((max[0] - min[0]) / step) + 1
   const ny = Math.ceil((max[1] - min[1]) / step) + 1
   const nz = Math.ceil((max[2] - min[2]) / step) + 1
@@ -250,6 +296,7 @@ export function buildPigGeometry(
     return [gx / l, gy / l, gz / l]
   }
 
+  const cv = new Float32Array(8)
   const cellVert = new Int32Array((nx - 1) * (ny - 1) * (nz - 1)).fill(-1)
   const cid = (i: number, j: number, k: number) => i + (nx - 1) * (j + (ny - 1) * k)
   const pos: number[] = []
@@ -324,12 +371,14 @@ export function buildPigGeometry(
     for (let j = 0; j < ny - 1; j++)
       for (let i = 0; i < nx - 1; i++) {
         let mask = 0
-        const v = corner.map(([a, b, c], n) => {
-          const x = val[id(i + a, j + b, k + c)]
+        for (let n = 0; n < 8; n++) {
+          const c = corner[n]
+          const x = val[id(i + c[0], j + c[1], k + c[2])]
+          cv[n] = x
           if (x < 0) mask |= 1 << n
-          return x
-        })
+        }
         if (mask === 0 || mask === 255) continue
+        const v = cv
         let sx = 0,
           sy = 0,
           sz = 0,
@@ -474,7 +523,7 @@ export function buildTailGeometry(): BufferGeometry {
 /** The flat, round snout plate at the front of the muzzle: where it sits and how big it is. */
 export function snoutDisc(shape: PigShape): { p: V3; r: number; flat: number } {
   const { snout } = SHAPES[shape]
-  if (shape === 'pig')
+  if (shape === 'pig' || shape === 'lying')
     return { p: [snout.c[0] + snout.r[0] - 0.14, snout.c[1], 0], r: 0.4, flat: 0.5 }
   const r = shape === 'chibi' ? 0.31 : 0.29
   return { p: [snout.c[0] + snout.r[0] - 0.1, snout.c[1] + 0.02, 0], r, flat: 0.5 }
