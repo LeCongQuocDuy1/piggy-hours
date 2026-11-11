@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { cn } from '../../lib/cn'
 import { usePrefersReducedMotion } from '../../lib/usePrefersReducedMotion'
 import { PigIllustration } from '../pig/PigIllustration'
+import { PIG_COLORS } from '../pig/pigColors'
 import type { PigColorName } from '../pig/pigColors'
 import type { PigMood } from '../pig/pigMood'
 import type { PigFrame } from './pigStage'
@@ -9,7 +10,10 @@ import { canRender3D } from './webgl'
 
 type Props = {
   mood: PigMood
-  /** Only used by the 2D fallback: the 3D pig is always pink. */
+  /**
+   * The pig's own color. The 2D pig is painted with it; the 3D pig is always pink, so the color shows as a soft
+   * disc behind the pig instead.
+   */
   color?: PigColorName
   label?: string
   decorative?: boolean
@@ -112,6 +116,17 @@ export function PigSprite({
       className={cn('relative', className)}
       data-pig-sprite={show3D ? '3d' : '2d'}
     >
+      {use3D && (
+        <span
+          aria-hidden="true"
+          data-testid="pig-backdrop"
+          className={cn(
+            'absolute inset-y-0 left-1/2 aspect-square h-full -translate-x-1/2 rounded-full transition-opacity duration-500',
+            show3D ? 'opacity-100' : 'opacity-0',
+          )}
+          style={{ backgroundColor: PIG_COLORS[color].soft }}
+        />
+      )}
       <div className={cn('h-full w-full', show3D && 'invisible')}>
         {children ?? (
           <PigIllustration

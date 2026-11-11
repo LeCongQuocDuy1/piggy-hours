@@ -60,6 +60,7 @@ export function PigCard({
       <div className="flex items-center gap-3.5">
         <PigSprite
           mood={moodForProgress(percent)}
+          color={pig.color}
           pulse={pulse}
           label={`${pig.name} pig, ${Math.floor(percent)}% full`}
           className="h-[70px] w-[84px] flex-none"
