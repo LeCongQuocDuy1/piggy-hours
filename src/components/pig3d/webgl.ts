@@ -21,6 +21,10 @@ export function isLowEndDevice(): boolean {
   )
 }
 
+let capable: boolean | undefined
+
+/** The answer is remembered, because every pig on the page asks and the WebGL probe is not free. */
 export function canRender3D(): boolean {
-  return !isLowEndDevice() && hasWebGL()
+  capable ??= !isLowEndDevice() && hasWebGL()
+  return capable
 }

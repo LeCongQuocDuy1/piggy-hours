@@ -426,6 +426,10 @@
 .scroll-pig-hop {
   animation: scroll-pig-hop 0.5s ease-out;
 }
+/* The 3D pig already jumps when its mood changes, so the flat hop is only for the 2D pig. */
+.scroll-pig-hop:has([data-pig-sprite='3d']) {
+  animation: none;
+}
 
 @media (prefers-reduced-motion: reduce) {
   .scroll-pig-hop {

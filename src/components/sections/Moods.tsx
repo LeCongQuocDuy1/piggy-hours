@@ -1,4 +1,4 @@
-import { PigIllustration } from '../pig/PigIllustration'
+import { PigSprite } from '../pig3d/PigSprite'
 import { MOOD_LABEL, type PigMood } from '../pig/pigMood'
 import { Reveal } from '../ui/Reveal'
 import { Squiggle } from '../ui/Squiggle'
@@ -45,10 +45,11 @@ export function Moods() {
                 mood === 'overjoyed' ? 'border-coin' : 'border-border',
               )}
             >
-              <PigIllustration
+              <PigSprite
                 mood={mood}
                 decorative
-                className="mx-auto w-[110px] max-w-full md:w-[120px]"
+                frame="wide"
+                className="mx-auto aspect-[6/5] w-[160px] max-w-full md:w-[176px]"
               />
               <div className="mt-2 font-heading text-lg font-medium">
                 {MOOD_LABEL[mood]}

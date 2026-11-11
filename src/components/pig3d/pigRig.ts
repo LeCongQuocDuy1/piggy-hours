@@ -114,7 +114,7 @@ const FACES: Face[] = [
     eye: 'open',
     eyeScale: 1.25,
     mouth: 'open',
-    brow: { l: [0.12, 0.2], r: [0.12, -0.2] },
+    brow: { l: [0.14, 0], r: [0.14, 0] },
     blush: 0.8,
     earL: -0.4,
     earR: -0.4,
@@ -237,14 +237,29 @@ type Eye = {
 
 type Variant = { group: Group; eyes: Eye[]; ears: Group[]; tail: Group }
 
+/**
+ * Building a body takes about 130 ms, so each shape is built once and every pig on the page shares it.
+ * These live as long as the page does and are never disposed by a single rig.
+ */
+const sharedBodies = new Map<PigShape, BufferGeometry>()
+let sharedEar: BufferGeometry | undefined
+let sharedTail: BufferGeometry | undefined
+function sharedBody(shape: PigShape): BufferGeometry {
+  let g = sharedBodies.get(shape)
+  if (!g) {
+    g = buildPigGeometry(shape, flatPalette(PIG_PINK))
+    sharedBodies.set(shape, g)
+  }
+  return g
+}
+
 function buildVariant(
   shape: PigShape,
   track: Material[],
   geos: BufferGeometry[],
 ): Variant {
   const group = new Group()
-  const geo = buildPigGeometry(shape, flatPalette(PIG_PINK))
-  geos.push(geo)
+  const geo = sharedBody(shape)
   const skin = new MeshPhysicalMaterial({
     vertexColors: true,
     roughness: 0.55,
@@ -266,9 +281,8 @@ function buildVariant(
   track.push(skin, part, dark, ink, eyeMat, white, tongueMat, nostrilMat)
   group.add(new Mesh(geo, skin))
 
-  const earGeo = buildEarGeometry()
-  const tailGeo = buildTailGeometry()
-  geos.push(earGeo, tailGeo)
+  const earGeo = (sharedEar ??= buildEarGeometry())
+  const tailGeo = (sharedTail ??= buildTailGeometry())
   const head = headPoint(shape, 0, 0, 1).p
   const eyes: Eye[] = []
   const ears: Group[] = []
@@ -432,6 +446,10 @@ export type PigInput = {
   /** Cursor position on the page, -1..1. */
   pointerX: number
   pointerY: number
+  /** Changes every time one clock should drop in (a deposit). The first value is ignored. */
+  pulse?: number
+  /** Floating symbols (z, ?, note, sparkle, heart). Switch off for very small pigs. Default on. */
+  symbols?: boolean
 }
 
 export type PigRig = {
@@ -583,8 +601,11 @@ export function createPigRig(): PigRig {
   let squishVel = 0
   let dropT = 0
   let dropLanded = false
+  let dropping = false // one single clock drop in progress (from `pulse`)
+  let lastPulse: number | undefined
   let burst = Infinity
 
+  let showSymbols = true
   const applyFace = (index: number, time: number, pop: number, blink: boolean) => {
     const f = FACES[index]
     standing.group.visible = index !== 0
@@ -610,7 +631,7 @@ export function createPigRig(): PigRig {
     })
     for (const { kind, i, sprite } of symbols) {
       sprite.visible = false
-      if (kind !== f.symbol) continue
+      if (!showSymbols || kind !== f.symbol) continue
       const ph = (time * 0.55 + i / 3) % 1
       let x = 1 + (i - 1) * 0.5
       let y = 1.5 + ph * 0.8
@@ -649,6 +670,7 @@ export function createPigRig(): PigRig {
   }
 
   const update = (dt: number, time: number, input: PigInput) => {
+    showSymbols = input.symbols !== false
     const idx = PIG_MOODS.indexOf(input.mood)
     if (idx === 0) ensureLying()
     if (!started) {
@@ -700,9 +722,18 @@ export function createPigRig(): PigRig {
     // ----- falling clock (not while asleep or changing mood) -----
     const slotY = 1.02 * scale
     let clockOn = false
-    if (input.clock && !lyingNow && tt === Infinity) {
+    if (input.pulse !== undefined) {
+      if (lastPulse !== undefined && input.pulse !== lastPulse) {
+        dropping = true
+        dropT = 0
+        dropLanded = false
+      }
+      lastPulse = input.pulse
+    }
+    if ((input.clock || dropping) && !lyingNow && tt === Infinity) {
       dropT += dt
-      const p = dropT % 5
+      const p = dropping && !input.clock ? dropT : dropT % 5
+      if (dropping && !input.clock && p > 1.4) dropping = false
       const fall = 0.85
       const slide = 0.22
       if (p < fall) {

@@ -49,4 +49,31 @@ describe('createPigRig', () => {
     expect(lying.visible).toBe(false)
     rig.dispose()
   })
+
+  it('drops one clock each time the pulse changes, and symbols can be switched off', () => {
+    const rig = createPigRig()
+    const root = rig.object.children[0]
+    const clockVisible = () =>
+      root.children.some((c) => c.type === 'Group' && c.visible && c.position.y > 1.2)
+    let t = 0
+    const step = (pulse: number, symbols = true) => {
+      rig.update(1 / 30, (t += 1 / 30), {
+        mood: 'happy',
+        clock: false,
+        pulse,
+        symbols,
+        pointerX: 0,
+        pointerY: 0,
+      })
+    }
+    for (let i = 0; i < 10; i++) step(0)
+    expect(clockVisible()).toBe(false)
+    step(1)
+    for (let i = 0; i < 5; i++) step(1)
+    expect(clockVisible()).toBe(true)
+    for (let i = 0; i < 60; i++) step(1, false) // the drop is over after about a second
+    expect(clockVisible()).toBe(false)
+    expect(root.children.filter((c) => c.type === 'Sprite' && c.visible)).toHaveLength(0)
+    rig.dispose()
+  })
 })

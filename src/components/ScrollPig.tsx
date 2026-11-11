@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { moodForProgress } from '../domain/pigs'
 import { MOOD_LABEL, type PigMood } from './pig/pigMood'
-import { PigIllustration } from './pig/PigIllustration'
+import { PigSprite } from './pig3d/PigSprite'
 
 /** It appears once the visitor has scrolled roughly one screen, like the back-to-top button. */
 const SHOW_AFTER_PX = 600
@@ -73,7 +73,7 @@ export function ScrollPig() {
         style={{ backgroundColor: MOOD_DISC[mood] }}
       >
         <div key={hops} className={hops > 0 ? 'scroll-pig-hop w-[88%]' : 'w-[88%]'}>
-          <PigIllustration mood={mood} decorative className="w-full" />
+          <PigSprite mood={mood} decorative className="aspect-[6/5] w-full" />
         </div>
       </div>
       <div className="h-1.5 w-full overflow-hidden rounded-full bg-track">

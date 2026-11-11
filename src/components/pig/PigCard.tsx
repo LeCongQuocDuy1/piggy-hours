@@ -16,6 +16,7 @@ import { Badge } from '../ui/Badge'
 import { Button } from '../ui/Button'
 import { ProgressBar } from '../ui/ProgressBar'
 import { PigGuidance } from './PigGuidance'
+import { PigSprite } from '../pig3d/PigSprite'
 import { PigIllustration } from './PigIllustration'
 import { TimeToken } from './TimeToken'
 
@@ -57,26 +58,34 @@ export function PigCard({
       )}
     >
       <div className="flex items-center gap-3.5">
-        <div className="relative h-[70px] w-[84px] flex-none">
-          <div key={pulse} className={cn('h-full w-full', pulse > 0 && 'pig-squish')}>
-            <PigIllustration
-              mood={moodForProgress(percent)}
-              color={pig.color}
-              label={`${pig.name} pig, ${Math.floor(percent)}% full`}
-              className="h-full w-full"
-            />
+        <PigSprite
+          mood={moodForProgress(percent)}
+          pulse={pulse}
+          label={`${pig.name} pig, ${Math.floor(percent)}% full`}
+          className="h-[70px] w-[84px] flex-none"
+        >
+          {/* The 2D pig: a clock drops in and the pig squishes whenever more is saved. */}
+          <div className="relative h-full w-full">
+            <div key={pulse} className={cn('h-full w-full', pulse > 0 && 'pig-squish')}>
+              <PigIllustration
+                mood={moodForProgress(percent)}
+                color={pig.color}
+                label={`${pig.name} pig, ${Math.floor(percent)}% full`}
+                className="h-full w-full"
+              />
+            </div>
+            {pulse > 0 && (
+              <span
+                key={`clock-${pulse}`}
+                data-testid="time-drop"
+                aria-hidden="true"
+                className="time-drop pointer-events-none absolute left-[33px] top-[-6px] size-[18px]"
+              >
+                <TimeToken className="size-full" />
+              </span>
+            )}
           </div>
-          {pulse > 0 && (
-            <span
-              key={`clock-${pulse}`}
-              data-testid="time-drop"
-              aria-hidden="true"
-              className="time-drop pointer-events-none absolute left-[33px] top-[-6px] size-[18px]"
-            >
-              <TimeToken className="size-full" />
-            </span>
-          )}
-        </div>
+        </PigSprite>
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2">
             <h3 className="m-0 min-w-0 break-words font-heading text-[22px] font-medium leading-snug">

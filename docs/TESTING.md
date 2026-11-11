@@ -322,3 +322,7 @@ Use a normal desktop or laptop for 1 to 6; the 3D pig only loads on devices with
 | 11 | Hover a pig card (needs at least one pig) | The card leans up to 7 degrees toward the pointer and a light spot follows it; nothing happens on a touch screen |
 | 12 | Fill a pig to 100% | The pig-full dialog shows the 3D pig in its overjoyed mood (smiling eyes, hearts) with confetti; with reduced motion it is the flat pig |
 | 13 | Turn on "Reduce motion" and reload | No parallax, no card tilt, no hop on the corner pig, no confetti |
+| 14 | Scroll through the whole page on a desktop | Pig cards, the shelf, the five moods and the empty state (use a new browser profile) all show 3D pigs, fading in over the flat ones; only the hero pig follows the cursor, the others do too but smaller |
+| 15 | Add time to a pig card | A gold clock drops into that card's 3D pig and it squishes |
+| 16 | Open DevTools, Performance monitor while scrolling | Only one extra WebGL context in `chrome://gpu` or the console; no frame drops while pigs scroll in and out |
+| 17 | Open the preview on an older phone | The flat pigs everywhere, never a blank box |

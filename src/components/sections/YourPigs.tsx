@@ -10,7 +10,7 @@ import { useCreatePig } from '../modals/CreatePigProvider'
 import { PigManagement } from '../modals/PigManagement'
 import { PigFullModal } from '../modals/PigFullModal'
 import { PigCard } from '../pig/PigCard'
-import { PigIllustration } from '../pig/PigIllustration'
+import { PigSprite } from '../pig3d/PigSprite'
 import { Button } from '../ui/Button'
 
 /** The app area: the user's pigs, the slot counter and the New pig button (US-01, US-03). */
@@ -57,10 +57,11 @@ export function YourPigs() {
 
       {pigs.length === 0 ? (
         <div className="flex flex-col items-center rounded-lg border-2 border-border bg-surface px-5 py-10 text-center shadow-card sm:px-6 sm:py-12">
-          <PigIllustration
+          <PigSprite
             mood="sleepy"
+            frame="wide"
             label="A sleepy pig waiting for its first hours"
-            className="w-48"
+            className="aspect-[6/5] w-56"
           />
           <h3 className="mb-2 mt-4 font-heading text-[28px] font-medium leading-tight">
             Your piggy bank is empty
