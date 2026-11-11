@@ -303,7 +303,7 @@ Run this list on the Vercel preview first, then once more on https://piggy-hours
 3. Redeploy and refresh the social preview caches (item 5).
 
 
-### M9a: 3D pig in the hero (US-17)
+### M9: 3D pig and page effects (US-17)
 
 Use a normal desktop or laptop for 1 to 6; the 3D pig only loads on devices with WebGL and more than 2 cores.
 
@@ -314,6 +314,11 @@ Use a normal desktop or laptop for 1 to 6; the 3D pig only loads on devices with
 | 3 | Watch for 10 seconds | The pig bobs, blinks, and every 5 seconds a gold clock falls, spins and slides into the slot while the pig squishes |
 | 4 | Scroll the hero out of view and back | No console errors; the animation resumes (it stops while hidden to save battery) |
 | 5 | Turn on "Reduce motion" in the system settings and reload | The flat 2D pig stays, no canvas, the old clock drop is a quiet fade |
-| 6 | Open DevTools, Network tab, reload and filter JS | The `Pig3DScene-*.js` chunk (about 244 kB gzipped) downloads only after the page has loaded |
+| 6 | Open DevTools, Network tab, reload and filter JS | The `Pig3DScene-*.js` chunk (about 248 kB gzipped) downloads only after the page has loaded |
 | 7 | Open the preview on a phone | A 3D pig on recent phones, or the 2D pig on older ones; never a blank circle |
 | 8 | Run Lighthouse (mobile) | Performance stays at 90 or more (99 measured; the 3D chunk does not load during the test because the check runs after idle on a 2-core machine) |
+| 9 | Scroll down the page | A small pig appears at the bottom left after one screen: sleepy at the top, then curious, happy, excited, and overjoyed at the very end. The disc behind it changes color, the pig stays pink and hops on every change; a bar and a label show the progress |
+| 10 | Move the mouse over the hero | The pink disc, the pig and the drifting clocks and stars move a little, each at a different speed; they settle when the mouse leaves |
+| 11 | Hover a pig card (needs at least one pig) | The card leans up to 7 degrees toward the pointer and a light spot follows it; nothing happens on a touch screen |
+| 12 | Fill a pig to 100% | The pig-full dialog shows the 3D pig in its overjoyed mood (smiling eyes, hearts) with confetti; with reduced motion it is the flat pig |
+| 13 | Turn on "Reduce motion" and reload | No parallax, no card tilt, no hop on the corner pig, no confetti |

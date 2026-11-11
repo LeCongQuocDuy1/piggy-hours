@@ -1,3 +1,4 @@
+import { useRef } from 'react'
 import { CheckCircle2, MoreHorizontal, Plus } from 'lucide-react'
 import {
   moodForProgress,
@@ -9,6 +10,7 @@ import { formatMinutesShort } from '../../domain/time'
 import type { Deposit, Pig } from '../../domain/types'
 import { cn } from '../../lib/cn'
 import { formatDate } from '../../lib/formatDate'
+import { usePointerVars } from '../../lib/usePointerVars'
 import { usePulseOnIncrease } from '../../lib/usePulseOnIncrease'
 import { Badge } from '../ui/Badge'
 import { Button } from '../ui/Button'
@@ -42,12 +44,15 @@ export function PigCard({
   const saved = savedMinutes(pig, deposits)
   // Every time more is saved, a clock drops in and the pig squishes (the key restarts the animation).
   const pulse = usePulseOnIncrease(saved)
+  const card = useRef<HTMLElement>(null)
+  usePointerVars(card, { px: '--lx', py: '--ly' })
   const valueText = `${formatMinutesShort(saved)} of ${formatMinutesShort(pig.targetMinutes)}`
 
   return (
     <article
+      ref={card}
       className={cn(
-        'rounded-lg border-2 bg-surface p-5 shadow-card transition-[transform,box-shadow] duration-200 ease-[var(--ease-out)] motion-safe:hover:-translate-y-1 motion-safe:hover:shadow-[0_12px_28px_rgba(201,58,111,0.18)]',
+        'tilt-card rounded-lg border-2 bg-surface p-5 shadow-card transition-[transform,box-shadow] duration-200 ease-[var(--ease-out)] motion-safe:hover:-translate-y-1 motion-safe:hover:shadow-[0_12px_28px_rgba(201,58,111,0.18)]',
         full ? 'border-coin shadow-card-gold' : 'border-border',
       )}
     >

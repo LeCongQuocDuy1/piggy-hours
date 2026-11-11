@@ -1,3 +1,5 @@
+import { useRef } from 'react'
+import { usePointerVars } from '../../lib/usePointerVars'
 import { Squiggle } from '../ui/Squiggle'
 import { HeroDecor } from './HeroDecor'
 import { Pig3D } from '../pig3d/Pig3D'
@@ -6,15 +8,18 @@ import { buttonStyles } from '../ui/buttonStyles'
 
 export function Hero() {
   const { canCreate, open } = useCreatePig()
+  const section = useRef<HTMLElement>(null)
+  usePointerVars(section)
   return (
     <section
+      ref={section}
       aria-labelledby="hero-title"
       className="relative mx-auto flex max-w-[1120px] flex-col items-center gap-8 px-4 pb-14 pt-6 text-center sm:px-6 md:flex-row md:gap-10 md:pb-[72px] md:pt-10 md:text-left"
     >
       <HeroDecor />
       {/* The pig comes first on phones so the first screen already feels alive. */}
       <div className="order-first flex w-full min-w-0 justify-center md:order-last md:flex-[1_1_340px]">
-        <div className="relative flex aspect-square w-[min(74vw,320px)] items-center justify-center rounded-full bg-hero-disc md:w-full md:max-w-[440px]">
+        <div className="parallax-far relative flex aspect-square w-[min(74vw,320px)] items-center justify-center rounded-full bg-hero-disc md:w-full md:max-w-[440px]">
           <span
             aria-hidden="true"
             className="hero-halo absolute -inset-3 rounded-full border-[3px] border-dashed border-coin/60"
@@ -22,7 +27,7 @@ export function Hero() {
           <Pig3D
             mood="happy"
             label="A happy pink piggy bank"
-            className="hero-pig w-[84%]"
+            className="hero-pig parallax-mid w-[84%]"
           />
         </div>
       </div>

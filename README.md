@@ -28,7 +28,7 @@ Piggy Hours is a small web app where you drop the time you spend studying or wor
 - Everything on one page, with actions in modals
 - Local-first: no sign-up, data saved in your browser
 
-Not in v1.0 (ideas for later): dark mode, installable app (PWA), share-as-image, and a 3D pig. See the [roadmap](docs/ROADMAP.md).
+Not in v1.0 (ideas for later): dark mode, installable app (PWA) and share-as-image. See the [roadmap](docs/ROADMAP.md).
 
 ## Quality
 

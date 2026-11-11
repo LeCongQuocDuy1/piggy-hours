@@ -6,7 +6,10 @@ All notable changes are documented here. The format follows [Keep a Changelog](h
 
 ### Added
 
-- **3D pig in the hero (M9a):** a pig built in code with react-three-fiber that turns to follow the cursor, bobs, blinks, wiggles an ear and swells with its mood; a 3D clock falls into its slot every few seconds and the pig squishes on landing
+- **3D pig (M9):** a round, single-color (always pink) pig sculpted in code and drawn with react-three-fiber. It follows the cursor, blinks, wiggles its ears and tail, and swells with its mood. A gold clock falls into its slot every few seconds and the pig squishes on landing
+- **Five readable moods:** sleepy (lies down on the floor with closed eyes and Zzz), curious (raised brow, question mark), happy (smile, note), excited (wide eyes, open mouth, sparkles) and overjoyed (smiling eyes, hearts). Changing mood is a squash, a jump (the face changes in the air), a spring landing and a gold ring
+- **Pig-full dialog** now shows the 3D pig in its overjoyed mood
+- **Page effects:** a small pig in the corner reads the page (sleepy at the top, overjoyed at the end, with a hop on every change); hero depth that follows the mouse (disc, pig and drifting shapes move at different speeds); pig cards lean up to 7 degrees toward the pointer with a light spot. All are CSS-driven, mouse-only and off for reduced motion
 - The 2D pig stays as the fallback for reduced motion, no WebGL, low-end devices and any 3D error; the 3D code is a separate lazy chunk that loads when the browser is idle and stops drawing while off screen
 - Decision ADR-020 (how M9 is built)
 
