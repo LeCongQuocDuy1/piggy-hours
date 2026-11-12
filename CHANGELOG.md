@@ -4,6 +4,18 @@ All notable changes are documented here. The format follows [Keep a Changelog](h
 
 ## [Unreleased]
 
+### Added
+
+- **3D pig (M9):** a round, single-color (always pink) pig sculpted in code and drawn with three.js. It follows the cursor, blinks, wiggles its ears and tail, and swells with its mood. A gold clock falls into its slot every few seconds and the pig squishes on landing
+- **Five readable moods:** sleepy (lies down on the floor with closed eyes and Zzz), curious (raised brow, question mark), happy (smile, note), excited (wide eyes, open mouth, sparkles) and overjoyed (smiling eyes, hearts). Changing mood is a squash, a jump (the face changes in the air), a spring landing and a gold ring
+- **3D pigs everywhere:** pig cards, the shelf, the five moods section, the empty state and the corner pig are all 3D now. One shared renderer draws them into ordinary canvases, so the page never needs more than one extra WebGL context; the color chosen for a pig shows as a soft disc behind its (always pink) 3D pig; each pig only draws while on screen, at 30 frames per second
+- **Pig-full dialog** now shows the 3D pig in its overjoyed mood; the hero pig and the dialog use the same shared renderer as the other pigs (react-three-fiber is no longer a dependency)
+- **Smoother first load:** 3D pigs start only when they are near the screen and prepare in small steps (no test WebGL context, shaders compiled without blocking), so the page no longer stutters when the 3D starts
+- **Progress bars** have a deeper track, a fill with a glossy top edge and a darker lower edge, a softer shine and a gold gradient when full (contrast against the track is unchanged)
+- **Page effects:** a small pig in the corner reads the page (sleepy at the top, overjoyed at the end, with a hop on every change); hero depth that follows the mouse (disc, pig and drifting shapes move at different speeds); pig cards lean up to 7 degrees toward the pointer with a light spot. All are CSS-driven, mouse-only and off for reduced motion
+- The 2D pig stays as the fallback for reduced motion, no WebGL, low-end devices and any 3D error; the 3D code is a separate lazy chunk that loads when the browser is idle and stops drawing while off screen
+- Decision ADR-020 (how M9 is built)
+
 ## [1.0.0]
 
 First complete release. Everything in 0.1.0 to 0.7.0, plus the quality pass below.

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { BackToTop } from './components/BackToTop'
+import { ScrollPig } from './components/ScrollPig'
 import { DesignPreview } from './components/DesignPreview'
 import { Benefits } from './components/sections/Benefits'
 import { DataSection } from './components/sections/DataSection'
@@ -53,6 +54,7 @@ export default function App() {
                 <Faq />
               </main>
               <Footer />
+              <ScrollPig />
               <BackToTop />
             </>
           )}

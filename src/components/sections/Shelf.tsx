@@ -4,7 +4,7 @@ import { nextUnlock, slotLimit } from '../../domain/slots'
 import { formatMinutesShort } from '../../domain/time'
 import { useApp } from '../../state/AppProvider'
 import { PigManagement } from '../modals/PigManagement'
-import { PigIllustration } from '../pig/PigIllustration'
+import { PigSprite } from '../pig3d/PigSprite'
 import { Button } from '../ui/Button'
 
 const dateFormat = new Intl.DateTimeFormat('en-US', {
@@ -62,7 +62,7 @@ export function Shelf() {
               key={pig.id}
               className="flex items-center gap-3 rounded-lg border-2 border-border bg-surface p-4 shadow-card"
             >
-              <PigIllustration
+              <PigSprite
                 mood="overjoyed"
                 color={pig.color}
                 label={`${pig.name}, completed`}
