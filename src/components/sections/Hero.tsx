@@ -2,7 +2,9 @@ import { useRef } from 'react'
 import { usePointerVars } from '../../lib/usePointerVars'
 import { Squiggle } from '../ui/Squiggle'
 import { HeroDecor } from './HeroDecor'
-import { Pig3D } from '../pig3d/Pig3D'
+import { PigIllustration } from '../pig/PigIllustration'
+import { TimeToken } from '../pig/TimeToken'
+import { PigSprite } from '../pig3d/PigSprite'
 import { useCreatePig } from '../modals/CreatePigProvider'
 import { buttonStyles } from '../ui/buttonStyles'
 
@@ -24,11 +26,25 @@ export function Hero() {
             aria-hidden="true"
             className="hero-halo absolute -inset-3 rounded-full border-[3px] border-dashed border-coin/60"
           />
-          <Pig3D
+          <PigSprite
             mood="happy"
-            label="A happy pink piggy bank"
-            className="hero-pig parallax-mid w-[84%]"
-          />
+            frame="wide"
+            clock
+            backdrop={false}
+            className="parallax-mid h-full w-full"
+          >
+            <div className="flex h-full items-center justify-center">
+              <div className="hero-pig relative w-[84%]">
+                <PigIllustration
+                  mood="happy"
+                  label="A happy pink piggy bank"
+                  alive
+                  className="w-full"
+                />
+                <TimeToken className="hero-clock absolute left-[44.6%] top-[-10%] w-[10.7%]" />
+              </div>
+            </div>
+          </PigSprite>
         </div>
       </div>
 

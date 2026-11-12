@@ -47,40 +47,52 @@ let frameId = 0
 let lastTime = 0
 let started = false
 
-function setup() {
-  renderer = new WebGLRenderer({
-    alpha: true,
-    antialias: true,
-    powerPreference: 'low-power',
-  })
-  renderer.setPixelRatio(1)
-  renderer.setSize(GL_SIZE, GL_SIZE, false)
-  renderer.setScissorTest(true)
-  renderer.setClearColor(0x000000, 0)
-  scene = new Scene()
-  const pmrem = new PMREMGenerator(renderer)
-  scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture
-  scene.environmentIntensity = 0.28
-  pmrem.dispose()
-  scene.add(new AmbientLight(0xffffff, 0.75))
-  const key = new DirectionalLight(0xffffff, 1.15)
-  key.position.set(3, 5, 4)
-  const rim = new DirectionalLight(0xffd9e6, 0.55)
-  rim.position.set(-4, 2, -3)
-  scene.add(key, rim)
-  camera = new PerspectiveCamera(30, 1, 0.1, 50)
-  camera.position.set(0.1, 0.9, 9.3)
-  window.addEventListener(
-    'pointermove',
-    (e) => {
-      pointer.x = (e.clientX / window.innerWidth) * 2 - 1
-      pointer.y = (e.clientY / window.innerHeight) * 2 - 1
-    },
-    { passive: true },
-  )
-  document.addEventListener('visibilitychange', () =>
-    document.hidden ? stop() : maybeStart(),
-  )
+/** Lets the browser paint and handle input between two heavy steps, so starting up never freezes the page. */
+const breathe = () => new Promise<void>((resolve) => setTimeout(resolve, 0))
+
+let ready: Promise<void> | undefined
+
+/** Creates the renderer and its lighting in small steps (each is a separate task). Runs once. */
+function setup(): Promise<void> {
+  ready ??= (async () => {
+    const gl = new WebGLRenderer({
+      alpha: true,
+      antialias: true,
+      powerPreference: 'low-power',
+    })
+    gl.setPixelRatio(1)
+    gl.setSize(GL_SIZE, GL_SIZE, false)
+    gl.setScissorTest(true)
+    gl.setClearColor(0x000000, 0)
+    scene = new Scene()
+    camera = new PerspectiveCamera(30, 1, 0.1, 50)
+    camera.position.set(0.1, 0.9, 9.3)
+    scene.add(new AmbientLight(0xffffff, 0.75))
+    const key = new DirectionalLight(0xffffff, 1.15)
+    key.position.set(3, 5, 4)
+    const rim = new DirectionalLight(0xffd9e6, 0.55)
+    rim.position.set(-4, 2, -3)
+    scene.add(key, rim)
+    await breathe()
+    const pmrem = new PMREMGenerator(gl)
+    scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture
+    scene.environmentIntensity = 0.28
+    pmrem.dispose()
+    renderer = gl
+    window.addEventListener(
+      'pointermove',
+      (e) => {
+        pointer.x = (e.clientX / window.innerWidth) * 2 - 1
+        pointer.y = (e.clientY / window.innerHeight) * 2 - 1
+      },
+      { passive: true },
+    )
+    document.addEventListener('visibilitychange', () =>
+      document.hidden ? stop() : maybeStart(),
+    )
+    await breathe()
+  })()
+  return ready
 }
 
 function stop() {
@@ -173,19 +185,37 @@ function tick(now: number) {
   maybeStart()
 }
 
-/** Starts drawing a pig into the given canvas. Returns a function that removes it. */
-export function registerSprite(options: SpriteOptions) {
-  if (!renderer) setup()
+/** Warms up one pig's shaders without blocking: the first picture is drawn only after they are ready. */
+let compiling: Promise<void> = Promise.resolve()
+function compile(rig: PigRig) {
+  compiling = compiling.then(async () => {
+    const gl = renderer
+    if (!gl) return
+    scene.add(rig.object)
+    camera.aspect = 1
+    camera.updateProjectionMatrix()
+    try {
+      await gl.compileAsync(scene, camera)
+    } finally {
+      scene.remove(rig.object)
+    }
+    await breathe()
+  })
+  return compiling
+}
+
+/**
+ * Starts drawing a pig into the given canvas. The renderer, the pig and its shaders are prepared in separate small
+ * steps, so even the first pig on the page never blocks the main thread for long. Resolves with its controls.
+ */
+export async function registerSprite(options: SpriteOptions) {
   const ctx = options.canvas.getContext('2d')
   if (!ctx) throw new Error('2D canvas is not available')
-  const sprite: Sprite = {
-    ...options,
-    rig: createPigRig(),
-    visible: false,
-    drawn: false,
-    ctx,
-    acc: 0,
-  }
+  await setup()
+  const rig = createPigRig()
+  await breathe()
+  await compile(rig)
+  const sprite: Sprite = { ...options, rig, visible: false, drawn: false, ctx, acc: 0 }
   sprites.add(sprite)
   return {
     setVisible(visible: boolean) {

@@ -23,6 +23,8 @@ type Props = {
   pulse?: number
   /** A clock that drops in every few seconds. */
   clock?: boolean
+  /** Show the soft color disc behind the 3D pig. Turn off where a disc already sits behind it. */
+  backdrop?: boolean
   /** The box. Give it a size; the 3D picture fills it exactly like the 2D pig does. */
   className?: string
   /** What shows instead of the 3D pig (and underneath it for screen readers). Defaults to the 2D pig. */
@@ -42,6 +44,7 @@ export function PigSprite({
   frame = 'tight',
   pulse = 0,
   clock = false,
+  backdrop = true,
   className,
   children,
 }: Props) {
@@ -71,35 +74,52 @@ export function PigSprite({
     return () => window.clearTimeout(id)
   }, [reduced])
 
+  // Nothing 3D is prepared for a pig until it is close to the screen: pigs further down the page cost nothing yet.
   useEffect(() => {
     const el = canvas.current
     const holder = box.current
     if (!use3D || !el || !holder) return
     let cancelled = false
     let handle: { setVisible: (v: boolean) => void; dispose: () => void } | undefined
-    let io: IntersectionObserver | undefined
-    import('./pigStage')
-      .then(({ registerSprite }) => {
-        if (cancelled) return
-        handle = registerSprite({
-          canvas: el,
-          frame,
-          read: () => live.current,
-          onFirstFrame: () => setReady(true),
-        })
-        if (typeof IntersectionObserver === 'undefined') {
-          handle.setVisible(true)
-          return
-        }
-        io = new IntersectionObserver(
-          ([entry]) => handle?.setVisible(entry.isIntersecting),
-          {
-            rootMargin: '80px',
-          },
+    let near = false
+    let starting = false
+
+    const start = () => {
+      if (starting) return
+      starting = true
+      import('./pigStage')
+        .then(({ registerSprite }) =>
+          registerSprite({
+            canvas: el,
+            frame,
+            read: () => live.current,
+            onFirstFrame: () => setReady(true),
+          }),
         )
-        io.observe(holder)
-      })
-      .catch(() => setFailed(true))
+        .then((h) => {
+          if (cancelled) return h.dispose()
+          handle = h
+          h.setVisible(near)
+        })
+        .catch(() => setFailed(true))
+    }
+
+    if (typeof IntersectionObserver === 'undefined') {
+      near = true
+      start()
+    }
+    const io =
+      typeof IntersectionObserver === 'undefined'
+        ? undefined
+        : new IntersectionObserver(
+            ([entry]) => {
+              near = entry.isIntersecting
+              if (near) start()
+              handle?.setVisible(near)
+            },
+            { rootMargin: '200px' },
+          )
+    io?.observe(holder)
     return () => {
       cancelled = true
       io?.disconnect()
@@ -116,7 +136,7 @@ export function PigSprite({
       className={cn('relative', className)}
       data-pig-sprite={show3D ? '3d' : '2d'}
     >
-      {use3D && (
+      {use3D && backdrop && (
         <span
           aria-hidden="true"
           data-testid="pig-backdrop"

@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { fireConfetti } from '../../lib/celebrate'
 import { formatMinutesShort } from '../../domain/time'
 import type { Pig } from '../../domain/types'
-import { Pig3D } from '../pig3d/Pig3D'
+import { PigSprite } from '../pig3d/PigSprite'
 import { Button } from '../ui/Button'
 import { Modal } from '../ui/Modal'
 
@@ -30,12 +30,13 @@ export function PigFullModal({ pig, onClose, onComplete }: Props) {
       centered
       hero={
         <div className="mx-auto mb-4 flex h-[200px] w-[200px] items-center justify-center rounded-full bg-coin-soft">
-          <Pig3D
+          <PigSprite
             mood="overjoyed"
             color={pig?.color}
-            clock={false}
+            frame="wide"
+            backdrop={false}
             label="An overjoyed pig with a gold clock and sparkles"
-            className="pig-bounce w-[190px]"
+            className="pig-bounce h-[200px] w-[200px]"
           />
         </div>
       }

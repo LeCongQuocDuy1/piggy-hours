@@ -314,7 +314,7 @@ Use a normal desktop or laptop for 1 to 6; the 3D pig only loads on devices with
 | 3 | Watch for 10 seconds | The pig bobs, blinks, and every 5 seconds a gold clock falls, spins and slides into the slot while the pig squishes |
 | 4 | Scroll the hero out of view and back | No console errors; the animation resumes (it stops while hidden to save battery) |
 | 5 | Turn on "Reduce motion" in the system settings and reload | The flat 2D pig stays, no canvas, the old clock drop is a quiet fade |
-| 6 | Open DevTools, Network tab, reload and filter JS | The `Pig3DScene-*.js` chunk (about 248 kB gzipped) downloads only after the page has loaded |
+| 6 | Open DevTools, Network tab, reload and filter JS | The `pigStage-*.js` chunk (about 155 kB gzipped) downloads only after the page has loaded |
 | 7 | Open the preview on a phone | A 3D pig on recent phones, or the 2D pig on older ones; never a blank circle |
 | 8 | Run Lighthouse (mobile) | Performance stays at 90 or more (99 measured; the 3D chunk does not load during the test because the check runs after idle on a 2-core machine) |
 | 9 | Scroll down the page | A small pig appears at the bottom left after one screen: sleepy at the top, then curious, happy, excited, and overjoyed at the very end. The disc behind it changes color, the pig stays pink and hops on every change; a bar and a label show the progress |
@@ -326,3 +326,5 @@ Use a normal desktop or laptop for 1 to 6; the 3D pig only loads on devices with
 | 15 | Add time to a pig card | A gold clock drops into that card's 3D pig and it squishes |
 | 16 | Open DevTools, Performance monitor while scrolling | Only one extra WebGL context in `chrome://gpu` or the console; no frame drops while pigs scroll in and out |
 | 17 | Open the preview on an older phone | The flat pigs everywhere, never a blank box |
+| 18 | Reload the landing page a few times (phone and desktop) and watch the first 3 seconds | No visible freeze when the 3D hero pig fades in; the page keeps scrolling smoothly while it loads |
+| 19 | Look at the progress bars in **Your pigs** (all six colors, and a full pig) | A deep track, a fill with a glossy top line, a soft shine passing every few seconds; the fill is clearly visible against the track |
