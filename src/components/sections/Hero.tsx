@@ -1,32 +1,50 @@
-import { TimeToken } from '../pig/TimeToken'
+import { useRef } from 'react'
+import { usePointerVars } from '../../lib/usePointerVars'
 import { Squiggle } from '../ui/Squiggle'
 import { HeroDecor } from './HeroDecor'
 import { PigIllustration } from '../pig/PigIllustration'
+import { TimeToken } from '../pig/TimeToken'
+import { PigSprite } from '../pig3d/PigSprite'
 import { useCreatePig } from '../modals/CreatePigProvider'
 import { buttonStyles } from '../ui/buttonStyles'
 
 export function Hero() {
   const { canCreate, open } = useCreatePig()
+  const section = useRef<HTMLElement>(null)
+  usePointerVars(section)
   return (
     <section
+      ref={section}
       aria-labelledby="hero-title"
       className="relative mx-auto flex max-w-[1120px] flex-col items-center gap-8 px-4 pb-14 pt-6 text-center sm:px-6 md:flex-row md:gap-10 md:pb-[72px] md:pt-10 md:text-left"
     >
       <HeroDecor />
       {/* The pig comes first on phones so the first screen already feels alive. */}
       <div className="order-first flex w-full min-w-0 justify-center md:order-last md:flex-[1_1_340px]">
-        <div className="relative flex aspect-square w-[min(74vw,320px)] items-center justify-center rounded-full bg-hero-disc md:w-full md:max-w-[440px]">
+        <div className="parallax-far relative flex aspect-square w-[min(74vw,320px)] items-center justify-center rounded-full bg-hero-disc md:w-full md:max-w-[440px]">
           <span
             aria-hidden="true"
             className="hero-halo absolute -inset-3 rounded-full border-[3px] border-dashed border-coin/60"
           />
-          <PigIllustration
+          <PigSprite
             mood="happy"
-            alive
-            label="A happy pink piggy bank"
-            className="hero-pig w-[84%]"
-          />
-          <TimeToken className="hero-clock absolute left-[45.5%] top-[8%] w-[9%]" />
+            frame="wide"
+            clock
+            backdrop={false}
+            className="parallax-mid h-full w-full"
+          >
+            <div className="flex h-full items-center justify-center">
+              <div className="hero-pig relative w-[84%]">
+                <PigIllustration
+                  mood="happy"
+                  label="A happy pink piggy bank"
+                  alive
+                  className="w-full"
+                />
+                <TimeToken className="hero-clock absolute left-[44.6%] top-[-10%] w-[10.7%]" />
+              </div>
+            </div>
+          </PigSprite>
         </div>
       </div>
 

@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react'
 import { PIG_COLORS, type PigColorName } from '../pig/pigColors'
 
 type Props = {
@@ -29,14 +30,16 @@ export function ProgressBar({
       aria-valuemax={100}
       aria-valuenow={pct}
       aria-valuetext={valueText ?? `${pct}%`}
-      className="h-3.5 overflow-hidden rounded-full bg-track"
+      className="progress-track"
     >
       <div
-        className="relative h-full overflow-hidden rounded-full transition-[width] duration-[600ms] ease-[var(--ease-out)]"
-        style={{
-          width: `${pct}%`,
-          background: full ? 'var(--color-coin)' : PIG_COLORS[color].strong,
-        }}
+        className={full ? 'progress-fill progress-fill-full' : 'progress-fill'}
+        style={
+          {
+            width: `${pct}%`,
+            ...(full ? {} : { '--bar': PIG_COLORS[color].strong }),
+          } as CSSProperties
+        }
       >
         {pct > 0 && <span aria-hidden="true" className="progress-shine" />}
       </div>

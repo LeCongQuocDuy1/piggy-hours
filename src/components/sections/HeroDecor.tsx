@@ -56,25 +56,27 @@ export function HeroDecor() {
       aria-hidden="true"
       className="pointer-events-none absolute inset-0 overflow-hidden"
     >
-      {BITS.map((b, i) => (
-        <span
-          key={i}
-          className={`float-bit absolute opacity-80 ${b.phone ? '' : 'hidden sm:block'}`}
-          style={
-            {
-              left: b.x,
-              top: b.y,
-              width: b.size,
-              height: b.size,
-              '--r': `${b.r}deg`,
-              '--dur': `${b.dur}s`,
-              '--delay': `${b.delay}s`,
-            } as CSSProperties
-          }
-        >
-          <Shape kind={b.kind} />
-        </span>
-      ))}
+      <div className="parallax-near absolute inset-0">
+        {BITS.map((b, i) => (
+          <span
+            key={i}
+            className={`float-bit absolute opacity-80 ${b.phone ? '' : 'hidden sm:block'}`}
+            style={
+              {
+                left: b.x,
+                top: b.y,
+                width: b.size,
+                height: b.size,
+                '--r': `${b.r}deg`,
+                '--dur': `${b.dur}s`,
+                '--delay': `${b.delay}s`,
+              } as CSSProperties
+            }
+          >
+            <Shape kind={b.kind} />
+          </span>
+        ))}
+      </div>
     </div>
   )
 }
