@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { moodForProgress } from '../domain/pigs'
 import { MOOD_LABEL, type PigMood } from './pig/pigMood'
+import { cn } from '../lib/cn'
+import { PigIllustration } from './pig/PigIllustration'
 import { PigSprite } from './pig3d/PigSprite'
 
 /** It appears once the visitor has scrolled roughly one screen, like the back-to-top button. */
@@ -72,9 +74,12 @@ export function ScrollPig() {
         className="relative flex aspect-square w-full items-center justify-center rounded-full border-2 border-border shadow-card transition-colors duration-500"
         style={{ backgroundColor: MOOD_DISC[mood] }}
       >
-        <div key={hops} className={hops > 0 ? 'scroll-pig-hop w-[88%]' : 'w-[88%]'}>
-          <PigSprite mood={mood} decorative className="aspect-[6/5] w-full" />
-        </div>
+        <PigSprite mood={mood} decorative className="aspect-[6/5] w-[88%]">
+          {/* The flat pig hops on every mood change; the 3D pig already jumps on its own. */}
+          <div key={hops} className={cn('h-full w-full', hops > 0 && 'scroll-pig-hop')}>
+            <PigIllustration mood={mood} decorative className="h-full w-full" />
+          </div>
+        </PigSprite>
       </div>
       <div className="h-1.5 w-full overflow-hidden rounded-full bg-track">
         <div

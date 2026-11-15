@@ -60,6 +60,11 @@ export function PigSprite({
     live.current = { mood, clock, pulse }
   })
 
+  // Decided on the first render (the check is cheap): where 3D is expected, the flat pig is never shown first.
+  // It stays in the DOM, invisible, as the accessible label and as the fallback if the 3D pig cannot start.
+  const [expect3D] = useState(() => canRender3D())
+  const hideFlat = expect3D && !reduced && !failed
+
   const use3D = capable && !reduced && !failed
 
   // Decide after the page is idle, like the hero pig: the WebGL probe is not free.
@@ -67,10 +72,10 @@ export function PigSprite({
     if (reduced) return
     const start = () => setCapable(canRender3D())
     if (typeof window.requestIdleCallback === 'function') {
-      const id = window.requestIdleCallback(start, { timeout: 2500 })
+      const id = window.requestIdleCallback(start, { timeout: 1200 })
       return () => window.cancelIdleCallback(id)
     }
-    const id = window.setTimeout(start, 900)
+    const id = window.setTimeout(start, 400)
     return () => window.clearTimeout(id)
   }, [reduced])
 
@@ -136,18 +141,18 @@ export function PigSprite({
       className={cn('relative', className)}
       data-pig-sprite={show3D ? '3d' : '2d'}
     >
-      {use3D && backdrop && (
+      {(use3D || hideFlat) && backdrop && (
         <span
           aria-hidden="true"
           data-testid="pig-backdrop"
           className={cn(
             'absolute inset-y-0 left-1/2 aspect-square h-full -translate-x-1/2 rounded-full transition-opacity duration-500',
-            show3D ? 'opacity-100' : 'opacity-0',
+            hideFlat || show3D ? 'opacity-100' : 'opacity-0',
           )}
           style={{ backgroundColor: PIG_COLORS[color].soft }}
         />
       )}
-      <div className={cn('h-full w-full', show3D && 'invisible')}>
+      <div className={cn('h-full w-full', hideFlat && 'opacity-0')}>
         {children ?? (
           <PigIllustration
             mood={mood}
